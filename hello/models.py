@@ -39,6 +39,10 @@ class Message(models.Model):
         includes images/charts/etc.
         wrapped in a python list fashion
     """
+
+    def __str__(self):
+        return "{}[${}]: {}".format(source, focus, content)
+
     social_id = models.CharField(max_length=32)
     source = models.CharField(max_length=20, choices=(
         ("twitter", "twitter"),
