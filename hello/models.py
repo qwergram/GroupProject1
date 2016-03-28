@@ -39,8 +39,8 @@ class Message(models.Model):
         includes images/charts/etc.
         wrapped in a python list fashion
     """
-    social_id = models.CharField(max_len=32)
-    source = models.CharField(max_len=20, choices=(
+    social_id = models.CharField(max_length=32)
+    source = models.CharField(max_length=20, choices=(
         ("twitter", "twitter"),
         ("stocktwits", "stocktwits"),
     ))
