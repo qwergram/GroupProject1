@@ -8,3 +8,16 @@
     Twitter API
     Yahoo API
     Algorithmia
+
+##Web Template:
+    Template from http://www.html5up.net distributed under a Creative Commons License
+    (http://creativecommons.org/licenses/by/3.0/)
+
+    Web Template Credits:
+    n33.co @n33co dribbble.com/n33
+		Font Awesome (fortawesome.github.com/Font-Awesome)
+		jQuery (jquery.com)
+		html5shiv.js (@afarkas @jdalton @jon_neal @rem)
+		Misc. Sass functions (@HugoGiraudel)
+		Respond.js (j.mp/respondjs)
+		Skel (skel.io)
