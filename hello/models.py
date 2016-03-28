@@ -1,5 +1,58 @@
 from django.db import models
 
+# Create your models here.
+
+class Message(models.Model):
+    """
+    SOURCE
+    ======
+        The social media site that returned this social data
+    FOCUS
+    =====
+        The stock ticker that was searched for to return this tweet/comment
+    POPULARITY
+    ==========
+        Cumulative likes + retweets/shares + other positive actions by other
+        users
+    AUTHOR
+    ======
+        The username/handle of the user who posted this piece of data
+    AUTHOR_IMAGE
+    ============
+        The profile picture of author
+    SOCIAL_ID
+    =========
+        The id of the message on the twitter/stocktwit servers
+    CREATED_TIME
+    ============
+        The time that the message was created
+    CONTENT
+    =======
+        The text of the content/tweet
+    SYMBOLS
+    =======
+        Other symbols mentioned in the text
+        Wrapped in a python list fashion
+    URLS
+    ====
+        Other urls mentioned in the text
+        includes images/charts/etc.
+        wrapped in a python list fashion
+    """
+    social_id = models.CharField(max_len=32)
+    source = models.CharField(max_len=20, choices=(
+        ("twitter", "twitter"),
+        ("stocktwits", "stocktwits"),
+    ))
+    focus = models.CharField(max_len=5)
+    popularity = models.IntegerField()
+    author = models.CharField(max_len=16)
+    author_image = models.URLField(max_len=16)
+    created_time = models.DateTimeField()
+    content = models.CharField(max_len=120)
+    symbols = models.CharField(max_len=255)
+    urls = models.CharField(max_len=255)
+
 
 class Stock(models.Model):
     ticker = models.CharField(max_length=5, db_index=True, db_tablespace="indexes")
