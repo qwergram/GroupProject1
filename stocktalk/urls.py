@@ -11,6 +11,7 @@ import hello.views
 
 urlpatterns = [
     url(r'^$', hello.views.index, name='index'),
-    url(r'^detail/', hello.views.detail, name='detail'),
+    url(r'^detail/$', hello.views.detail, name='detail'),
+    # url(r'^/check/(?P<ticker>[a-zA-Z]+)/$', hello.views.test)
     url(r'^admin/', include(admin.site.urls)),
 ]
