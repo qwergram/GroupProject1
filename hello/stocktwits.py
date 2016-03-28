@@ -11,20 +11,24 @@ def get_stock_comments(ticker):
     return json.get('messages')
 
 
-def format_into_table(message, focus):
-    to_return = {
-        "social_id": message['id'],
-        "source": "stocktwits",
-        "focus": focus,
-        "popularity": message['reshares']['reshared_count'],
-        "author": message['user']['username'],
-        "author_image": message['user']['avatar_url_ssl'],
-        "created_time": message['created_at'],
-        "content": message['body'],
-        "symbols": [stock['symbol'] for stock in message['symbols']],
-        "urls": message.get('links'),
-    }
-
+def format_into_table(message, ticker):
+    if not isinstance(ticker, str):
+        raise ValueError("Invalid ticker!")
+    try:
+        to_return = {
+            "social_id": message['id'],
+            "source": "stocktwits",
+            "focus": ticker,
+            "popularity": message['reshares']['reshared_count'],
+            "author": message['user']['username'],
+            "author_image": message['user']['avatar_url_ssl'],
+            "created_time": message['created_at'],
+            "content": message['body'],
+            "symbols": [stock['symbol'] for stock in message['symbols']],
+            "urls": message.get('links'),
+        }
+    except (TypeError, KeyError):
+        raise ValueError("Invalid message!")
     return to_return
 
 
