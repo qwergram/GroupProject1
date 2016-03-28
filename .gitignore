@@ -60,7 +60,7 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
-<<<<<<< HEAD
+
 ### VirtualEnv template
 # Virtualenv
 # http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
@@ -71,6 +71,7 @@ target/
 [Ss]cripts
 pyvenv.cfg
 pip-selfcheck.json
+
 ### Python template
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -130,6 +131,7 @@ docs/_build/
 
 # PyBuilder
 target/
+
 ### JetBrains template
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio
 
@@ -186,4 +188,4 @@ include/
 pyvenv.cfg
 lib64
 *.sqlite3
->>>>>>> dev
+
