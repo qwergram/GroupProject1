@@ -1,0 +1,5 @@
+{
+  "name": "StockTalk",
+  "keywords": ["python", "django" ],
+  "addons": [ "heroku-postgresql" ]
+}
