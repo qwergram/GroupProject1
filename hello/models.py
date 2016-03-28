@@ -52,3 +52,37 @@ class Message(models.Model):
     content = models.CharField(max_len=120)
     symbols = models.CharField(max_len=255)
     urls = models.CharField(max_len=255)
+
+
+class Stock(models.Model):
+    ticker = models.CharField(max_length=5, db_index=True, db_tablespace="indexes")
+    name = models.TextField(max_length=100)
+    date = models.DateField(db_index=True, db_tablespace="indexes")
+    open = models.FloatField()
+    high = models.FloatField()
+    low = models.FloatField()
+    close = models.FloatField()
+    # price = models.FloatField()
+    # change_in_percent = models.FloatField()
+    # change_in_dollars = models.FloatField()
+    volume = models.IntegerField()
+    adj_close = models.FloatField()
+
+    class Meta:
+        db_tablespace = "tables"
+
+    def __str__(self):              # __unicode__ on Python 2
+        return (
+            self.ticker,
+            self.name,
+            self.date,
+            self.open,
+            self.high,
+            self.low,
+            # self.price,
+            # self.change_in_percent,
+            # self.change_in_dollars,
+            self.close,
+            self.volume,
+            self.adj_close,
+        )
