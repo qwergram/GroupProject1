@@ -27,9 +27,9 @@ def format_into_table(message, ticker):
             "symbols": [stock['symbol'] for stock in message['symbols']],
             "urls": message.get('links'),
         }
+        return to_return
     except (TypeError, KeyError):
         raise ValueError("Invalid message!")
-    return to_return
 
 
 
