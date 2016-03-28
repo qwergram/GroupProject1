@@ -9,6 +9,9 @@ class Stock(models.Model):
     high = models.FloatField()
     low = models.FloatField()
     close = models.FloatField()
+    # price = models.FloatField()
+    # change_in_percent = models.FloatField()
+    # change_in_dollars = models.FloatField()
     volume = models.IntegerField()
     adj_close = models.FloatField()
 
