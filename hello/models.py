@@ -44,14 +44,14 @@ class Message(models.Model):
         ("twitter", "twitter"),
         ("stocktwits", "stocktwits"),
     ))
-    focus = models.CharField(max_len=5)
+    focus = models.CharField(max_length=5)
     popularity = models.IntegerField()
-    author = models.CharField(max_len=16)
-    author_image = models.URLField(max_len=16)
+    author = models.CharField(max_length=16)
+    author_image = models.URLField(max_length=16)
     created_time = models.DateTimeField()
-    content = models.CharField(max_len=120)
-    symbols = models.CharField(max_len=255)
-    urls = models.CharField(max_len=255)
+    content = models.CharField(max_length=120)
+    symbols = models.CharField(max_length=255)
+    urls = models.CharField(max_length=255)
 
 
 class Stock(models.Model):
