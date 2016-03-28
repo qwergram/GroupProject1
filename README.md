@@ -10,10 +10,10 @@
     Algorithmia
 
 ##Web Template:
-    Template from http://www.html5up.net distributed under a Creative Commons License
+    Template HyperSpace from http://www.html5up.net distributed under a Creative Commons License
     (http://creativecommons.org/licenses/by/3.0/)
 
-    Web Template Credits:
+    HyperSpace Credits:
     n33.co @n33co dribbble.com/n33
 		Font Awesome (fortawesome.github.com/Font-Awesome)
 		jQuery (jquery.com)
