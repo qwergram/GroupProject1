@@ -60,6 +60,7 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+<<<<<<< HEAD
 ### VirtualEnv template
 # Virtualenv
 # http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
@@ -177,3 +178,12 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 
+=======
+
+#Virtual Env
+bin/
+include/
+pyvenv.cfg
+lib64
+*.sqlite3
+>>>>>>> dev
