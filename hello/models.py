@@ -39,6 +39,8 @@ class Message(models.Model):
         includes images/charts/etc.
         wrapped in a python list fashion
     """
+    class Meta:
+        unique_together = ('source', 'social_id',)
 
     def __str__(self):
         return "{}[${}]: {}".format(self.source, self.focus, self.content)
