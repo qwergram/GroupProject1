@@ -1,5 +1,6 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 from .stocktwits import get_stock_comments, format_into_table, save_message
+# from .twitter_api import Client, ClientException, get_twitter_comments, json_into_table
 from .reddit import (
     get_companies,
     ticker_to_name,
@@ -7,10 +8,13 @@ from .reddit import (
     save_reddit_articles
 )
 from .models import Message
+# import os
 import requests
 import datetime
 
 # Create your tests here.
+# false = False
+# true = True
 
 EXAMPLE_RESPONSE = {
     'body': 'What This &#39;Esteemed&#39; Venture Capitalist Learned From Mark Zuckerberg $FB $MSFT $YHOO http://stkw.it/d2Ub',
@@ -63,9 +67,56 @@ EXPECTED = {
     "created_time": '2016-03-28T21:51:06Z',
     "content": 'What This \'Esteemed\' Venture Capitalist Learned From Mark Zuckerberg $FB $MSFT $YHOO http://stkw.it/d2Ub',
     "symbols": ['MSFT', 'YHOO', 'FB'],
+    "hashtags": [],
     "urls": ['http://www.benzinga.com/general/entrepreneurship/16/03/7765501/what-this-esteemed-venture-capitalist-learned-from-mark-zucke'],
     "url": 'http://stocktwits.com/Benzinga/message/51852548'
 }
+
+# EXPECTED_TWITTER = {
+#     "popularity": 1,
+#     "author_image": "http://pbs.twimg.com/profile_images/696574346597416960/Pcp9o6nP_normal.jpg",
+#     "hashtags": [
+#       "MSFT",
+#       "Machine",
+#       "Learning",
+#       "Technology",
+#       "human",
+#       "intelligence"
+#     ],
+#     "urls": [],
+#     "focus": "MSFT",
+#     "author": "Alexander Felke",
+#     "symbols": [],
+#     "social_id": 3759215603,
+#     "created_time": "Thu Sep 24 10:33:18 +0000 2015",
+#     "content": "#MSFT is beefing up #Machine #Learning: #Technology advances #human #intelligence. I say mid term."
+# }
+
+
+class TickerTest(TestCase):
+
+    def test_check_view_status_code(self):
+        client = Client()
+        response = client.get('/check/msft/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_check_view_content(self):
+        client = Client()
+        response = client.get('/check/msft/')
+        json_blob = response.json()
+        self.assertTrue(isinstance(json_blob, list))
+        self.assertTrue(isinstance(json_blob[0], dict))
+        self.assertIn('author', json_blob[0])
+        self.assertIn('content', json_blob[0])
+        self.assertIn('social_id', json_blob[0])
+        self.assertIn('url', json_blob[0])
+        self.assertIn('urls', json_blob[0])
+        self.assertIn('popularity', json_blob[0])
+        self.assertIn('source', json_blob[0])
+        self.assertIn('created_time', json_blob[0])
+        self.assertIn('symbols', json_blob[0])
+        self.assertIn('focus', json_blob[0])
+        self.assertIn('author_image', json_blob[0])
 
 
 class RedditScraper(TestCase):
@@ -165,3 +216,4 @@ class StockTwitsCase(TestCase):
         message = Message.objects.get(social_id="51852548")
         document = requests.get(message.url).text
         self.assertIn(message.content, document)
+

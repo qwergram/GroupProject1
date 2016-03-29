@@ -2,6 +2,28 @@ from django.db import models
 
 # Create your models here.
 
+
+class Company(models.Model):
+    """
+    TICKER
+    ======
+        E.g. MSFT
+    FOCUS
+    =====
+        E.g. Microsoft Corporation
+    EXCHANGE
+    ========
+        E.g. NYSE
+    CATEGORY
+    ========
+        E.g. Technology
+    """
+    ticker = models.CharField(max_length=5, unique=True, db_index=True)
+    name = models.CharField(max_length=50, unique=True)
+    exchange = models.CharField(max_length=5)
+    category = models.CharField(max_length=100)
+
+
 class Message(models.Model):
     """
     SOURCE
@@ -63,37 +85,4 @@ class Message(models.Model):
     symbols = models.CharField(max_length=255)
     urls = models.CharField(max_length=255)
     url = models.URLField()
-
-
-class Stock(models.Model):
-    ticker = models.CharField(max_length=5, db_index=True, db_tablespace="indexes")
-    name = models.TextField(max_length=100)
-    date = models.DateField(db_index=True, db_tablespace="indexes")
-    open = models.FloatField()
-    high = models.FloatField()
-    low = models.FloatField()
-    close = models.FloatField()
-    # price = models.FloatField()
-    # change_in_percent = models.FloatField()
-    # change_in_dollars = models.FloatField()
-    volume = models.IntegerField()
-    adj_close = models.FloatField()
-
-    class Meta:
-        db_tablespace = "tables"
-
-    def __str__(self):              # __unicode__ on Python 2
-        return (
-            self.ticker,
-            self.name,
-            self.date,
-            self.open,
-            self.high,
-            self.low,
-            # self.price,
-            # self.change_in_percent,
-            # self.change_in_dollars,
-            self.close,
-            self.volume,
-            self.adj_close,
-        )
+    hashtags = models.CharField(max_length=255)
