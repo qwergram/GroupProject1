@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+from .models import Message, Company
+import random
 
 from .stocktwits import get_stock_comments, format_into_table, save_message
 from .reddit import (
@@ -11,7 +13,9 @@ from .reddit import (
 
 
 def index(request):
-    return render(request, 'index.html')
+    messages = list(Message.objects.filter(focus="MSFT"))
+    random.shuffle(messages)
+    return render(request, 'index.html', {"streamer": messages})
 
 
 def test(request, ticker):
