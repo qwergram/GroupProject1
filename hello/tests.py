@@ -1,4 +1,4 @@
-from django.test import TestCase, Client
+from django.test import TestCase, Client, TransactionTestCase
 from .stocktwits import get_stock_comments, format_into_table, save_message
 # from .twitter_api import Client, ClientException, get_twitter_comments, json_into_table
 from .reddit import (
@@ -93,7 +93,7 @@ EXPECTED = {
 # }
 
 
-class TickerTest(TestCase):
+class TickerTest(TransactionTestCase):
 
     def test_check_view_status_code(self):
         client = Client()
@@ -216,4 +216,3 @@ class StockTwitsCase(TestCase):
         message = Message.objects.get(social_id="51852548")
         document = requests.get(message.url).text
         self.assertIn(message.content, document)
-
