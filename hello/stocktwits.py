@@ -1,4 +1,6 @@
 import requests
+from hello.models import Message
+from django.db.utils import IntegrityError
 
 API_ENDPOINT = "https://api.stocktwits.com/api/2/streams/symbol/{}.json"
 
@@ -16,7 +18,7 @@ def format_into_table(message, ticker):
         raise ValueError("Invalid ticker!")
     try:
         to_return = {
-            "social_id": message['id'],
+            "social_id": str(message['id']),
             "source": "stocktwits",
             "focus": ticker,
             "popularity": message['reshares']['reshared_count'],
@@ -25,12 +27,19 @@ def format_into_table(message, ticker):
             "created_time": message['created_at'],
             "content": message['body'],
             "symbols": [stock['symbol'] for stock in message['symbols']],
-            "urls": message.get('links'),
+            "urls": message.get('links', '[]'),
         }
         return to_return
     except (TypeError, KeyError):
         raise ValueError("Invalid message!")
 
+
+def save_message(message):
+    try:
+        Message(**message).save()
+        return True
+    except IntegrityError:
+        return False
 
 
 if __name__ == "__main__":
@@ -38,5 +47,4 @@ if __name__ == "__main__":
     messages = get_stock_comments(ticker)
     for index, message in enumerate(messages):
         message = format_into_table(message, ticker)
-        messages[index] = message
-    import pdb; pdb.set_trace()
+        save_message(message)
