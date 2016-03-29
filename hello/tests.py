@@ -89,6 +89,7 @@ class CompanySearch(TestCase):
         with self.assertRaises(ValueError):
             ticker_to_name(companies, "ayyooo")
 
+
 class StockTwitsCase(TestCase):
 
     def test_error_is_raised(self):
