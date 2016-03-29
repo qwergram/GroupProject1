@@ -35,8 +35,8 @@
 				<div class="inner">
 					<nav>
 						<ul>
-							<li><a href="#intro">Welcome</a></li>
-							<li><a href="#one">Big Movers</a></li>
+							<li><a href="/">Welcome</a></li>
+							<li><a href="#detail">Detail</a></li>
 							<!-- <li><a href="#two">What we do</a></li> -->
 							<!-- <li><a href="#three">Get in touch</a></li> -->
 						</ul>
@@ -47,35 +47,34 @@
 		<!-- Wrapper -->
 			<div id="wrapper">
 
-				<!-- One -->
-				<section id="one" class="wrapper style2 spotlights">
-					{% for ticker in stock_list %}
+				<!-- Detail -->
+				<section id="detail" class="wrapper style2 spotlights">
 					<section>
-						<a href="{% url 'detail' ticker %}" class="image"><img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" /></a>
+						<img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" />
 						<div class="content">
 							<div class="inner">
-								<h2>${{ ticker }} - ${{ price }}</h2>
-								<p>{{ name }}</p>
+								<h2>${{ company.ticker }} - ${{ company.price }}</h2>
+								<p>{{ company.name }}</p>
 								<ul class="actions">
-									<li>UP ${{ change_in_dollars }} ({{ change_in_percent }}%)</li>
+									<li>UP ${{ company.change_dollars }} ({{ company.change_percent }}%)</li>
 								</ul>
 							</div>
 						</div>
 					</section>
-					{% endfor %}
 				<!-- Sample for render compare -->
-					<section>
-						<a href="#" class="image"><img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" /></a>
-						<div class="content">
-							<div class="inner">
-								<h2>$ACAD - $24.73</h2>
-								<p>Sample Pharmaceuticals, Inc.</p>
-								<ul class="actions">
-									<li>UP $4.42 (21.76%)</li>
-								</ul>
-							</div>
-						</div>
-					</section>
+					<!--<section>-->
+						<!--<a href="#" class="image"><img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" /></a>-->
+						<!--<div class="content">-->
+							<!--<div class="inner">-->
+								<!--<h2>$ACAD - $24.73</h2>-->
+								<!--<p>Sample Pharmaceuticals, Inc.</p>-->
+								<!--<ul class="actions">-->
+									<!--<li>UP $4.42 (21.76%)</li>-->
+								<!--</ul>-->
+							<!--</div>-->
+						<!--</div>-->
+					<!--</section>-->
+				<!-- END Sample for render compare -->
 				</section>
 			</div>
 

@@ -20,9 +20,17 @@ def index(request):
     return render(request, 'index.html', {"streamer": messages})
 
 
-def detail(request, ticker=None):
-    stock_list = Message.objects.filter(focus=ticker)
-    return render(request, 'detail.html', stock_list)
+def detail(request, ticker="MSFT"):
+    # build the object of all the things
+    company = {}
+    company["message"] = "here is a message for the ticker" #Message.objects.filter(focus=ticker)
+    company["ticker"] = "MSFT" #Company.objects.get(ticker=ticker)
+    company["name"] = "Microsoft"
+    company["price"] = 60.56
+    company["change_dollars"] = 3.20
+    company["change_percent"] = 2.5
+
+    return render(request, 'detail.html', {"company": company})
 
 
 def test(request, ticker):
