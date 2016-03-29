@@ -20,14 +20,9 @@ def index(request):
     return render(request, 'index.html', {"streamer": messages})
 
 
-def search(request, terms):
-    # Needs to render an updated list of stocks based on search term
-    # May need to call /detail route instead
-    return render(request, 'index.html#one', {"terms": terms})
-
-
-def detail(request):
-    return render(request, 'detail.html')
+def detail(request, ticker=None):
+    stock_list = Message.objects.filter(focus=ticker)
+    return render(request, 'detail.html', stock_list)
 
 
 def test(request, ticker):

@@ -22094,8 +22094,7 @@ $(function() {
 
     $("#tags").keyup(function (e) {
         if (e.keyCode == 13) {
-            // $("#tags").addClass("tags-search");
-            window.location.href = "/search/" + this.value
+            window.location.href = "/detail/" + this.value
         }
     });
     console.log("search.js loaded");
