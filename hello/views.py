@@ -13,6 +13,7 @@ from .reddit import (
 
 
 def index(request):
+    # XXX messages should be a list of messages of the biggest movers
     messages = list(Message.objects.filter(focus="MSFT"))
     random.shuffle(messages)
     return render(request, 'index.html', {"streamer": messages})
