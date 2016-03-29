@@ -1,5 +1,6 @@
 /**
  * Dictionary of US stocks for search suggestions 3/29/16.
+ * http://api.jqueryui.com/autocomplete/#option-source
  */
 $(function() {
     var availableTags = [
