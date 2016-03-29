@@ -27,7 +27,7 @@ class ClientException(Exception):
     pass
 
 
-class Client(object):
+class TwitterCli(object):
     """Handle application only auth."""
 
     def __init__(self, consumer_key, consumer_secret):
@@ -75,7 +75,7 @@ class Client(object):
 
 
 def get_twitter_comments(ticker):
-    client = Client(key, secret)
+    client = TwitterCli(key, secret)
     resp = client.request(SEARCH_ENDPOINT.format(ticker))
     return resp
 
@@ -120,3 +120,4 @@ if __name__ == "__main__":
     for index, message in enumerate(messages):
         message = json_into_table(message, ticker)
         messages[index] = message
+    print(messages)
