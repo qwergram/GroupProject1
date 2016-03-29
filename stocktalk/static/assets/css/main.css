@@ -1646,6 +1646,10 @@
 		line-height: 1.75;
 	}
 
+	input {
+		color: rgba(80, 82, 181, 0.55);
+	}
+
 		@media screen and (max-width: 1680px) {
 
 			body, input, select, textarea {
