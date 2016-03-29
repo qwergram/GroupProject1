@@ -120,10 +120,9 @@ class RedditScraper(TestCase):
         save_reddit_articles(links)
         dbobj = Message.objects.get(social_id=expected['social_id'])
         self.assertEqual(dbobj.url, expected['url'])
-        self.assertEqual(dbobj.urls, expected['urls'])
+        self.assertEqual(dbobj.urls, str(expected['urls']))
         self.assertEqual(dbobj.content, expected['content'])
         self.assertEqual(dbobj.author, expected['author'])
-        self.assertEqual(dbobj.popularity, expected['popularity'])
         self.assertEqual(dbobj.focus, 'AAPL')
 
 
