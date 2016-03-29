@@ -52,6 +52,7 @@ class Message(models.Model):
     source = models.CharField(max_length=20, choices=(
         ("twitter", "twitter"),
         ("stocktwits", "stocktwits"),
+        ("reddit", "reddit"),
     ))
     focus = models.CharField(max_length=5)
     popularity = models.IntegerField()
