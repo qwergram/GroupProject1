@@ -1,5 +1,14 @@
-from django.test import TestCase
-from .stocktwits import get_stock_comments, format_into_table
+from django.test import TestCase, Client
+from .stocktwits import get_stock_comments, format_into_table, save_message
+from .reddit import (
+    get_companies,
+    ticker_to_name,
+    scrape_reddit,
+    save_reddit_articles
+)
+from .models import Message
+import requests
+import datetime
 
 # Create your tests here.
 
@@ -41,7 +50,106 @@ EXAMPLE_RESPONSE = {
         'url': 'http://stocktwits.com'
     },
     'created_at': '2016-03-28T21:51:06Z',
-    'reshares': {'reshared_count': 0, 'user_ids': []}}
+    'reshares': {'reshared_count': 0, 'user_ids': []}
+}
+
+EXPECTED = {
+    "social_id": "51852548",
+    "source": "stocktwits",
+    "focus": "MSFT",
+    "popularity": 0,
+    "author": "Benzinga",
+    "author_image": "https://s3.amazonaws.com/st-avatars/production/7108/thumb-1301323720.png",
+    "created_time": '2016-03-28T21:51:06Z',
+    "content": 'What This \'Esteemed\' Venture Capitalist Learned From Mark Zuckerberg $FB $MSFT $YHOO http://stkw.it/d2Ub',
+    "symbols": ['MSFT', 'YHOO', 'FB'],
+    "urls": ['http://www.benzinga.com/general/entrepreneurship/16/03/7765501/what-this-esteemed-venture-capitalist-learned-from-mark-zucke'],
+    "url": 'http://stocktwits.com/Benzinga/message/51852548'
+}
+
+
+class TickerTest(TestCase):
+
+    def test_check_view_status_code(self):
+        client = Client()
+        response = client.get('/check/msft/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_check_view_content(self):
+        client = Client()
+        response = client.get('/check/msft/')
+        json_blob = response.json()
+        self.assertTrue(isinstance(json_blob, list))
+        self.assertTrue(isinstance(json_blob[0], dict))
+        self.assertIn('author', json_blob[0])
+        self.assertIn('content', json_blob[0])
+        self.assertIn('social_id', json_blob[0])
+        self.assertIn('url', json_blob[0])
+        self.assertIn('urls', json_blob[0])
+        self.assertIn('popularity', json_blob[0])
+        self.assertIn('source', json_blob[0])
+        self.assertIn('created_time', json_blob[0])
+        self.assertIn('symbols', json_blob[0])
+        self.assertIn('focus', json_blob[0])
+        self.assertIn('author_image', json_blob[0])
+
+
+class RedditScraper(TestCase):
+
+    def test_json_loads(self):
+        companies = get_companies()
+        expected = {
+            "Ticker": "MSFT",
+            "Name": "Microsoft Corporation",
+            "Exchange": "NMS",
+            "Country": "USA",
+            "Category Name": "Business Software & Services",
+            "Category Number": 826,
+            "": 0
+        }
+        self.assertEqual(companies['MSFT'], expected)
+
+    def test_ticker_to_name_works(self):
+        companies = get_companies()
+        expected = "Microsoft Corporation"
+        self.assertEqual(ticker_to_name(companies, "MSFT"), expected)
+
+    def test_ticker_to_name_bad_company_data(self):
+        with self.assertRaises(ValueError):
+            ticker_to_name("waffles", "MSFT")
+
+    def test_ticker_to_name_bad_ticker(self):
+        companies = get_companies()
+        with self.assertRaises(ValueError):
+            ticker_to_name(companies, "ayyooo")
+
+    def test_reddit_scraper(self):
+        links = scrape_reddit("MSFT", "Microsoft Corporation")
+        expected = 'https://www.reddit.com/r/linux/comments/mgtht/given_the_recent_protests_shouldnt_we_point_out/'
+        self.assertIn(expected, str(links))
+
+    def test_reddit_save(self):
+        links = scrape_reddit("AAPL", ticker_to_name(get_companies(), "SUNE"))
+        expected = {
+            'url': 'http://www.reddit.com/r/investing/comments/40wx7b/sunedison_inc_to_distribute_tesla_motors_inc/?ref=search_posts',
+            'urls': ['https://www.reddit.com/r/investing/comments/40wx7b/sunedison_inc_to_distribute_tesla_motors_inc/'],
+            'social_id': '40wx7b',
+            'created_time': datetime.datetime.utcfromtimestamp(1452764067.0).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            'content': 'Sunedison Inc To Distribute Tesla Motors Inc Powerwall',
+            'author': 'MartEden',
+            'popularity': 27,
+            'source': 'reddit',
+            'author_image': 'https://www.redditstatic.com/icon-touch.png',
+            'focus': 'AAPL',
+            'symbols': ['AAPL']
+        }
+        save_reddit_articles(links)
+        dbobj = Message.objects.get(social_id=expected['social_id'])
+        self.assertEqual(dbobj.url, expected['url'])
+        self.assertEqual(dbobj.urls, str(expected['urls']))
+        self.assertEqual(dbobj.content, expected['content'])
+        self.assertEqual(dbobj.author, expected['author'])
+        self.assertEqual(dbobj.focus, 'AAPL')
 
 
 class StockTwitsCase(TestCase):
@@ -66,16 +174,20 @@ class StockTwitsCase(TestCase):
 
     def test_json_trimmer(self):
         formatted = format_into_table(EXAMPLE_RESPONSE, "MSFT")
-        expected = {
-            "social_id": "51852548",
-            "source": "stocktwits",
-            "focus": "MSFT",
-            "popularity": 0,
-            "author": "Benzinga",
-            "author_image": ,
-            "created_time": message['created_at'],
-            "content": message['body'],
-            "symbols": [stock['symbol'] for stock in message['symbols']],
-            "urls": message.get('links'),
-        }
-        self.assertNotEqual(formatted, expected)
+        self.assertEqual(formatted, EXPECTED)
+
+    def test_database_save_return(self):
+        self.assertTrue(save_message(EXPECTED))
+        self.assertFalse(save_message(EXPECTED))
+
+    def test_database_save_database(self):
+        save_message(EXPECTED)
+        m = Message.objects.get(social_id="51852548")
+        self.assertEqual(m.focus, "MSFT")
+        self.assertEqual(m.url, "http://stocktwits.com/Benzinga/message/51852548")
+
+    def test_text_is_correct(self):
+        save_message(EXPECTED)
+        message = Message.objects.get(social_id="51852548")
+        document = requests.get(message.url).text
+        self.assertIn(message.content, document)

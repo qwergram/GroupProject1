@@ -1,7 +1,7 @@
+import os
 import base64
 import json
 import sys
-
 try:
     from urllib.request import urlopen, Request
     from urllib.error import HTTPError
@@ -14,23 +14,29 @@ API_VERSION = '1.1'
 REQUEST_TOKEN_URL = '%s/oauth2/token' % API_ENDPOINT
 # REQUEST_RATE_LIMIT = '%s/%s/application/rate_limit_status.json' % \
 #                      (API_ENDPOINT, API_VERSION)
+SEARCH_ENDPOINT = 'https://api.twitter.com/1.1/search/tweets.json?q=%23{}'
+
+key = os.environ.get('CONSUMER_KEY')
+secret = os.environ.get('CONSUMER_SECRET')
 
 
 class ClientException(Exception):
+    """Error."""
+
     pass
 
 
 class Client(object):
-    """A."""
+    """Handle application only auth."""
 
     def __init__(self, consumer_key, consumer_secret):
-        """B."""
+        """Initialize."""
         self.consumer_key = consumer_key
         self.consumer_secret = consumer_secret
         self.access_token = ''
 
     def request(self, url):
-        """C."""
+        """Process the requested api url."""
         if not self.access_token:
             self.access_token = self._get_access_token()
 
@@ -43,12 +49,11 @@ class Client(object):
 
         raw_data = response.read().decode('utf-8')
         data = json.loads(raw_data)
-        return data
+        return data['statuses']
 
     def _get_access_token(self):
-        """D."""
+        """Establish the bearer tolken and get data."""
         bearer_token = '%s:%s' % (self.consumer_key, self.consumer_secret)
-        # import pdb; pdb.set_trace()
         encode_bearer_token = base64.b64encode(bearer_token.encode('ascii'))
         request = Request(REQUEST_TOKEN_URL)
         request.add_header('Content-Type',
@@ -66,3 +71,38 @@ class Client(object):
         raw_data = response.read().decode('utf-8')
         data = json.loads(raw_data)
         return data['access_token']
+
+
+def get_twitter_comments(ticker):
+    client = Client(key, secret)
+    resp = client.request(SEARCH_ENDPOINT.format(ticker))
+    return resp
+
+
+def json_into_table(message, ticker):
+    if not isinstance(ticker, str):
+        raise ValueError("Invalid ticker :(")
+    try:
+        to_return = {
+            "social_id": message['id'],
+            "focus": ticker,
+            "popularity": message['favorite_count'],
+            "author": message['user']['name'],
+            "author_image": message['user']['profile_image_url'],
+            "created_time": message['created_at'],
+            "content": message['text'],
+            "symbols": [stock['symbol'] for stock in message['entities']['symbols']],
+            "hashtags": [hashtag['text'] for hashtag in message['entities']['hashtags']],
+            "urls": [url['url'] for url in message['entities']['urls']],
+        }
+        return to_return
+    except (TypeError, KeyError):
+        raise ValueError("Invalid message")
+
+
+if __name__ == "__main__":
+    ticker = "MSFT"
+    messages = get_twitter_comments(ticker)
+    for index, message in enumerate(messages):
+        message = json_into_table(message, ticker)
+        messages[index] = message
