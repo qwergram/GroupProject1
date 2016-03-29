@@ -86,6 +86,7 @@ def json_into_table(message, ticker):
     try:
         to_return = {
             "social_id": message['user']['id'],
+            "source": "twitter",
             "focus": ticker,
             "popularity": message['favorite_count'],
             "author": message['user']['name'],
@@ -98,7 +99,7 @@ def json_into_table(message, ticker):
             ),
             "content": message['text'],
             "symbols": [],
-            "hashtags": str([hashtag['text'] for hashtag in message['entities']['hashtags']]),
+            "hashtags": [hashtag['text'] for hashtag in message['entities']['hashtags']],
             "urls": str([url['url'] for url in message['entities']['urls']]),
         }
         save_tweets(to_return)
