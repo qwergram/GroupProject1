@@ -70,6 +70,10 @@ class Message(models.Model):
     def __str__(self):
         return "{}[${}]: {}".format(self.source, self.focus, self.content)
 
+    @property
+    def html(self):
+        return "<a href=\"{}\">{}</a>".format(self.url, self.__str__())
+
     social_id = models.CharField(max_length=32)
     source = models.CharField(max_length=20, choices=(
         ("twitter", "twitter"),
