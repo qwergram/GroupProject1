@@ -1,6 +1,11 @@
 from django.test import TestCase
 from .stocktwits import get_stock_comments, format_into_table, save_message
-from .reddit import get_companies, ticker_to_name, scrape_reddit
+from .reddit import (
+    get_companies,
+    ticker_to_name,
+    scrape_reddit,
+    save_reddit_articles
+)
 from .models import Message
 import requests
 
@@ -96,8 +101,30 @@ class RedditScraper(TestCase):
         expected = 'https://www.reddit.com/r/linux/comments/mgtht/given_the_recent_protests_shouldnt_we_point_out/'
         self.assertIn(expected, str(links))
 
-    # def test_reddit_save(self):
-        # links
+    def test_reddit_save(self):
+        links = scrape_reddit("AAPL", ticker_to_name(get_companies(), "SUNE"))
+        expected = {
+            'url': 'http://www.reddit.com/r/investing/comments/40wx7b/sunedison_inc_to_distribute_tesla_motors_inc/?ref=search_posts',
+            'urls': ['https://www.reddit.com/r/investing/comments/40wx7b/sunedison_inc_to_distribute_tesla_motors_inc/'],
+            'social_id': '40wx7b',
+            'created_time': 1452764067.0,
+            'content': 'Sunedison Inc To Distribute Tesla Motors Inc Powerwall',
+            'author': 'MartEden',
+            'popularity': 27,
+            'source': 'reddit',
+            'author_image': 'https://www.redditstatic.com/icon-touch.png',
+            'focus': 'AAPL',
+            'symbols': ['AAPL']
+        }
+        save_reddit_articles(links)
+        dbobj = Message.objects.get(social_id=expected['social_id'])
+        self.assertEqual(dbobj.url, expected['url'])
+        self.assertEqual(dbobj.urls, expected['urls'])
+        self.assertEqual(dbobj.content, expected['content'])
+        self.assertEqual(dbobj.author, expected['author'])
+        self.assertEqual(dbobj.popularity, expected['popularity'])
+        self.assertEqual(dbobj.focus, 'AAPL')
+
 
 class StockTwitsCase(TestCase):
 
