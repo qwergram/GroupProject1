@@ -95,6 +95,7 @@ class CompanySearch(TestCase):
                     "-corporation-reportedly-plans-acquire-blackberry-limited/")
         self.assertIn(expected, links)
 
+
 class StockTwitsCase(TestCase):
 
     def test_error_is_raised(self):
