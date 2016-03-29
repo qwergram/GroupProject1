@@ -1,6 +1,6 @@
 from django.test import TestCase
 from .stocktwits import get_stock_comments, format_into_table, save_message
-from .company_search import get_companies, ticker_to_name, scrape_reddit
+from .reddit import get_companies, ticker_to_name, scrape_reddit
 from .models import Message
 import requests
 
