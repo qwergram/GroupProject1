@@ -4,6 +4,7 @@ from .models import Message, Company
 import random
 
 from .stocktwits import get_stock_comments, format_into_table, save_message
+from .twitter_api import get_twitter_comments, json_into_table
 from .reddit import (
     get_companies,
     ticker_to_name,
@@ -33,7 +34,13 @@ def test(request, ticker):
         save_reddit_articles(reddit_messages)
     except KeyError:
         reddit_messages = []
-    return JsonResponse(messages + reddit_messages, safe=False)
+
+    tweets = get_twitter_comments(ticker)
+    for index, message in enumerate(tweets):
+        message = json_into_table(message, ticker)
+        tweets[index] = message
+
+    return JsonResponse(messages + reddit_messages + tweets, safe=False)
 
 
 def detail(request):

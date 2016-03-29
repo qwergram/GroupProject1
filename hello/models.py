@@ -85,3 +85,4 @@ class Message(models.Model):
     symbols = models.CharField(max_length=255)
     urls = models.CharField(max_length=255)
     url = models.URLField()
+    hashtags = models.CharField(max_length=255)

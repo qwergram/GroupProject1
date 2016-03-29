@@ -27,6 +27,7 @@ def format_into_table(message, ticker):
             "author_image": message['user']['avatar_url_ssl'],
             "created_time": message['created_at'],
             "content": unescape(message['body']),
+            "hashtags": [],
             "symbols": [stock['symbol'] for stock in message['symbols']],
             "urls": [link['url'] for link in message.get('links', [])],
             "url": "http://stocktwits.com/{}/message/{}".format(message['user']['username'], str(message['id']))

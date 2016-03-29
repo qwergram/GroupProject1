@@ -1,6 +1,6 @@
 from django.test import TestCase, Client
 from .stocktwits import get_stock_comments, format_into_table, save_message
-from .twitter_api import Client, ClientException, get_twitter_comments, json_into_table
+# from .twitter_api import Client, ClientException, get_twitter_comments, json_into_table
 from .reddit import (
     get_companies,
     ticker_to_name,
@@ -8,7 +8,6 @@ from .reddit import (
     save_reddit_articles
 )
 from .models import Message
-from .secrets import key, secret
 # import os
 import requests
 import datetime
@@ -68,6 +67,7 @@ EXPECTED = {
     "created_time": '2016-03-28T21:51:06Z',
     "content": 'What This \'Esteemed\' Venture Capitalist Learned From Mark Zuckerberg $FB $MSFT $YHOO http://stkw.it/d2Ub',
     "symbols": ['MSFT', 'YHOO', 'FB'],
+    "hashtags": [],
     "urls": ['http://www.benzinga.com/general/entrepreneurship/16/03/7765501/what-this-esteemed-venture-capitalist-learned-from-mark-zucke'],
     "url": 'http://stocktwits.com/Benzinga/message/51852548'
 }

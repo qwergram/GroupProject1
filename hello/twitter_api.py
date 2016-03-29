@@ -2,6 +2,9 @@ import os
 import base64
 import json
 import sys
+import datetime
+from hello.models import Message
+from django.db.utils import IntegrityError
 try:
     from urllib.request import urlopen, Request
     from urllib.error import HTTPError
@@ -12,8 +15,6 @@ except ImportError:
 API_ENDPOINT = 'https://api.twitter.com'
 API_VERSION = '1.1'
 REQUEST_TOKEN_URL = '%s/oauth2/token' % API_ENDPOINT
-# REQUEST_RATE_LIMIT = '%s/%s/application/rate_limit_status.json' % \
-#                      (API_ENDPOINT, API_VERSION)
 SEARCH_ENDPOINT = 'https://api.twitter.com/1.1/search/tweets.json?q=%23{}'
 
 key = os.environ.get('CONSUMER_KEY')
@@ -26,7 +27,7 @@ class ClientException(Exception):
     pass
 
 
-class Client(object):
+class TwitterCli(object):
     """Handle application only auth."""
 
     def __init__(self, consumer_key, consumer_secret):
@@ -74,7 +75,7 @@ class Client(object):
 
 
 def get_twitter_comments(ticker):
-    client = Client(key, secret)
+    client = TwitterCli(key, secret)
     resp = client.request(SEARCH_ENDPOINT.format(ticker))
     return resp
 
@@ -85,20 +86,34 @@ def json_into_table(message, ticker):
     try:
         to_return = {
             "social_id": message['user']['id'],
+            "source": "twitter",
             "focus": ticker,
             "popularity": message['favorite_count'],
             "author": message['user']['name'],
             "author_image": message['user']['profile_image_url'],
-            "created_time": message['user']['created_at'],
+            "created_time": (
+                datetime.datetime.strptime(
+                    message['user']['created_at'],
+                    "%a %b %d %H:%M:%S %z %Y"
+                ).strftime("%Y-%m-%dT%H:%M:%SZ")
+            ),
             "content": message['text'],
             "symbols": [],
             "hashtags": [hashtag['text'] for hashtag in message['entities']['hashtags']],
             "urls": [url['url'] for url in message['entities']['urls']],
         }
+        save_tweets(to_return)
         return to_return
     except (TypeError, KeyError):
         raise ValueError("Invalid message")
 
+
+def save_tweets(message):
+    try:
+        Message(**message).save()
+        return True
+    except IntegrityError:
+        return False
 
 if __name__ == "__main__":
     ticker = "MSFT"
@@ -106,3 +121,4 @@ if __name__ == "__main__":
     for index, message in enumerate(messages):
         message = json_into_table(message, ticker)
         messages[index] = message
+    print(messages)
