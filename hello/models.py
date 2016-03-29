@@ -38,6 +38,9 @@ class Message(models.Model):
         Other urls mentioned in the text
         includes images/charts/etc.
         wrapped in a python list fashion
+    URL
+    ===
+        Link back to original tweet/comment
     """
     class Meta:
         unique_together = ('source', 'social_id',)
@@ -58,6 +61,7 @@ class Message(models.Model):
     content = models.CharField(max_length=120)
     symbols = models.CharField(max_length=255)
     urls = models.CharField(max_length=255)
+    url = models.URLField()
 
 
 class Stock(models.Model):
