@@ -38,11 +38,21 @@ class Message(models.Model):
         Other urls mentioned in the text
         includes images/charts/etc.
         wrapped in a python list fashion
+    URL
+    ===
+        Link back to original tweet/comment
     """
+    class Meta:
+        unique_together = ('source', 'social_id',)
+
+    def __str__(self):
+        return "{}[${}]: {}".format(self.source, self.focus, self.content)
+
     social_id = models.CharField(max_length=32)
     source = models.CharField(max_length=20, choices=(
         ("twitter", "twitter"),
         ("stocktwits", "stocktwits"),
+        ("reddit", "reddit"),
     ))
     focus = models.CharField(max_length=5)
     popularity = models.IntegerField()
@@ -52,6 +62,7 @@ class Message(models.Model):
     content = models.CharField(max_length=120)
     symbols = models.CharField(max_length=255)
     urls = models.CharField(max_length=255)
+    url = models.URLField()
 
 
 class Stock(models.Model):
