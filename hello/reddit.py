@@ -30,7 +30,7 @@ def ticker_to_name(data, ticker):
     raise ValueError("Ticker not found")
 
 
-def save_reddit_article(messages):
+def save_reddit_articles(messages):
     for link in messages:
         try:
             Message(**link).save()
