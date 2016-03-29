@@ -22,8 +22,6 @@ def test(request, ticker):
         messages[index] = message
         save_message(message)
     try:
-        import pdb; pdb.set_trace()
-
         companies = get_companies()
         query = ticker_to_name(companies, ticker)
         reddit_messages = scrape_reddit(ticker, query)
