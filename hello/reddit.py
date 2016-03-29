@@ -39,6 +39,10 @@ def save_reddit_articles(messages):
 
 
 def scrape_reddit(ticker, query):
+    if not isinstance(ticker, str):
+        raise TypeError("Ticker Invalid!")
+    if not isinstance(query, str):
+        raise TypeError("Query Invalid!")
     query = query.replace(' ', '+')
     response = requests.get(REDDIT_API_ENDPOINT.format(query),
                             headers={"User-Agent": "StockTalk @ https://github.com/qwergram/GroupProject1"})
