@@ -80,6 +80,15 @@ class CompanySearch(TestCase):
         expected = "Microsoft Corporation"
         self.assertEqual(ticker_to_name(companies, "MSFT"), expected)
 
+    def test_ticker_to_name_bad_company_data(self):
+        with self.assertRaises(ValueError):
+            ticker_to_name("waffles", "MSFT")
+
+    def test_ticker_to_name_bad_ticker(self):
+        companies = get_companies()
+        with self.assertRaises(ValueError):
+            ticker_to_name(companies, "ayyooo")
+
 class StockTwitsCase(TestCase):
 
     def test_error_is_raised(self):
