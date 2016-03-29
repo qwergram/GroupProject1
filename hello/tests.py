@@ -1,5 +1,6 @@
 from django.test import TestCase
-from .stocktwits import get_stock_comments, format_into_table
+from .stocktwits import get_stock_comments, format_into_table, save_message
+from .models import Message
 
 # Create your tests here.
 
@@ -41,7 +42,22 @@ EXAMPLE_RESPONSE = {
         'url': 'http://stocktwits.com'
     },
     'created_at': '2016-03-28T21:51:06Z',
-    'reshares': {'reshared_count': 0, 'user_ids': []}}
+    'reshares': {'reshared_count': 0, 'user_ids': []}
+}
+
+EXPECTED = {
+    "social_id": "51852548",
+    "source": "stocktwits",
+    "focus": "MSFT",
+    "popularity": 0,
+    "author": "Benzinga",
+    "author_image": "https://s3.amazonaws.com/st-avatars/production/7108/thumb-1301323720.png",
+    "created_time": '2016-03-28T21:51:06Z',
+    "content": 'What This &#39;Esteemed&#39; Venture Capitalist Learned From Mark Zuckerberg $FB $MSFT $YHOO http://stkw.it/d2Ub',
+    "symbols": ['MSFT', 'YHOO', 'FB'],
+    "urls": ['http://www.benzinga.com/general/entrepreneurship/16/03/7765501/what-this-esteemed-venture-capitalist-learned-from-mark-zucke'],
+    "url": 'http://stocktwits.com/Benzinga/message/51852548'
+}
 
 
 class StockTwitsCase(TestCase):
@@ -66,17 +82,14 @@ class StockTwitsCase(TestCase):
 
     def test_json_trimmer(self):
         formatted = format_into_table(EXAMPLE_RESPONSE, "MSFT")
-        expected = {
-            "social_id": "51852548",
-            "source": "stocktwits",
-            "focus": "MSFT",
-            "popularity": 0,
-            "author": "Benzinga",
-            "author_image": "https://s3.amazonaws.com/st-avatars/production/7108/thumb-1301323720.png",
-            "created_time": '2016-03-28T21:51:06Z',
-            "content": 'What This &#39;Esteemed&#39; Venture Capitalist Learned From Mark Zuckerberg $FB $MSFT $YHOO http://stkw.it/d2Ub',
-            "symbols": ['MSFT', 'YHOO', 'FB'],
-            "urls": ['http://www.benzinga.com/general/entrepreneurship/16/03/7765501/what-this-esteemed-venture-capitalist-learned-from-mark-zucke'],
-            "url": 'http://stocktwits.com/Benzinga/message/51852548'
-        }
-        self.assertEqual(formatted, expected)
+        self.assertEqual(formatted, EXPECTED)
+
+    def test_database_save_return(self):
+        self.assertTrue(save_message(EXPECTED))
+        self.assertFalse(save_message(EXPECTED))
+
+    def test_database_save_database(self):
+        save_message(EXPECTED)
+        m = Message.objects.get(social_id="51852548")
+        self.assertEqual(m.focus, "MSFT")
+        self.assertEqual(m.url, "http://stocktwits.com/Benzinga/message/51852548")
