@@ -11,8 +11,8 @@ admin.autodiscover()
 
 urlpatterns = [
     url(r'^$', hello.views.index, name='index'),
-    url(r'^search/$', hello.views.search, name='search'),
     url(r'^detail/$', hello.views.detail, name='detail'),
+    url(r'^detail/(?P<ticker>[a-zA-Z]+)/$', hello.views.detail, name='detail'),
     url(r'^check/(?P<ticker>[a-zA-Z]+)/$', hello.views.test),
     url(r'^admin/', include(admin.site.urls)),
 ]
