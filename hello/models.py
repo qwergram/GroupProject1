@@ -2,6 +2,14 @@ from django.db import models
 
 # Create your models here.
 
+
+class Company(models.Model):
+    ticker = models.CharField(max_length=5, unique=True)
+    name = models.CharField(max_length=50, unique=True)
+    exchange = models.CharField(max_length=5)
+    category = models.CharField(max_length=100)
+
+
 class Message(models.Model):
     """
     SOURCE
@@ -66,8 +74,7 @@ class Message(models.Model):
 
 
 class Stock(models.Model):
-    ticker = models.CharField(max_length=5, db_index=True, db_tablespace="indexes")
-    name = models.TextField(max_length=100)
+    company = models.ForeignKey(Company)
     date = models.DateField(db_index=True, db_tablespace="indexes")
     open = models.FloatField()
     high = models.FloatField()
@@ -84,8 +91,8 @@ class Stock(models.Model):
 
     def __str__(self):              # __unicode__ on Python 2
         return (
-            self.ticker,
-            self.name,
+            self.company.ticker,
+            self.company.name,
             self.date,
             self.open,
             self.high,
