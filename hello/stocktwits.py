@@ -27,7 +27,7 @@ def format_into_table(message, ticker):
             "created_time": message['created_at'],
             "content": message['body'],
             "symbols": [stock['symbol'] for stock in message['symbols']],
-            "urls": message.get('links', '[]'),
+            "urls": [link['url'] for link in message.get('links', [])],
             "url": "http://stocktwits.com/{}/message/{}".format(message['user']['username'], str(message['id']))
         }
         return to_return
