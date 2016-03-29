@@ -28,6 +28,7 @@ def format_into_table(message, ticker):
             "content": message['body'],
             "symbols": [stock['symbol'] for stock in message['symbols']],
             "urls": message.get('links', '[]'),
+            "url": "http://stocktwits.com/{}/message/{}".format(message['user']['username'], str(message['id']))
         }
         return to_return
     except (TypeError, KeyError):
@@ -47,4 +48,6 @@ if __name__ == "__main__":
     messages = get_stock_comments(ticker)
     for index, message in enumerate(messages):
         message = format_into_table(message, ticker)
-        save_message(message)
+        messages[index] = message
+        # save_message(message)
+    import pdb; pdb.set_trace()
