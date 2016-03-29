@@ -99,6 +99,4 @@ class StockTwitsCase(TestCase):
         save_message(EXPECTED)
         message = Message.objects.get(social_id="51852548")
         document = requests.get(message.url).text
-        import pdb; pdb.set_trace()
-
-        self.assertIn(message, document.content)
+        self.assertIn(message.content, document)
