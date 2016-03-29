@@ -43,8 +43,5 @@ def test(request, ticker):
     return JsonResponse(messages + reddit_messages + tweets, safe=False)
 
 
-
-
-
 def detail(request):
     return render(request, 'detail.html')

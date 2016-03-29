@@ -109,7 +109,6 @@ def json_into_table(message, ticker):
 
 def save_tweets(message):
     try:
-        # import pdb; pdb.set_trace()
         Message(**message).save()
         return True
     except IntegrityError:
