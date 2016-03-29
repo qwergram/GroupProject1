@@ -8,6 +8,7 @@ from .reddit import (
 )
 from .models import Message
 import requests
+import datetime
 
 # Create your tests here.
 
@@ -107,7 +108,7 @@ class RedditScraper(TestCase):
             'url': 'http://www.reddit.com/r/investing/comments/40wx7b/sunedison_inc_to_distribute_tesla_motors_inc/?ref=search_posts',
             'urls': ['https://www.reddit.com/r/investing/comments/40wx7b/sunedison_inc_to_distribute_tesla_motors_inc/'],
             'social_id': '40wx7b',
-            'created_time': 1452764067.0,
+            'created_time': datetime.datetime.utcfromtimestamp(1452764067.0).strftime("%Y-%m-%dT%H:%M:%SZ"),
             'content': 'Sunedison Inc To Distribute Tesla Motors Inc Powerwall',
             'author': 'MartEden',
             'popularity': 27,
