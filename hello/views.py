@@ -19,6 +19,16 @@ def index(request):
     return render(request, 'index.html', {"streamer": messages})
 
 
+def search(request, terms):
+    # Needs to render an updated list of stocks based on search term
+    # May need to call /detail route instead
+    return render(request, 'index.html#one', {"terms": terms})
+
+
+def detail(request):
+    return render(request, 'detail.html')
+
+
 def test(request, ticker):
     ticker = ticker.upper()
     messages = get_stock_comments(ticker)
@@ -36,5 +46,4 @@ def test(request, ticker):
     return JsonResponse(messages + reddit_messages, safe=False)
 
 
-def detail(request):
-    return render(request, 'detail.html')
+
