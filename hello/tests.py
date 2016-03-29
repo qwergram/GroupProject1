@@ -1,8 +1,14 @@
 from django.test import TestCase
 from .stocktwits import get_stock_comments, format_into_table, save_message
-from .company_search import get_companies, ticker_to_name, scrape_reddit
+from .reddit import (
+    get_companies,
+    ticker_to_name,
+    scrape_reddit,
+    save_reddit_articles
+)
 from .models import Message
 import requests
+import datetime
 
 # Create your tests here.
 
@@ -60,7 +66,9 @@ EXPECTED = {
     "urls": ['http://www.benzinga.com/general/entrepreneurship/16/03/7765501/what-this-esteemed-venture-capitalist-learned-from-mark-zucke'],
     "url": 'http://stocktwits.com/Benzinga/message/51852548'
 }
-class CompanySearch(TestCase):
+
+
+class RedditScraper(TestCase):
 
     def test_json_loads(self):
         companies = get_companies()
@@ -90,10 +98,32 @@ class CompanySearch(TestCase):
             ticker_to_name(companies, "ayyooo")
 
     def test_reddit_scraper(self):
-        links = scrape_reddit("Microsoft Corporation")
-        expected = ("http://www.pc-tablet.co.in/2015/05/24/9107/microsoft"
-                    "-corporation-reportedly-plans-acquire-blackberry-limited/")
-        self.assertIn(expected, links)
+        links = scrape_reddit("MSFT", "Microsoft Corporation")
+        expected = 'https://www.reddit.com/r/linux/comments/mgtht/given_the_recent_protests_shouldnt_we_point_out/'
+        self.assertIn(expected, str(links))
+
+    def test_reddit_save(self):
+        links = scrape_reddit("AAPL", ticker_to_name(get_companies(), "SUNE"))
+        expected = {
+            'url': 'http://www.reddit.com/r/investing/comments/40wx7b/sunedison_inc_to_distribute_tesla_motors_inc/?ref=search_posts',
+            'urls': ['https://www.reddit.com/r/investing/comments/40wx7b/sunedison_inc_to_distribute_tesla_motors_inc/'],
+            'social_id': '40wx7b',
+            'created_time': datetime.datetime.utcfromtimestamp(1452764067.0).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            'content': 'Sunedison Inc To Distribute Tesla Motors Inc Powerwall',
+            'author': 'MartEden',
+            'popularity': 27,
+            'source': 'reddit',
+            'author_image': 'https://www.redditstatic.com/icon-touch.png',
+            'focus': 'AAPL',
+            'symbols': ['AAPL']
+        }
+        save_reddit_articles(links)
+        dbobj = Message.objects.get(social_id=expected['social_id'])
+        self.assertEqual(dbobj.url, expected['url'])
+        self.assertEqual(dbobj.urls, str(expected['urls']))
+        self.assertEqual(dbobj.content, expected['content'])
+        self.assertEqual(dbobj.author, expected['author'])
+        self.assertEqual(dbobj.focus, 'AAPL')
 
 
 class StockTwitsCase(TestCase):

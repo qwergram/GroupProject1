@@ -1,6 +1,9 @@
 import json
 import io
 import requests
+from hello.models import Message
+from django.db.utils import IntegrityError
+import datetime
 
 REDDIT_API_ENDPOINT = "https://api.reddit.com/search?q={}&type=link"
 
@@ -27,7 +30,19 @@ def ticker_to_name(data, ticker):
     raise ValueError("Ticker not found")
 
 
-def scrape_reddit(query):
+def save_reddit_articles(messages):
+    for link in messages:
+        try:
+            Message(**link).save()
+        except IntegrityError:
+            pass
+
+
+def scrape_reddit(ticker, query):
+    if not isinstance(ticker, str):
+        raise TypeError("Ticker Invalid!")
+    if not isinstance(query, str):
+        raise TypeError("Query Invalid!")
     query = query.replace(' ', '+')
     response = requests.get(REDDIT_API_ENDPOINT.format(query),
                             headers={"User-Agent": "StockTalk @ https://github.com/qwergram/GroupProject1"})
@@ -36,8 +51,23 @@ def scrape_reddit(query):
     json_blob = response.json()['data']['children']
     links = []
     for post in json_blob:
-        link = post['data']['url']
-        date = post['data']['created_utc']
-        if "reddit.com" not in link:
-            links.append(link)
+        if "reddit.com" not in post['data']['permalink']:
+            template = {
+                "social_id": post['data']['id'],
+                "source": "reddit",
+                "focus": ticker,
+                "popularity": post['data']['ups'],
+                "author": post['data']['author'],
+                "author_image": "https://www.redditstatic.com/icon-touch.png",
+                "created_time":
+                    datetime.datetime.utcfromtimestamp(
+                        post['data']['created_utc']
+                    ).strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "content": post['data']['title'],
+                "symbols": [ticker],
+                "urls": [post['data']['url']],
+                "url": "http://www.reddit.com{}".format(post['data']['permalink'])
+            }
+            links.append(template)
+
     return links
