@@ -2,6 +2,8 @@ import json
 import io
 import requests
 from html import unescape
+from hello.models import Message
+from django.db.utils import IntegrityError
 
 REDDIT_API_ENDPOINT = "https://api.reddit.com/search?q={}&type=link"
 
@@ -28,6 +30,15 @@ def ticker_to_name(data, ticker):
     raise ValueError("Ticker not found")
 
 
+def save_reddit_article(messages):
+    for link in messages:
+        try:
+            Message(**link).save()
+            return True
+        except IntegrityError:
+            return False
+
+
 def scrape_reddit(ticker, query):
     query = query.replace(' ', '+')
     response = requests.get(REDDIT_API_ENDPOINT.format(query),
@@ -49,9 +60,8 @@ def scrape_reddit(ticker, query):
                 "content": post['data']['title'],
                 "symbols": [ticker],
                 "urls": [post['data']['url']],
-                "url": "http://www.reddit.com/{}".format(post['data']['permalink'])
+                "url": "http://www.reddit.com{}".format(post['data']['permalink'])
             }
             links.append(template)
-    import pdb; pdb.set_trace()
 
     return links
