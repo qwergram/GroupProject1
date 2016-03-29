@@ -1,5 +1,5 @@
 import requests
-# from hello.models import Message
+from hello.models import Message
 from django.db.utils import IntegrityError
 from html import unescape
 
@@ -24,8 +24,6 @@ def format_into_table(message, ticker):
             for word in words:
                 if word.startswith('#') and word[1:].replace(',', '').isalnum():
                     hashtags.append(word)
-            if hashtags:
-                import pdb; pdb.set_trace()
         to_return = {
             "social_id": str(message['id']),
             "source": "stocktwits",
@@ -47,7 +45,7 @@ def format_into_table(message, ticker):
 
 def save_message(message):
     try:
-        # Message(**message).save()
+        Message(**message).save()
         return True
     except IntegrityError:
         return False
