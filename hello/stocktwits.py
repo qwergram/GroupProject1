@@ -1,6 +1,7 @@
 import requests
 from hello.models import Message
 from django.db.utils import IntegrityError
+from html import unescape
 
 API_ENDPOINT = "https://api.stocktwits.com/api/2/streams/symbol/{}.json"
 
@@ -25,7 +26,7 @@ def format_into_table(message, ticker):
             "author": message['user']['username'],
             "author_image": message['user']['avatar_url_ssl'],
             "created_time": message['created_at'],
-            "content": message['body'],
+            "content": unescape(message['body']),
             "symbols": [stock['symbol'] for stock in message['symbols']],
             "urls": [link['url'] for link in message.get('links', [])],
             "url": "http://stocktwits.com/{}/message/{}".format(message['user']['username'], str(message['id']))
