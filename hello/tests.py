@@ -1,5 +1,6 @@
 from django.test import TestCase
 from .stocktwits import get_stock_comments, format_into_table, save_message
+from .twitter_api import Client, ClientException, get_twitter_comments, json_into_table
 from .reddit import (
     get_companies,
     ticker_to_name,
@@ -7,10 +8,14 @@ from .reddit import (
     save_reddit_articles
 )
 from .models import Message
+from .secrets import key, secret
+# import os
 import requests
 import datetime
 
 # Create your tests here.
+# false = False
+# true = True
 
 EXAMPLE_RESPONSE = {
     'body': 'What This &#39;Esteemed&#39; Venture Capitalist Learned From Mark Zuckerberg $FB $MSFT $YHOO http://stkw.it/d2Ub',
@@ -66,6 +71,26 @@ EXPECTED = {
     "urls": ['http://www.benzinga.com/general/entrepreneurship/16/03/7765501/what-this-esteemed-venture-capitalist-learned-from-mark-zucke'],
     "url": 'http://stocktwits.com/Benzinga/message/51852548'
 }
+
+# EXPECTED_TWITTER = {
+#     "popularity": 1,
+#     "author_image": "http://pbs.twimg.com/profile_images/696574346597416960/Pcp9o6nP_normal.jpg",
+#     "hashtags": [
+#       "MSFT",
+#       "Machine",
+#       "Learning",
+#       "Technology",
+#       "human",
+#       "intelligence"
+#     ],
+#     "urls": [],
+#     "focus": "MSFT",
+#     "author": "Alexander Felke",
+#     "symbols": [],
+#     "social_id": 3759215603,
+#     "created_time": "Thu Sep 24 10:33:18 +0000 2015",
+#     "content": "#MSFT is beefing up #Machine #Learning: #Technology advances #human #intelligence. I say mid term."
+# }
 
 
 class RedditScraper(TestCase):
@@ -165,3 +190,4 @@ class StockTwitsCase(TestCase):
         message = Message.objects.get(social_id="51852548")
         document = requests.get(message.url).text
         self.assertIn(message.content, document)
+
