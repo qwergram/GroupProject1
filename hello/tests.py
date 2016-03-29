@@ -217,3 +217,10 @@ class StockTwitsCase(TestCase):
         document = requests.get(message.url).text
         self.assertIn(message.content, document)
 
+
+class MovingStocksCase(TestCase):
+    pass
+
+
+class HistoricalCase(TestCase):
+    pass

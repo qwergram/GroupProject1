@@ -22,7 +22,7 @@ class TopMover(namedtuple('TopMover', "ticker name price change pct_change volum
     pass
 
 
-def yahoo_top_movers():
+def _yahoo_top_movers():
     global _yahoo_cached
     now = datetime.utcnow()
     if _yahoo_cached and (_yahoo_cached[0] + CACHE_TIME <= now):
@@ -46,3 +46,7 @@ def yahoo_top_movers():
 
 def _google_top_movers():
     raise NotImplemented  # TODO this
+
+
+def top_movers():
+    return _yahoo_top_movers()
