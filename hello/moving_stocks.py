@@ -49,4 +49,16 @@ def _google_top_movers():
 
 
 def top_movers():
+    """
+    Return the top movers in the current stock market.
+
+    Each one has the following attributes:
+
+    ticker: stock ticker
+    name: name of the company
+    price: current price
+    change: change in price since open
+    pct_change: percent change since open
+    volume: volume traded
+    """
     return _yahoo_top_movers()

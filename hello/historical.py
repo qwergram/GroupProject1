@@ -113,6 +113,8 @@ def _fetch_yahoo_historical(params):
 def fetch_stock_history(ticker, most_days=365):  # todo: nonexistent ticker case
     """
     Fetch and store the most up to date yahoo historical stock information for this stock ticker. Return nothing.
+
+    If more than a certain number of stock histories are requested, the least recently used will be forgotten.
     """
     start, end = _yahoo_historical_range(ticker)
     start = max(start, end - timedelta(days=most_days - 1))
@@ -132,7 +134,17 @@ def fetch_stock_history(ticker, most_days=365):  # todo: nonexistent ticker case
 
 def get_stock_history(ticker, start_date=None, end_date=None):
     """
-    Return a list of Day namedtuples with stock information about all the currently stored
+    Return a list of Day namedtuples with stock information about all the currently stored data for this stock ticker
+    in the given (inclusive) date range.
+
+    The resulting value is a list of Day objects with the following attributes:
+    date: datetime date of the day
+    open: opening price that day
+    high: high price that day
+    low: low price that day
+    close: closing price that day
+    volume: volume traded that day
+    adj_close: adjusted closing value that day
     """
     results = []
     ticker = ticker.lower()
