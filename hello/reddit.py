@@ -1,6 +1,7 @@
 import json
 import io
 import requests
+from html import unescape
 
 REDDIT_API_ENDPOINT = "https://api.reddit.com/search?q={}&type=link"
 
@@ -27,7 +28,7 @@ def ticker_to_name(data, ticker):
     raise ValueError("Ticker not found")
 
 
-def scrape_reddit(query):
+def scrape_reddit(ticker, query):
     query = query.replace(' ', '+')
     response = requests.get(REDDIT_API_ENDPOINT.format(query),
                             headers={"User-Agent": "StockTalk @ https://github.com/qwergram/GroupProject1"})
@@ -36,8 +37,21 @@ def scrape_reddit(query):
     json_blob = response.json()['data']['children']
     links = []
     for post in json_blob:
-        link = post['data']['url']
-        date = post['data']['created_utc']
+        template = {
+            "social_id": post['data']['id'],
+            "source": "reddit",
+            "focus": ticker,
+            "popularity": post['data']['ups'],
+            "author": post['data']['author'],
+            "author_image": "https://www.redditstatic.com/icon-touch.png",
+            "created_time": post['data']['created_utc'],
+            "content": post['data']['title'],
+            "symbols": [ticker],
+            "urls": [post['data']['url']],
+            "url": "http://www.reddit.com/{}".format(post['data']['permalink'])
+        }
         if "reddit.com" not in link:
-            links.append(link)
+            links.append(template)
+    import pdb; pdb.set_trace()
+
     return links
