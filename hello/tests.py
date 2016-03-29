@@ -72,10 +72,11 @@ class StockTwitsCase(TestCase):
             "focus": "MSFT",
             "popularity": 0,
             "author": "Benzinga",
-            "author_image": ,
-            "created_time": message['created_at'],
-            "content": message['body'],
-            "symbols": [stock['symbol'] for stock in message['symbols']],
-            "urls": message.get('links'),
+            "author_image": "https://s3.amazonaws.com/st-avatars/production/7108/thumb-1301323720.png",
+            "created_time": '2016-03-28T21:51:06Z',
+            "content": 'What This &#39;Esteemed&#39; Venture Capitalist Learned From Mark Zuckerberg $FB $MSFT $YHOO http://stkw.it/d2Ub',
+            "symbols": ['MSFT', 'YHOO', 'FB'],
+            "urls": 'http://www.benzinga.com/general/entrepreneurship/16/03/7765501/what-this-esteemed-venture-capitalist-learned-from-mark-zucke',
+            "url": 'http://stocktwits.com/Benzinga/message/51852548'
         }
         self.assertNotEqual(formatted, expected)
