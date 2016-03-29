@@ -34,9 +34,8 @@ def save_reddit_articles(messages):
     for link in messages:
         try:
             Message(**link).save()
-            return True
         except IntegrityError:
-            return False
+            pass
 
 
 def scrape_reddit(ticker, query):
