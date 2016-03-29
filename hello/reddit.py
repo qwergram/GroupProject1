@@ -4,7 +4,9 @@ import requests
 
 REDDIT_API_ENDPOINT = "https://api.reddit.com/search?q={}&type=link"
 
+
 def get_companies():
+    # XXX Search the stocks database in the future
     with io.open("stocktalk/static/raw_data/symbols_usa_only.json") as f:
         j = f.read()
     list_of_companies = json.loads(j)
