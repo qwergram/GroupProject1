@@ -52,7 +52,7 @@ class Client(object):
         return data['statuses']
 
     def _get_access_token(self):
-        """Establish the bearer tolken and get data."""
+        """Establish the bearer token and get data."""
         bearer_token = '%s:%s' % (self.consumer_key, self.consumer_secret)
         encode_bearer_token = base64.b64encode(bearer_token.encode('ascii'))
         request = Request(REQUEST_TOKEN_URL)
@@ -84,14 +84,14 @@ def json_into_table(message, ticker):
         raise ValueError("Invalid ticker :(")
     try:
         to_return = {
-            "social_id": message['id'],
+            "social_id": message['user']['id'],
             "focus": ticker,
             "popularity": message['favorite_count'],
             "author": message['user']['name'],
             "author_image": message['user']['profile_image_url'],
-            "created_time": message['created_at'],
+            "created_time": message['user']['created_at'],
             "content": message['text'],
-            "symbols": [stock['symbol'] for stock in message['entities']['symbols']],
+            "symbols": [],
             "hashtags": [hashtag['text'] for hashtag in message['entities']['hashtags']],
             "urls": [url['url'] for url in message['entities']['urls']],
         }
