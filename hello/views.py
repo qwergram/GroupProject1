@@ -9,7 +9,6 @@ def index(request):
 
 
 def test(request, ticker):
-    import json
     messages = get_stock_comments(ticker)
     for index, message in enumerate(messages):
         message = format_into_table(message, ticker)
