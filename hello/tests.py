@@ -1,6 +1,6 @@
 from django.test import TestCase
 from .stocktwits import get_stock_comments, format_into_table, save_message
-from .company_search import get_companies, ticker_to_name
+from .company_search import get_companies, ticker_to_name, scrape_reddit
 from .models import Message
 import requests
 
@@ -89,6 +89,11 @@ class CompanySearch(TestCase):
         with self.assertRaises(ValueError):
             ticker_to_name(companies, "ayyooo")
 
+    def test_reddit_scraper(self):
+        links = scrape_reddit("Microsoft Corporation")
+        expected = ("http://www.pc-tablet.co.in/2015/05/24/9107/microsoft"
+                    "-corporation-reportedly-plans-acquire-blackberry-limited/")
+        self.assertIn(expected, links)
 
 class StockTwitsCase(TestCase):
 
