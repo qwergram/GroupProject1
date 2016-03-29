@@ -186,4 +186,3 @@ include/
 pyvenv.cfg
 lib64
 *.sqlite3
-
