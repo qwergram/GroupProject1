@@ -60,7 +60,9 @@ EXPECTED = {
     "urls": ['http://www.benzinga.com/general/entrepreneurship/16/03/7765501/what-this-esteemed-venture-capitalist-learned-from-mark-zucke'],
     "url": 'http://stocktwits.com/Benzinga/message/51852548'
 }
-class CompanySearch(TestCase):
+
+
+class RedditScraper(TestCase):
 
     def test_json_loads(self):
         companies = get_companies()
@@ -90,11 +92,12 @@ class CompanySearch(TestCase):
             ticker_to_name(companies, "ayyooo")
 
     def test_reddit_scraper(self):
-        links = scrape_reddit("Microsoft Corporation")
-        expected = ("http://www.pc-tablet.co.in/2015/05/24/9107/microsoft"
-                    "-corporation-reportedly-plans-acquire-blackberry-limited/")
-        self.assertIn(expected, links)
+        links = scrape_reddit("MSFT", "Microsoft Corporation")
+        expected = 'https://www.reddit.com/r/linux/comments/mgtht/given_the_recent_protests_shouldnt_we_point_out/'
+        self.assertIn(expected, str(links))
 
+    # def test_reddit_save(self):
+        # links
 
 class StockTwitsCase(TestCase):
 
