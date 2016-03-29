@@ -1,6 +1,6 @@
 from django.test import TestCase
 from .stocktwits import get_stock_comments, format_into_table, save_message
-from .company_search import get_companies
+from .company_search import get_companies, ticker_to_name
 from .models import Message
 import requests
 
@@ -74,6 +74,11 @@ class CompanySearch(TestCase):
             "": 0
         }
         self.assertEqual(companies['MSFT'], expected)
+
+    def test_ticker_to_name_works(self):
+        companies = get_companies()
+        expected = "Microsoft Corporation"
+        self.assertEqual(ticker_to_name(companies, "MSFT"), expected)
 
 class StockTwitsCase(TestCase):
 
