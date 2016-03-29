@@ -1,6 +1,7 @@
 from django.test import TestCase
 from .stocktwits import get_stock_comments, format_into_table, save_message
 from .models import Message
+import requests
 
 # Create your tests here.
 
@@ -53,7 +54,7 @@ EXPECTED = {
     "author": "Benzinga",
     "author_image": "https://s3.amazonaws.com/st-avatars/production/7108/thumb-1301323720.png",
     "created_time": '2016-03-28T21:51:06Z',
-    "content": 'What This &#39;Esteemed&#39; Venture Capitalist Learned From Mark Zuckerberg $FB $MSFT $YHOO http://stkw.it/d2Ub',
+    "content": 'What This \'Esteemed\' Venture Capitalist Learned From Mark Zuckerberg $FB $MSFT $YHOO http://stkw.it/d2Ub',
     "symbols": ['MSFT', 'YHOO', 'FB'],
     "urls": ['http://www.benzinga.com/general/entrepreneurship/16/03/7765501/what-this-esteemed-venture-capitalist-learned-from-mark-zucke'],
     "url": 'http://stocktwits.com/Benzinga/message/51852548'
@@ -93,3 +94,11 @@ class StockTwitsCase(TestCase):
         m = Message.objects.get(social_id="51852548")
         self.assertEqual(m.focus, "MSFT")
         self.assertEqual(m.url, "http://stocktwits.com/Benzinga/message/51852548")
+
+    def test_text_is_correct(self):
+        save_message(EXPECTED)
+        message = Message.objects.get(social_id="51852548")
+        document = requests.get(message.url).text
+        import pdb; pdb.set_trace()
+
+        self.assertIn(message, document.content)
