@@ -100,7 +100,7 @@ def json_into_table(message, ticker):
             "content": message['text'],
             "symbols": [],
             "hashtags": [hashtag['text'] for hashtag in message['entities']['hashtags']],
-            "urls": str([url['url'] for url in message['entities']['urls']]),
+            "urls": [url['url'] for url in message['entities']['urls']],
         }
         save_tweets(to_return)
         return to_return
