@@ -37,20 +37,20 @@ def scrape_reddit(ticker, query):
     json_blob = response.json()['data']['children']
     links = []
     for post in json_blob:
-        template = {
-            "social_id": post['data']['id'],
-            "source": "reddit",
-            "focus": ticker,
-            "popularity": post['data']['ups'],
-            "author": post['data']['author'],
-            "author_image": "https://www.redditstatic.com/icon-touch.png",
-            "created_time": post['data']['created_utc'],
-            "content": post['data']['title'],
-            "symbols": [ticker],
-            "urls": [post['data']['url']],
-            "url": "http://www.reddit.com/{}".format(post['data']['permalink'])
-        }
-        if "reddit.com" not in link:
+        if "reddit.com" not in post['data']['permalink']:
+            template = {
+                "social_id": post['data']['id'],
+                "source": "reddit",
+                "focus": ticker,
+                "popularity": post['data']['ups'],
+                "author": post['data']['author'],
+                "author_image": "https://www.redditstatic.com/icon-touch.png",
+                "created_time": post['data']['created_utc'],
+                "content": post['data']['title'],
+                "symbols": [ticker],
+                "urls": [post['data']['url']],
+                "url": "http://www.reddit.com/{}".format(post['data']['permalink'])
+            }
             links.append(template)
     import pdb; pdb.set_trace()
 
