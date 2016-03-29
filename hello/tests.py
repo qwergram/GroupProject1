@@ -1,5 +1,6 @@
 from django.test import TestCase
 from .stocktwits import get_stock_comments, format_into_table, save_message
+from .company_search import get_companies
 from .models import Message
 import requests
 
@@ -59,7 +60,20 @@ EXPECTED = {
     "urls": ['http://www.benzinga.com/general/entrepreneurship/16/03/7765501/what-this-esteemed-venture-capitalist-learned-from-mark-zucke'],
     "url": 'http://stocktwits.com/Benzinga/message/51852548'
 }
+class CompanySearch(TestCase):
 
+    def test_json_loads(self):
+        companies = get_companies()
+        expected = {
+            "Ticker": "MSFT",
+            "Name": "Microsoft Corporation",
+            "Exchange": "NMS",
+            "Country": "USA",
+            "Category Name": "Business Software & Services",
+            "Category Number": 826,
+            "": 0
+        }
+        self.assertEqual(companies['MSFT'], expected)
 
 class StockTwitsCase(TestCase):
 
