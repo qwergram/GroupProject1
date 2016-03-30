@@ -7,6 +7,7 @@ from hello.reddit import (
     scrape_reddit,
     save_reddit_articles
 )
+import json
 
 
 class RedditScraper(TransactionTestCase):
@@ -44,7 +45,7 @@ class RedditScraper(TransactionTestCase):
         self.assertIn(expected, str(links))
 
     def test_reddit_save(self):
-        links = scrape_reddit("AAPL", ticker_to_name(get_companies(), "SUNE"))
+        links = scrape_reddit("AAPL", str(ticker_to_name(get_companies(), "SUNE")))
         expected = {
             'url': 'http://www.reddit.com/r/investing/comments/40wx7b/sunedison_inc_to_distribute_tesla_motors_inc/?ref=search_posts',
             'urls': ['https://www.reddit.com/r/investing/comments/40wx7b/sunedison_inc_to_distribute_tesla_motors_inc/'],
@@ -60,10 +61,9 @@ class RedditScraper(TransactionTestCase):
         }
         save_reddit_articles(links)
         dbobj = Message.objects.get(social_id=expected['social_id'])
-        self.assertEqual(dbobj.url, expected['url'])
-        self.assertEqual(dbobj.urls, str(expected['urls']))
-        self.assertEqual(dbobj.content, expected['content'])
-        self.assertEqual(dbobj.author, expected['author'])
+        self.assertEqual(dbobj.url, str(expected['url']))
+        self.assertEqual(dbobj.content, str(expected['content']))
+        self.assertEqual(dbobj.author, str(expected['author']))
         self.assertEqual(dbobj.focus, 'AAPL')
 
     def test_invalid_ticker_type(self):
@@ -72,7 +72,7 @@ class RedditScraper(TransactionTestCase):
             ticker_to_name(companies, ("ticker", ))
 
     def test_duplicate_companies(self):
-        links = scrape_reddit("AAPL", ticker_to_name(get_companies(), "SUNE"))
+        links = scrape_reddit("AAPL", str(ticker_to_name(get_companies(), "SUNE")))
         save_reddit_articles(links)
         instance1 = Message.objects.all()
         save_reddit_articles(links)
@@ -86,4 +86,4 @@ class RedditScraper(TransactionTestCase):
 
     def test_invalid_query_reddit_scrape(self):
         with self.assertRaises(TypeError):
-            scrape_reddit("ticker", b"query")
+            scrape_reddit("ticker", ("query", ))
