@@ -1,36 +1,6 @@
 # coding=utf-8
-from django.test import TestCase, Client, TransactionTestCase
-
-# from .twitter_api import Client, ClientException, get_twitter_comments, json_into_table
-from hello.models import Message
-# import os
-import requests
+from django.test import TestCase
 import os
-
-# Create your tests here.
-# false = False
-# true = True
-
-# EXPECTED_TWITTER = {
-#     "popularity": 1,
-#     "author_image": "http://pbs.twimg.com/profile_images/696574346597416960/Pcp9o6nP_normal.jpg",
-#     "hashtags": [
-#       "MSFT",
-#       "Machine",
-#       "Learning",
-#       "Technology",
-#       "human",
-#       "intelligence"
-#     ],
-#     "urls": [],
-#     "focus": "MSFT",
-#     "author": "Alexander Felke",
-#     "symbols": [],
-#     "social_id": 3759215603,
-#     "created_time": "Thu Sep 24 10:33:18 +0000 2015",
-#     "content": "#MSFT is beefing up #Machine #Learning: #Technology advances #human #intelligence. I say mid term."
-# }
-
 
 class MovingStocksCase(TestCase):
     def yahoo_data(self):
