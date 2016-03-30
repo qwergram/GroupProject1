@@ -1,14 +1,14 @@
 # coding=utf-8
 from django.test import TestCase, Client, TransactionTestCase
-from .stocktwits import get_stock_comments, format_into_table, save_message
+from hello.stocktwits import get_stock_comments, format_into_table, save_message
 # from .twitter_api import Client, ClientException, get_twitter_comments, json_into_table
-from .reddit import (
+from hello.reddit import (
     get_companies,
     ticker_to_name,
     scrape_reddit,
     save_reddit_articles
 )
-from .models import Message
+from hello.models import Message
 # import os
 import requests
 import datetime
