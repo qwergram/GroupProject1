@@ -1,0 +1,232 @@
+	<div class="original">
+        
+        <table summary="1" class="yom-data col-8 phatable" >
+          <caption></caption>
+          <colgroup><col><col><col><col><col><col><col><col></colgroup>
+          <thead>
+            <tr>
+                <th id="table-1-0-0" class="symbol  txt-color" scope="col"><span>Symbol</span></th>
+                <th id="table-1-0-1" class="name  txt-color" scope="col"><span>Company Name</span></th>
+                <th id="table-1-0-2" class="price  txt-color" scope="col"><span>Price</span></th>
+                <th id="table-1-0-3" class="change  txt-color" scope="col"><span>Change</span></th>
+                <th id="table-1-0-4" class="pct-change  txt-color" scope="col"><span>% Change</span></th>
+                <th id="table-1-0-5" class="time  txt-color" scope="col"><span>Last trade</span></th>
+                <th id="table-1-0-6" class="volume  txt-color" scope="col"><span>Volume</span></th>
+                <th id="table-1-0-7" class="mm-spike-chart  txt-color" scope="col"><span>1-Day</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+                <td class="symbol  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-0 "><a href="/q?s=SUNE" class="finance-add-follow-class Fw-n no-pjax" title="SunEdison, Inc.">SUNE</a></td>
+                <td class="name  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-1 "><a href="/q?s=SUNE" class="Fw-n no-pjax" data-ticker="SUNE" data-name="SunEdison, Inc.">SunEdison, Inc.</a></td>
+                <td class="price  Fw-400 neg-text-color Fw-400 neg-text-color first " headers="table-1-0-2 "><span class="l84" id="yfs_l84_sune">0.57</span></td>
+                <td class="change  Fw-400 neg-text-color Fw-400 neg-text-color ticker_down first " headers="table-1-0-3 "><span class="c63" id="yfs_c63_sune">-0.69</span></td>
+                <td class="pct-change  Fw-400 neg-text-color Fw-400 neg-text-color first align ticker_down" headers="table-1-0-4 "><span class="pp0" id="yfs_pp0_sune">-54.76%</span></td>
+                <td class="time  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-5 "><span class="t10" id="yfs_t10_sune">4:04 PM&nbsp;EDT</span></td>
+                <td class="volume  Fw-400 neg-text-color Fw-400 neg-text-color align" headers="table-1-0-6 "><span class="v53" id="yfs_v53_sune">147,037,800</span></td>
+                <td class="mm-spike-chart  Fw-400 neg-text-color" headers="table-1-0-7 "><a href="/echarts?s=SUNE&amp;t=1d"><img src="http://chart.finance.yahoo.com/instrument/1.0/SUNE/chart;range=1d/image;size=70x15?region=US&amp;lang=en-US&amp;scheme=gsbeta" width="70" height="15" title="SUNE"></a></td>
+            </tr>
+            <tr>
+                <td class="symbol  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-0 "><a href="/q?s=BAC" class="finance-add-follow-class Fw-n no-pjax" title="Bank of America Corporation">BAC</a></td>
+                <td class="name  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-1 "><a href="/q?s=BAC" class="Fw-n no-pjax" data-ticker="BAC" data-name="Bank of America Corporation">Bank of America Corporation</a></td>
+                <td class="price  Fw-400 neg-text-color Fw-400 neg-text-color " headers="table-1-0-2 "><span class="l84" id="yfs_l84_bac">13.42</span></td>
+                <td class="change  Fw-400 neg-text-color Fw-400 neg-text-color ticker_down" headers="table-1-0-3 "><span class="c63" id="yfs_c63_bac">-0.20</span></td>
+                <td class="pct-change  Fw-400 neg-text-color Fw-400 neg-text-color align ticker_down" headers="table-1-0-4 "><span class="pp0" id="yfs_pp0_bac">-1.47%</span></td>
+                <td class="time  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-5 "><span class="t10" id="yfs_t10_bac">4:00 PM&nbsp;EDT</span></td>
+                <td class="volume  Fw-400 neg-text-color Fw-400 neg-text-color align" headers="table-1-0-6 "><span class="v53" id="yfs_v53_bac">101,526,412</span></td>
+                <td class="mm-spike-chart  Fw-400 neg-text-color" headers="table-1-0-7 "><a href="/echarts?s=BAC&amp;t=1d"><img src="http://chart.finance.yahoo.com/instrument/1.0/BAC/chart;range=1d/image;size=70x15?region=US&amp;lang=en-US&amp;scheme=gsbeta" width="70" height="15" title="BAC"></a></td>
+            </tr>
+            <tr>
+                <td class="symbol  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-0 "><a href="/q?s=HOLX" class="finance-add-follow-class Fw-n no-pjax" title="Hologic Inc.">HOLX</a></td>
+                <td class="name  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-1 "><a href="/q?s=HOLX" class="Fw-n no-pjax" data-ticker="HOLX" data-name="Hologic Inc.">Hologic Inc.</a></td>
+                <td class="price  Fw-400 neg-text-color Fw-400 neg-text-color " headers="table-1-0-2 "><span class="l84" id="yfs_l84_holx">34.50</span></td>
+                <td class="change  Fw-400 neg-text-color Fw-400 neg-text-color ticker_down" headers="table-1-0-3 "><span class="c63" id="yfs_c63_holx">-0.07</span></td>
+                <td class="pct-change  Fw-400 neg-text-color Fw-400 neg-text-color align ticker_down" headers="table-1-0-4 "><span class="pp0" id="yfs_pp0_holx">-0.20%</span></td>
+                <td class="time  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-5 "><span class="t10" id="yfs_t10_holx">4:00 PM&nbsp;EDT</span></td>
+                <td class="volume  Fw-400 neg-text-color Fw-400 neg-text-color align" headers="table-1-0-6 "><span class="v53" id="yfs_v53_holx">52,960,883</span></td>
+                <td class="mm-spike-chart  Fw-400 neg-text-color" headers="table-1-0-7 "><a href="/echarts?s=HOLX&amp;t=1d"><img src="http://chart.finance.yahoo.com/instrument/1.0/HOLX/chart;range=1d/image;size=70x15?region=US&amp;lang=en-US&amp;scheme=gsbeta" width="70" height="15" title="HOLX"></a></td>
+            </tr>
+            <tr>
+                <td class="symbol  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-0 "><a href="/q?s=ESV" class="finance-add-follow-class Fw-n no-pjax" title="Ensco plc">ESV</a></td>
+                <td class="name  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-1 "><a href="/q?s=ESV" class="Fw-n no-pjax" data-ticker="ESV" data-name="Ensco plc">Ensco plc</a></td>
+                <td class="price  Fw-400 neg-text-color Fw-400 neg-text-color " headers="table-1-0-2 "><span class="l84" id="yfs_l84_esv">10.30</span></td>
+                <td class="change  Fw-400 neg-text-color Fw-400 neg-text-color ticker_down" headers="table-1-0-3 "><span class="c63" id="yfs_c63_esv">-0.42</span></td>
+                <td class="pct-change  Fw-400 neg-text-color Fw-400 neg-text-color align ticker_down" headers="table-1-0-4 "><span class="pp0" id="yfs_pp0_esv">-3.92%</span></td>
+                <td class="time  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-5 "><span class="t10" id="yfs_t10_esv">4:00 PM&nbsp;EDT</span></td>
+                <td class="volume  Fw-400 neg-text-color Fw-400 neg-text-color align" headers="table-1-0-6 "><span class="v53" id="yfs_v53_esv">51,307,639</span></td>
+                <td class="mm-spike-chart  Fw-400 neg-text-color" headers="table-1-0-7 "><a href="/echarts?s=ESV&amp;t=1d"><img src="http://chart.finance.yahoo.com/instrument/1.0/ESV/chart;range=1d/image;size=70x15?region=US&amp;lang=en-US&amp;scheme=gsbeta" width="70" height="15" title="ESV"></a></td>
+            </tr>
+            <tr>
+                <td class="symbol  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-0 "><a href="/q?s=FCX" class="finance-add-follow-class Fw-n no-pjax" title="Freeport-McMoRan Inc.">FCX</a></td>
+                <td class="name  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-1 "><a href="/q?s=FCX" class="Fw-n no-pjax" data-ticker="FCX" data-name="Freeport-McMoRan Inc.">Freeport-McMoRan Inc.</a></td>
+                <td class="price  Fw-400 neg-text-color Fw-400 neg-text-color " headers="table-1-0-2 "><span class="l84" id="yfs_l84_fcx">10.14</span></td>
+                <td class="change  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-3 "><span class="c63" id="yfs_c63_fcx">0.00</span></td>
+                <td class="pct-change  Fw-400 neg-text-color Fw-400 neg-text-color align" headers="table-1-0-4 "><span class="pp0" id="yfs_pp0_fcx">0.00%</span></td>
+                <td class="time  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-5 "><span class="t10" id="yfs_t10_fcx">4:02 PM&nbsp;EDT</span></td>
+                <td class="volume  Fw-400 neg-text-color Fw-400 neg-text-color align" headers="table-1-0-6 "><span class="v53" id="yfs_v53_fcx">44,196,028</span></td>
+                <td class="mm-spike-chart  Fw-400 neg-text-color" headers="table-1-0-7 "><a href="/echarts?s=FCX&amp;t=1d"><img src="http://chart.finance.yahoo.com/instrument/1.0/FCX/chart;range=1d/image;size=70x15?region=US&amp;lang=en-US&amp;scheme=gsbeta" width="70" height="15" title="FCX"></a></td>
+            </tr>
+            <tr>
+                <td class="symbol  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-0 "><a href="/q?s=CNC" class="finance-add-follow-class Fw-n no-pjax" title="Centene Corp.">CNC</a></td>
+                <td class="name  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-1 "><a href="/q?s=CNC" class="Fw-n no-pjax" data-ticker="CNC" data-name="Centene Corp.">Centene Corp.</a></td>
+                <td class="price  Fw-400 neg-text-color Fw-400 neg-text-color " headers="table-1-0-2 "><span class="l84" id="yfs_l84_cnc">62.60</span></td>
+                <td class="change  Fw-400 neg-text-color Fw-400 neg-text-color ticker_up" headers="table-1-0-3 "><span class="c63" id="yfs_c63_cnc">+0.21</span></td>
+                <td class="pct-change  Fw-400 neg-text-color Fw-400 neg-text-color align ticker_up" headers="table-1-0-4 "><span class="pp0" id="yfs_pp0_cnc">+0.34%</span></td>
+                <td class="time  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-5 "><span class="t10" id="yfs_t10_cnc">4:00 PM&nbsp;EDT</span></td>
+                <td class="volume  Fw-400 neg-text-color Fw-400 neg-text-color align" headers="table-1-0-6 "><span class="v53" id="yfs_v53_cnc">39,208,539</span></td>
+                <td class="mm-spike-chart  Fw-400 neg-text-color" headers="table-1-0-7 "><a href="/echarts?s=CNC&amp;t=1d"><img src="http://chart.finance.yahoo.com/instrument/1.0/CNC/chart;range=1d/image;size=70x15?region=US&amp;lang=en-US&amp;scheme=gsbeta" width="70" height="15" title="CNC"></a></td>
+            </tr>
+            <tr>
+                <td class="symbol  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-0 "><a href="/q?s=GE" class="finance-add-follow-class Fw-n no-pjax" title="General Electric Company">GE</a></td>
+                <td class="name  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-1 "><a href="/q?s=GE" class="Fw-n no-pjax" data-ticker="GE" data-name="General Electric Company">General Electric Company</a></td>
+                <td class="price  Fw-400 neg-text-color Fw-400 neg-text-color " headers="table-1-0-2 "><span class="l84" id="yfs_l84_ge">31.48</span></td>
+                <td class="change  Fw-400 neg-text-color Fw-400 neg-text-color ticker_down" headers="table-1-0-3 "><span class="c63" id="yfs_c63_ge">-0.01</span></td>
+                <td class="pct-change  Fw-400 neg-text-color Fw-400 neg-text-color align ticker_down" headers="table-1-0-4 "><span class="pp0" id="yfs_pp0_ge">-0.03%</span></td>
+                <td class="time  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-5 "><span class="t10" id="yfs_t10_ge">4:00 PM&nbsp;EDT</span></td>
+                <td class="volume  Fw-400 neg-text-color Fw-400 neg-text-color align" headers="table-1-0-6 "><span class="v53" id="yfs_v53_ge">38,548,937</span></td>
+                <td class="mm-spike-chart  Fw-400 neg-text-color" headers="table-1-0-7 "><a href="/echarts?s=GE&amp;t=1d"><img src="http://chart.finance.yahoo.com/instrument/1.0/GE/chart;range=1d/image;size=70x15?region=US&amp;lang=en-US&amp;scheme=gsbeta" width="70" height="15" title="GE"></a></td>
+            </tr>
+            <tr>
+                <td class="symbol  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-0 "><a href="/q?s=CRC" class="finance-add-follow-class Fw-n no-pjax" title="California Resources Corporation">CRC</a></td>
+                <td class="name  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-1 "><a href="/q?s=CRC" class="Fw-n no-pjax" data-ticker="CRC" data-name="California Resources Corporation">California Resources Corporation</a></td>
+                <td class="price  Fw-400 neg-text-color Fw-400 neg-text-color " headers="table-1-0-2 "><span class="l84" id="yfs_l84_crc">1.05</span></td>
+                <td class="change  Fw-400 neg-text-color Fw-400 neg-text-color ticker_down" headers="table-1-0-3 "><span class="c63" id="yfs_c63_crc">-0.12</span></td>
+                <td class="pct-change  Fw-400 neg-text-color Fw-400 neg-text-color align ticker_down" headers="table-1-0-4 "><span class="pp0" id="yfs_pp0_crc">-10.26%</span></td>
+                <td class="time  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-5 "><span class="t10" id="yfs_t10_crc">4:00 PM&nbsp;EDT</span></td>
+                <td class="volume  Fw-400 neg-text-color Fw-400 neg-text-color align" headers="table-1-0-6 "><span class="v53" id="yfs_v53_crc">35,801,398</span></td>
+                <td class="mm-spike-chart  Fw-400 neg-text-color" headers="table-1-0-7 "><a href="/echarts?s=CRC&amp;t=1d"><img src="http://chart.finance.yahoo.com/instrument/1.0/CRC/chart;range=1d/image;size=70x15?region=US&amp;lang=en-US&amp;scheme=gsbeta" width="70" height="15" title="CRC"></a></td>
+            </tr>
+            <tr>
+                <td class="symbol  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-0 "><a href="/q?s=PFE" class="finance-add-follow-class Fw-n no-pjax" title="Pfizer Inc.">PFE</a></td>
+                <td class="name  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-1 "><a href="/q?s=PFE" class="Fw-n no-pjax" data-ticker="PFE" data-name="Pfizer Inc.">Pfizer Inc.</a></td>
+                <td class="price  Fw-400 neg-text-color Fw-400 neg-text-color " headers="table-1-0-2 "><span class="l84" id="yfs_l84_pfe">30.05</span></td>
+                <td class="change  Fw-400 neg-text-color Fw-400 neg-text-color ticker_up" headers="table-1-0-3 "><span class="c63" id="yfs_c63_pfe">+0.27</span></td>
+                <td class="pct-change  Fw-400 neg-text-color Fw-400 neg-text-color align ticker_up" headers="table-1-0-4 "><span class="pp0" id="yfs_pp0_pfe">+0.91%</span></td>
+                <td class="time  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-5 "><span class="t10" id="yfs_t10_pfe">4:03 PM&nbsp;EDT</span></td>
+                <td class="volume  Fw-400 neg-text-color Fw-400 neg-text-color align" headers="table-1-0-6 "><span class="v53" id="yfs_v53_pfe">34,596,186</span></td>
+                <td class="mm-spike-chart  Fw-400 neg-text-color" headers="table-1-0-7 "><a href="/echarts?s=PFE&amp;t=1d"><img src="http://chart.finance.yahoo.com/instrument/1.0/PFE/chart;range=1d/image;size=70x15?region=US&amp;lang=en-US&amp;scheme=gsbeta" width="70" height="15" title="PFE"></a></td>
+            </tr>
+            <tr>
+                <td class="symbol  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-0 "><a href="/q?s=AAPL" class="finance-add-follow-class Fw-n no-pjax" title="Apple Inc.">AAPL</a></td>
+                <td class="name  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-1 "><a href="/q?s=AAPL" class="Fw-n no-pjax" data-ticker="AAPL" data-name="Apple Inc.">Apple Inc.</a></td>
+                <td class="price  Fw-400 neg-text-color Fw-400 neg-text-color " headers="table-1-0-2 "><span class="l84" id="yfs_l84_aapl">107.68</span></td>
+                <td class="change  Fw-400 neg-text-color Fw-400 neg-text-color ticker_up" headers="table-1-0-3 "><span class="c63" id="yfs_c63_aapl">+2.49</span></td>
+                <td class="pct-change  Fw-400 neg-text-color Fw-400 neg-text-color align ticker_up" headers="table-1-0-4 "><span class="pp0" id="yfs_pp0_aapl">+2.37%</span></td>
+                <td class="time  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-5 "><span class="t10" id="yfs_t10_aapl">4:00 PM&nbsp;EDT</span></td>
+                <td class="volume  Fw-400 neg-text-color Fw-400 neg-text-color align" headers="table-1-0-6 "><span class="v53" id="yfs_v53_aapl">31,176,911</span></td>
+                <td class="mm-spike-chart  Fw-400 neg-text-color" headers="table-1-0-7 "><a href="/echarts?s=AAPL&amp;t=1d"><img src="http://chart.finance.yahoo.com/instrument/1.0/AAPL/chart;range=1d/image;size=70x15?region=US&amp;lang=en-US&amp;scheme=gsbeta" width="70" height="15" title="AAPL"></a></td>
+            </tr>
+            <tr>
+                <td class="symbol  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-0 "><a href="/q?s=MU" class="finance-add-follow-class Fw-n no-pjax" title="Micron Technology, Inc.">MU</a></td>
+                <td class="name  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-1 "><a href="/q?s=MU" class="Fw-n no-pjax" data-ticker="MU" data-name="Micron Technology, Inc.">Micron Technology, Inc.</a></td>
+                <td class="price  Fw-400 neg-text-color Fw-400 neg-text-color " headers="table-1-0-2 "><span class="l84" id="yfs_l84_mu">10.45</span></td>
+                <td class="change  Fw-400 neg-text-color Fw-400 neg-text-color ticker_up" headers="table-1-0-3 "><span class="c63" id="yfs_c63_mu">+0.07</span></td>
+                <td class="pct-change  Fw-400 neg-text-color Fw-400 neg-text-color align ticker_up" headers="table-1-0-4 "><span class="pp0" id="yfs_pp0_mu">+0.67%</span></td>
+                <td class="time  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-5 "><span class="t10" id="yfs_t10_mu">4:00 PM&nbsp;EDT</span></td>
+                <td class="volume  Fw-400 neg-text-color Fw-400 neg-text-color align" headers="table-1-0-6 "><span class="v53" id="yfs_v53_mu">30,888,521</span></td>
+                <td class="mm-spike-chart  Fw-400 neg-text-color" headers="table-1-0-7 "><a href="/echarts?s=MU&amp;t=1d"><img src="http://chart.finance.yahoo.com/instrument/1.0/MU/chart;range=1d/image;size=70x15?region=US&amp;lang=en-US&amp;scheme=gsbeta" width="70" height="15" title="MU"></a></td>
+            </tr>
+            <tr>
+                <td class="symbol  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-0 "><a href="/q?s=QQQ" class="finance-add-follow-class Fw-n no-pjax" title="PowerShares QQQ ETF">QQQ</a></td>
+                <td class="name  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-1 "><a href="/q?s=QQQ" class="Fw-n no-pjax" data-ticker="QQQ" data-name="PowerShares QQQ ETF">PowerShares QQQ ETF</a></td>
+                <td class="price  Fw-400 neg-text-color Fw-400 neg-text-color " headers="table-1-0-2 "><span class="l84" id="yfs_l84_qqq">108.83</span></td>
+                <td class="change  Fw-400 neg-text-color Fw-400 neg-text-color ticker_up" headers="table-1-0-3 "><span class="c63" id="yfs_c63_qqq">+1.72</span></td>
+                <td class="pct-change  Fw-400 neg-text-color Fw-400 neg-text-color align ticker_up" headers="table-1-0-4 "><span class="pp0" id="yfs_pp0_qqq">+1.61%</span></td>
+                <td class="time  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-5 "><span class="t10" id="yfs_t10_qqq">4:00 PM&nbsp;EDT</span></td>
+                <td class="volume  Fw-400 neg-text-color Fw-400 neg-text-color align" headers="table-1-0-6 "><span class="v53" id="yfs_v53_qqq">29,949,401</span></td>
+                <td class="mm-spike-chart  Fw-400 neg-text-color" headers="table-1-0-7 "><a href="/echarts?s=QQQ&amp;t=1d"><img src="http://chart.finance.yahoo.com/instrument/1.0/QQQ/chart;range=1d/image;size=70x15?region=US&amp;lang=en-US&amp;scheme=gsbeta" width="70" height="15" title="QQQ"></a></td>
+            </tr>
+            <tr>
+                <td class="symbol  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-0 "><a href="/q?s=FB" class="finance-add-follow-class Fw-n no-pjax" title="Facebook, Inc.">FB</a></td>
+                <td class="name  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-1 "><a href="/q?s=FB" class="Fw-n no-pjax" data-ticker="FB" data-name="Facebook, Inc.">Facebook, Inc.</a></td>
+                <td class="price  Fw-400 neg-text-color Fw-400 neg-text-color " headers="table-1-0-2 "><span class="l84" id="yfs_l84_fb">116.14</span></td>
+                <td class="change  Fw-400 neg-text-color Fw-400 neg-text-color ticker_up" headers="table-1-0-3 "><span class="c63" id="yfs_c63_fb">+2.45</span></td>
+                <td class="pct-change  Fw-400 neg-text-color Fw-400 neg-text-color align ticker_up" headers="table-1-0-4 "><span class="pp0" id="yfs_pp0_fb">+2.15%</span></td>
+                <td class="time  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-5 "><span class="t10" id="yfs_t10_fb">4:00 PM&nbsp;EDT</span></td>
+                <td class="volume  Fw-400 neg-text-color Fw-400 neg-text-color align" headers="table-1-0-6 "><span class="v53" id="yfs_v53_fb">29,812,606</span></td>
+                <td class="mm-spike-chart  Fw-400 neg-text-color" headers="table-1-0-7 "><a href="/echarts?s=FB&amp;t=1d"><img src="http://chart.finance.yahoo.com/instrument/1.0/FB/chart;range=1d/image;size=70x15?region=US&amp;lang=en-US&amp;scheme=gsbeta" width="70" height="15" title="FB"></a></td>
+            </tr>
+            <tr>
+                <td class="symbol  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-0 "><a href="/q?s=CHK" class="finance-add-follow-class Fw-n no-pjax" title="Chesapeake Energy Corporation">CHK</a></td>
+                <td class="name  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-1 "><a href="/q?s=CHK" class="Fw-n no-pjax" data-ticker="CHK" data-name="Chesapeake Energy Corporation">Chesapeake Energy Corporation</a></td>
+                <td class="price  Fw-400 neg-text-color Fw-400 neg-text-color " headers="table-1-0-2 "><span class="l84" id="yfs_l84_chk">4.04</span></td>
+                <td class="change  Fw-400 neg-text-color Fw-400 neg-text-color ticker_down" headers="table-1-0-3 "><span class="c63" id="yfs_c63_chk">-0.11</span></td>
+                <td class="pct-change  Fw-400 neg-text-color Fw-400 neg-text-color align ticker_down" headers="table-1-0-4 "><span class="pp0" id="yfs_pp0_chk">-2.65%</span></td>
+                <td class="time  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-5 "><span class="t10" id="yfs_t10_chk">4:00 PM&nbsp;EDT</span></td>
+                <td class="volume  Fw-400 neg-text-color Fw-400 neg-text-color align" headers="table-1-0-6 "><span class="v53" id="yfs_v53_chk">28,456,020</span></td>
+                <td class="mm-spike-chart  Fw-400 neg-text-color" headers="table-1-0-7 "><a href="/echarts?s=CHK&amp;t=1d"><img src="http://chart.finance.yahoo.com/instrument/1.0/CHK/chart;range=1d/image;size=70x15?region=US&amp;lang=en-US&amp;scheme=gsbeta" width="70" height="15" title="CHK"></a></td>
+            </tr>
+            <tr>
+                <td class="symbol  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-0 "><a href="/q?s=PBR" class="finance-add-follow-class Fw-n no-pjax" title="Petróleo Brasileiro S.A. - Petrobras">PBR</a></td>
+                <td class="name  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-1 "><a href="/q?s=PBR" class="Fw-n no-pjax" data-ticker="PBR" data-name="Petróleo Brasileiro S.A. - Petrobras">Petróleo Brasileiro S.A. - Petrobras</a></td>
+                <td class="price  Fw-400 neg-text-color Fw-400 neg-text-color " headers="table-1-0-2 "><span class="l84" id="yfs_l84_pbr">5.83</span></td>
+                <td class="change  Fw-400 neg-text-color Fw-400 neg-text-color ticker_up" headers="table-1-0-3 "><span class="c63" id="yfs_c63_pbr">+0.04</span></td>
+                <td class="pct-change  Fw-400 neg-text-color Fw-400 neg-text-color align ticker_up" headers="table-1-0-4 "><span class="pp0" id="yfs_pp0_pbr">+0.69%</span></td>
+                <td class="time  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-5 "><span class="t10" id="yfs_t10_pbr">4:01 PM&nbsp;EDT</span></td>
+                <td class="volume  Fw-400 neg-text-color Fw-400 neg-text-color align" headers="table-1-0-6 "><span class="v53" id="yfs_v53_pbr">27,202,507</span></td>
+                <td class="mm-spike-chart  Fw-400 neg-text-color" headers="table-1-0-7 "><a href="/echarts?s=PBR&amp;t=1d"><img src="http://chart.finance.yahoo.com/instrument/1.0/PBR/chart;range=1d/image;size=70x15?region=US&amp;lang=en-US&amp;scheme=gsbeta" width="70" height="15" title="PBR"></a></td>
+            </tr>
+            <tr>
+                <td class="symbol  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-0 "><a href="/q?s=VRX" class="finance-add-follow-class Fw-n no-pjax" title="Valeant Pharmaceuticals International, Inc.">VRX</a></td>
+                <td class="name  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-1 "><a href="/q?s=VRX" class="Fw-n no-pjax" data-ticker="VRX" data-name="Valeant Pharmaceuticals International, Inc.">Valeant Pharmaceuticals International, Inc.</a></td>
+                <td class="price  Fw-400 neg-text-color Fw-400 neg-text-color " headers="table-1-0-2 "><span class="l84" id="yfs_l84_vrx">28.98</span></td>
+                <td class="change  Fw-400 neg-text-color Fw-400 neg-text-color ticker_up" headers="table-1-0-3 "><span class="c63" id="yfs_c63_vrx">+0.12</span></td>
+                <td class="pct-change  Fw-400 neg-text-color Fw-400 neg-text-color align ticker_up" headers="table-1-0-4 "><span class="pp0" id="yfs_pp0_vrx">+0.42%</span></td>
+                <td class="time  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-5 "><span class="t10" id="yfs_t10_vrx">4:01 PM&nbsp;EDT</span></td>
+                <td class="volume  Fw-400 neg-text-color Fw-400 neg-text-color align" headers="table-1-0-6 "><span class="v53" id="yfs_v53_vrx">26,872,253</span></td>
+                <td class="mm-spike-chart  Fw-400 neg-text-color" headers="table-1-0-7 "><a href="/echarts?s=VRX&amp;t=1d"><img src="http://chart.finance.yahoo.com/instrument/1.0/VRX/chart;range=1d/image;size=70x15?region=US&amp;lang=en-US&amp;scheme=gsbeta" width="70" height="15" title="VRX"></a></td>
+            </tr>
+            <tr>
+                <td class="symbol  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-0 "><a href="/q?s=ITUB" class="finance-add-follow-class Fw-n no-pjax" title="Itaú Unibanco Holding S.A.">ITUB</a></td>
+                <td class="name  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-1 "><a href="/q?s=ITUB" class="Fw-n no-pjax" data-ticker="ITUB" data-name="Itaú Unibanco Holding S.A.">Itaú Unibanco Holding S.A.</a></td>
+                <td class="price  Fw-400 neg-text-color Fw-400 neg-text-color " headers="table-1-0-2 "><span class="l84" id="yfs_l84_itub">8.73</span></td>
+                <td class="change  Fw-400 neg-text-color Fw-400 neg-text-color ticker_up" headers="table-1-0-3 "><span class="c63" id="yfs_c63_itub">+0.04</span></td>
+                <td class="pct-change  Fw-400 neg-text-color Fw-400 neg-text-color align ticker_up" headers="table-1-0-4 "><span class="pp0" id="yfs_pp0_itub">+0.46%</span></td>
+                <td class="time  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-5 "><span class="t10" id="yfs_t10_itub">4:00 PM&nbsp;EDT</span></td>
+                <td class="volume  Fw-400 neg-text-color Fw-400 neg-text-color align" headers="table-1-0-6 "><span class="v53" id="yfs_v53_itub">26,874,125</span></td>
+                <td class="mm-spike-chart  Fw-400 neg-text-color" headers="table-1-0-7 "><a href="/echarts?s=ITUB&amp;t=1d"><img src="http://chart.finance.yahoo.com/instrument/1.0/ITUB/chart;range=1d/image;size=70x15?region=US&amp;lang=en-US&amp;scheme=gsbeta" width="70" height="15" title="ITUB"></a></td>
+            </tr>
+            <tr>
+                <td class="symbol  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-0 "><a href="/q?s=F" class="finance-add-follow-class Fw-n no-pjax" title="Ford Motor Co.">F</a></td>
+                <td class="name  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-1 "><a href="/q?s=F" class="Fw-n no-pjax" data-ticker="F" data-name="Ford Motor Co.">Ford Motor Co.</a></td>
+                <td class="price  Fw-400 neg-text-color Fw-400 neg-text-color " headers="table-1-0-2 "><span class="l84" id="yfs_l84_f">13.20</span></td>
+                <td class="change  Fw-400 neg-text-color Fw-400 neg-text-color ticker_up" headers="table-1-0-3 "><span class="c63" id="yfs_c63_f">+0.11</span></td>
+                <td class="pct-change  Fw-400 neg-text-color Fw-400 neg-text-color align ticker_up" headers="table-1-0-4 "><span class="pp0" id="yfs_pp0_f">+0.84%</span></td>
+                <td class="time  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-5 "><span class="t10" id="yfs_t10_f">4:04 PM&nbsp;EDT</span></td>
+                <td class="volume  Fw-400 neg-text-color Fw-400 neg-text-color align" headers="table-1-0-6 "><span class="v53" id="yfs_v53_f">26,062,180</span></td>
+                <td class="mm-spike-chart  Fw-400 neg-text-color" headers="table-1-0-7 "><a href="/echarts?s=F&amp;t=1d"><img src="http://chart.finance.yahoo.com/instrument/1.0/F/chart;range=1d/image;size=70x15?region=US&amp;lang=en-US&amp;scheme=gsbeta" width="70" height="15" title="F"></a></td>
+            </tr>
+            <tr>
+                <td class="symbol  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-0 "><a href="/q?s=T" class="finance-add-follow-class Fw-n no-pjax" title="AT&T, Inc.">T</a></td>
+                <td class="name  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-1 "><a href="/q?s=T" class="Fw-n no-pjax" data-ticker="T" data-name="AT&T, Inc.">AT&T, Inc.</a></td>
+                <td class="price  Fw-400 neg-text-color Fw-400 neg-text-color " headers="table-1-0-2 "><span class="l84" id="yfs_l84_t">39.45</span></td>
+                <td class="change  Fw-400 neg-text-color Fw-400 neg-text-color ticker_up" headers="table-1-0-3 "><span class="c63" id="yfs_c63_t">+0.38</span></td>
+                <td class="pct-change  Fw-400 neg-text-color Fw-400 neg-text-color align ticker_up" headers="table-1-0-4 "><span class="pp0" id="yfs_pp0_t">+0.97%</span></td>
+                <td class="time  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-5 "><span class="t10" id="yfs_t10_t">4:00 PM&nbsp;EDT</span></td>
+                <td class="volume  Fw-400 neg-text-color Fw-400 neg-text-color align" headers="table-1-0-6 "><span class="v53" id="yfs_v53_t">25,892,774</span></td>
+                <td class="mm-spike-chart  Fw-400 neg-text-color" headers="table-1-0-7 "><a href="/echarts?s=T&amp;t=1d"><img src="http://chart.finance.yahoo.com/instrument/1.0/T/chart;range=1d/image;size=70x15?region=US&amp;lang=en-US&amp;scheme=gsbeta" width="70" height="15" title="T"></a></td>
+            </tr>
+            <tr>
+                <td class="symbol  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-0 "><a href="/q?s=KO" class="finance-add-follow-class Fw-n no-pjax" title="The Coca-Cola Company">KO</a></td>
+                <td class="name  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-1 "><a href="/q?s=KO" class="Fw-n no-pjax" data-ticker="KO" data-name="The Coca-Cola Company">The Coca-Cola Company</a></td>
+                <td class="price  Fw-400 neg-text-color Fw-400 neg-text-color " headers="table-1-0-2 "><span class="l84" id="yfs_l84_ko">46.48</span></td>
+                <td class="change  Fw-400 neg-text-color Fw-400 neg-text-color ticker_up" headers="table-1-0-3 "><span class="c63" id="yfs_c63_ko">+0.68</span></td>
+                <td class="pct-change  Fw-400 neg-text-color Fw-400 neg-text-color align ticker_up" headers="table-1-0-4 "><span class="pp0" id="yfs_pp0_ko">+1.48%</span></td>
+                <td class="time  Fw-400 neg-text-color Fw-400 neg-text-color" headers="table-1-0-5 "><span class="t10" id="yfs_t10_ko">4:00 PM&nbsp;EDT</span></td>
+                <td class="volume  Fw-400 neg-text-color Fw-400 neg-text-color align" headers="table-1-0-6 "><span class="v53" id="yfs_v53_ko">25,009,987</span></td>
+                <td class="mm-spike-chart  Fw-400 neg-text-color" headers="table-1-0-7 "><a href="/echarts?s=KO&amp;t=1d"><img src="http://chart.finance.yahoo.com/instrument/1.0/KO/chart;range=1d/image;size=70x15?region=US&amp;lang=en-US&amp;scheme=gsbeta" width="70" height="15" title="KO"></a></td>
+            </tr>
+          </tbody>
+        </table>
+            <div class="load-more">
+		<a class="Bdrs rapid-nf rmp-1">Load 10 more</a>
+	    </div>
+	</div>
+<script>if(!window.yfs_module_params) {
+                    yfs_module_params = {
+                        s : [],
+                        k : ['c63','l84','p43','t53','t10']
+                    };
+                 }
+                 yfs_module_params.s.push('AAPL','BAC','CHK','CNC','CRC','ESV','F','FB','FCX','GE','HOLX','ITUB','KO','MU','PBR','PFE','QQQ','SUNE','T','VRX')</script>
+<!-- fe600.global.media.gq1.yahoo.com uncompressed/chunked Tue Mar 29 23:38:08 UTC 2016 -->
