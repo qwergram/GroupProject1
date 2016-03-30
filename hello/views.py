@@ -54,6 +54,3 @@ def test(request, ticker):
         tweets[index] = message
 
     return JsonResponse(messages + reddit_messages + tweets, safe=False)
-
-
-
