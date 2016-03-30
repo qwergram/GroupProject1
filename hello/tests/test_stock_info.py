@@ -1,18 +1,40 @@
 # coding=utf-8
+from datetime import datetime, timedelta
+
 from django.test import TestCase
-import os
+import json
+import mock
+import requests
+from requests import RequestException
+from hello.tests import load_data
 
 
+# noinspection PyUnresolvedReferences
 class StockInfoCase(TestCase):
-    def yahoo_data(self):
-        with open(os.path.join("hello", "testdata", "yahoo_data.htmlfragment"), 'r', encoding='utf-8') as f:
-            return f.read()
+    def test_yahoo_query(self):
+        from hello.stock_info import _yahoo_query
+        with mock.patch.object(requests, 'get', mock.MagicMock()) as get:
+            get().json.return_value = {1: 1}
+            self.assertEqual(_yahoo_query('asdf'), {1: 1})
+            self.assertEqual(len(get().json.call_args_list), 1)
+        with mock.patch.object(requests, 'get', mock.MagicMock(side_effect=RequestException)):
+            self.assertEqual(_yahoo_query('asdf'), {})
+
+    def test_yahoo_historical_range(self):
+        from hello.stock_info import _yahoo_historical_range
+        import hello.stock_info
+        with mock.patch.object(hello.stock_info, '_yahoo_query') as yq:
+            yq.return_value = {'query': {'results': {'stock': {
+                'start': "2010-01-01",
+                'end': "2010-12-31",
+            }}}}
+            self.assertEqual(_yahoo_historical_range('asdf'), (datetime(2010, 1, 1), datetime(2010, 12, 31)))
 
     def test_yahoo_data(self):
         from hello.stock_info import _yahoo_top_movers, TopMover
         import hello.stock_info
         hello.stock_info._yahoo_cached = None  # ensure cache is cleared
-        data = self.yahoo_data()
+        data = load_data("yahoo_data.htmlfragment")
         movers = _yahoo_top_movers(data)
         self.assertEqual(movers, [
             TopMover("SUNE", "SunEdison, Inc.", 0.57, -0.69, -54.76, 147037800),
@@ -36,5 +58,85 @@ class StockInfoCase(TestCase):
             TopMover("T", "AT&T, Inc.", 39.45, 0.38, 0.97, 25892774),
             TopMover("KO", "The Coca-Cola Company", 46.48, 0.68, 1.48, 25009987),
         ])
-        # make sure it is caching
-        self.assertTrue(_yahoo_top_movers(data) is movers)
+
+    def test_top_movers(self):
+        from hello.stock_info import top_movers, TopMover, _YAHOO_MOVERS_URL
+        import hello.stock_info
+        with mock.patch.object(requests, 'get') as get:
+            with mock.patch.object(hello.stock_info, '_yahoo_top_movers') as ytm:
+                ytm.return_value = [1, 2, 3]
+                self.assertEqual(top_movers(), [1, 2, 3])
+                # assert that calling it again immediately does not hit requests again because it caches
+                top_movers()
+                self.assertEqual(len(get.call_args_list), 1)
+                # test what happens when requests fails
+                hello.stock_info._yahoo_cached = None
+                ytm.side_effect = RequestException
+                self.assertEqual(top_movers(), [])
+
+    def test_day_memory(self):
+        from hello.stock_info import (
+            _latest_remembered_entry, _remember_day, _remembered_historical,
+            _yahoo_historical_range, Day
+        )
+        _remembered_historical.clear()
+        self.assertTrue(_latest_remembered_entry('~~test~~') is None)
+        day1 = Day(datetime(2015, 1, 1), 1, 1, 1, 1, 1, 1)
+        day2 = Day(datetime(2015, 1, 2), 1, 1, 1, 1, 1, 1)
+        _remember_day('~~TEST~~', day1)
+        self.assertTrue(set(_remembered_historical) == {'~~test~~'})
+        self.assertTrue(_latest_remembered_entry('~~test~~') == day1.date)
+        self.assertTrue(_latest_remembered_entry('~~TEST~~') == day1.date)
+        _remember_day('~~TEST~~', day2)
+        self.assertTrue(set(_remembered_historical) == {'~~test~~'})
+        self.assertTrue(_latest_remembered_entry('~~test~~') == day2.date)
+        self.assertTrue(_latest_remembered_entry('~~TEST~~') == day2.date)
+        _remember_day('~~TEST2~~', day1)
+        self.assertTrue(set(_remembered_historical) == {'~~test~~', '~~test2~~'})
+
+    def test_create_day(self):
+        from hello.stock_info import Day
+        self.assertTrue(Day.from_json({}) is None)
+        self.assertTrue(Day.from_json({
+            'Date': "2016-11-05",
+            'Open': 5,
+            'High': 10,
+            'Low': 1,
+            'Close': 4,
+            'Volume': 100,
+            'Adj_Close': 4.5
+        }) == Day(datetime(2016, 11, 5), 5, 10, 1, 4, 100, 4.5))
+
+    def test_break_up_range(self):
+        from hello.stock_info import _MAX_FETCHED_DAYS, _break_up_fetch_range
+        date = datetime(2000, 1, 1)
+        self.assertEqual(
+            list(_break_up_fetch_range(date, date)),
+            [(date, date)]
+        )
+        start = date - timedelta(days=_MAX_FETCHED_DAYS * 1.5 // 1)
+        self.assertEqual(
+            list(_break_up_fetch_range(start, date)),
+            [
+                (start, start + timedelta(days=_MAX_FETCHED_DAYS - 1)),
+                (start + timedelta(days=_MAX_FETCHED_DAYS), date)
+            ]
+        )
+
+    def test_fetch_yahoo_historical(self):
+        from hello.stock_info import _fetch_yahoo_historical
+        import hello.stock_info
+        params = ('asdf', datetime(1, 1, 1), datetime(1, 1, 1))
+        with mock.patch.object(requests, 'get') as get:
+            get().json.return_value = json.loads(load_data("history4.json"))
+            self.assertEqual(len(_fetch_yahoo_historical(params)[1]), 4)
+            get().json.return_value = json.loads(load_data("history1.json"))
+            self.assertEqual(len(_fetch_yahoo_historical(params)[1]), 1)
+            get().json.return_value = json.loads(load_data("history0.json"))
+            self.assertEqual(len(_fetch_yahoo_historical(params)[1]), 0)
+            get().json.return_value = {}
+            self.assertEqual(len(_fetch_yahoo_historical(params)[1]), 0)
+            get().json.return_value = None
+            self.assertEqual(len(_fetch_yahoo_historical(params)[1]), 0)
+            get.side_effect = RequestException
+            self.assertEqual(len(_fetch_yahoo_historical(params)[1]), 0)
