@@ -70,19 +70,23 @@ class Message(models.Model):
     def __str__(self):
         return "{}[${}]: {}".format(self.source, self.focus, self.content)
 
+    @property
+    def html(self):
+        return "<a href=\"{}\">{}</a>".format(self.url, self.__str__())
+
     social_id = models.CharField(max_length=32)
     source = models.CharField(max_length=20, choices=(
         ("twitter", "twitter"),
         ("stocktwits", "stocktwits"),
         ("reddit", "reddit"),
     ))
-    focus = models.CharField(max_length=5)
+    focus = models.CharField(max_length=8)
     popularity = models.IntegerField()
-    author = models.CharField(max_length=16)
-    author_image = models.URLField(max_length=16)
+    author = models.CharField(max_length=255)
+    author_image = models.URLField()
     created_time = models.DateTimeField()
-    content = models.CharField(max_length=120)
-    symbols = models.CharField(max_length=255)
-    urls = models.CharField(max_length=255)
+    content = models.TextField()
+    symbols = models.TextField()
+    urls = models.TextField()
     url = models.URLField()
     hashtags = models.CharField(max_length=255)

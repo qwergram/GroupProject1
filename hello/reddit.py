@@ -59,6 +59,7 @@ def scrape_reddit(ticker, query):
                 "popularity": post['data']['ups'],
                 "author": post['data']['author'],
                 "author_image": "https://www.redditstatic.com/icon-touch.png",
+                "hashtags": [],
                 "created_time":
                     datetime.datetime.utcfromtimestamp(
                         post['data']['created_utc']

@@ -12,7 +12,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="{% static "assets/js/ie/html5shiv.js" %}"></script><![endif]-->
 		<link rel="stylesheet" href="{% static "assets/css/main.css" %}"/>
-		<link rel="stylesheet" href="{% static "assets/css/jquery-ui.css" %}">
+		<!-- <link rel="stylesheet" href="{% static "assets/css/jquery-ui.css" %}"> -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css"/>
 		<link rel="stylesheet" href="{% static "assets/css/ticker.css" %}"/>
 		<!--[if lte IE 9]><link rel="stylesheet" href="{% static "assets/css/ie9.css" %}" /><![endif]-->
 		<!--[if lte IE 8]><link rel="stylesheet" href="{% static "assets/css/ie8.css" %}" /><![endif]-->
@@ -37,7 +38,7 @@
 						<ul>
 							<li><a href="#intro">Welcome</a></li>
 							<li><a href="#one">Big Movers</a></li>
-							<!-- <li><a href="#two">What we do</a></li> -->
+							<li><a href="#two">What we do</a></li>
 							<!-- <li><a href="#three">Get in touch</a></li> -->
 						</ul>
 					</nav>
@@ -47,84 +48,99 @@
 		<!-- Wrapper -->
 			<div id="wrapper">
 
-				<!-- Intro -->
-					<section id="intro" class="wrapper style1 fullscreen fade-up">
+			<!-- Intro -->
+				<section id="intro" class="wrapper style1 fullscreen fade-up">
 
-						<div class="inner">
-							<div class="ui-widget">
-									<label for="tags">Search:</label>
-									<input id="tags">
-                			</div>
+					<div class="inner">
+						<div class="ui-widget">
+								<label for="tags">Search:</label>
+								<input id="tags">
 						</div>
+					</div>
 
+					<div class="inner">
+						<h1>$tockTalk</h1>
+						<p>What is your world up to?</p>
+						<ul class="actions">
+							<li><a href="#one" class="button scrolly">Let's see</a></li>
+						</ul>
+					</div>
 
+				</section>
 
-						<div class="inner">
-							<h1>$tockTalk</h1>
-							<p>What is your world up to?</p>
-							<ul class="actions">
-								<li><a href="#one" class="button scrolly">Let's see</a></li>
-							</ul>
-						</div>
-
-					</section>
-
-				<!-- One -->
-					<section id="one" class="wrapper style2 spotlights">
-						<section>
-							<a href="#" class="image"><img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" /></a>
-							<div class="content">
-								<div class="inner">
-									<h2>$ACAD - $24.73</h2>
-									<p>ACADIA Pharmaceuticals, Inc.</p>
-									<ul class="actions">
-										<li><a href="#" class="button">UP $4.42 (21.76%)</a></li>
-									</ul>
-								</div>
+			<!-- One -->
+				<section id="one" class="wrapper style2 spotlights">
+					<section>
+						<a href="#" class="image"><img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" /></a>
+						<div class="content">
+							<div class="inner">
+								<h2>$ACAD - $24.73</h2>
+								<p>ACADIA Pharmaceuticals, Inc.</p>
+								<ul class="actions">
+									<li><a href="#" class="button">UP $4.42 (21.76%)</a></li>
+								</ul>
 							</div>
-						</section>
-						<!--TODO: Complete this section with actual field names -->
-						<!--{% for ticker in stock_list %}-->
-						<!--<section>-->
-							<!--<a href="{% url 'detail' ticker %}" class="image"><img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" /></a>-->
-							<!--<div class="content">-->
-								<!--<div class="inner">-->
-									<!--<h2>${{ ticker }} - ${{ price }}</h2>-->
-									<!--<p>{{ name }}</p>-->
-									<!--<ul class="actions">-->
-										<!--<li><a href="{% url 'detail' ticker %}" class="button">UP ${{ change_in_dollars }} ({{ change_in_percent }}%)</a></li>-->
-									<!--</ul>-->
-								<!--</div>-->
+						</div>
+					</section>
+					<!--TODO: Complete this section with actual biggest mover field names -->
+					<!--{% for ticker in stock_list %}-->
+					<!--<section>-->
+						<!--<a href="{% url 'detail' ticker %}" class="image"><img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" /></a>-->
+						<!--<div class="content">-->
+							<!--<div class="inner">-->
+								<!--<h2>${{ ticker }} - ${{ price }}</h2>-->
+								<!--<p>{{ name }}</p>-->
+								<!--<ul class="actions">-->
+									<!--<li><a href="{% url 'detail' ticker %}" class="button">UP ${{ change_in_dollars }} ({{ change_in_percent }}%)</a></li>-->
+								<!--</ul>-->
 							<!--</div>-->
-						<!--</section>-->
-						<!-- {% endfor %} -->
-						<section>
-							<a href="#" class="image"><img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" /></a>
-							<div class="content">
-								<div class="inner">
-									<h2>$ABC - $64.78</h2>
-									<p>A company, Inc.</p>
-									<ul class="actions">
-										<li><a href="#" class="button">UP $12.42 (99.99%)</a></li>
-									</ul>
-								</div>
+						<!--</div>-->
+					<!--</section>-->
+					<!-- {% endfor %} -->
+					<section>
+						<a href="#" class="image"><img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" /></a>
+						<div class="content">
+							<div class="inner">
+								<h2>$ABC - $64.78</h2>
+								<p>A company, Inc.</p>
+								<ul class="actions">
+									<li><a href="#" class="button">UP $12.42 (99.99%)</a></li>
+								</ul>
 							</div>
-						</section>
-						<section>
-							<a href="#" class="image"><img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" /></a>
-							<div class="content">
-								<div class="inner">
-									<h2>$DEF - $64.78</h2>
-									<p>A company, Inc.</p>
-									<ul class="actions">
-										<li><a href="#" class="button">UP $12.42 (99.99%)</a></li>
-									</ul>
-								</div>
-							</div>
-						</section>
+						</div>
 					</section>
-
-				<!-- Two -->
+					<section>
+						<a href="#" class="image"><img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" /></a>
+						<div class="content">
+							<div class="inner">
+								<h2>$DEF - $64.78</h2>
+								<p>A company, Inc.</p>
+								<ul class="actions">
+									<li><a href="#" class="button">UP $12.42 (99.99%)</a></li>
+								</ul>
+							</div>
+						</div>
+					</section>
+				</section>
+			<!-- Two -->
+				<br/>
+				<section id="two" class="wrapper style2 spotlights">
+					<div class="five rows">
+						<div class="content" id="who_content">
+							<h1><i>What we do...</i></h1>
+							<h3> Want to know more about your stocks, but tired of searching through myraids of social media sites to get the information you want?
+							</h3><h3>Stock-Talk aims to make your life easier:</h3>
+							<h4>Lets get social:<ul>
+								<li>Twitter</li>
+								<li>StockTweets</li>
+								<li>Reddit</li>
+								<li>Yahoo Finance</li>
+							</ul></h4>
+							<h4> By accessing the Twitter API, Stocktweet API, and Reddit for social media data and the Yahoo Finance data, we provide you with the most up-to-date social media posts and trends regarding your stocks.</h4>
+						</div>
+					</div>
+					<br/>
+				</section>
 			</div>
 
 		<!-- Footer -->
