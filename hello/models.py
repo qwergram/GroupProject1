@@ -80,12 +80,12 @@ class Message(models.Model):
         ("stocktwits", "stocktwits"),
         ("reddit", "reddit"),
     ))
-    focus = models.CharField(max_length=5)
+    focus = models.CharField(max_length=8)
     popularity = models.IntegerField()
-    author = models.CharField(max_length=32)
-    author_image = models.URLField(max_length=128)
+    author = models.CharField(max_length=64)
+    author_image = models.URLField(max_length=255)
     created_time = models.DateTimeField()
-    content = models.CharField(max_length=120)
+    content = models.CharField(max_length=255)
     symbols = models.CharField(max_length=255)
     urls = models.CharField(max_length=255)
     url = models.URLField()
