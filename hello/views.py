@@ -30,14 +30,11 @@ def index(request):
     stock_mover_quotes = {}
     for stock in movers:
         stock_mover_quotes[stock.ticker] = get_current_quote(stock.ticker)
-        # print(stock_mover_quotes[stock.ticker].get("Symbol"))
-
-    # print(stock_mover_quotes)
 
     # XXX messages should be a list of messages of the biggest movers
-    # messages = list(Message.objects.filter(focus=stock))
-    # random.shuffle(messages)
-    messages = "none"
+    messages = list(Message.objects.filter(focus=stock))
+    random.shuffle(messages)
+
     return render(
         request,
         'index.html',

@@ -71,7 +71,7 @@
 				<section id="one" class="wrapper style2 spotlights">
 					{% for stock in stock_list %}
 					<section>
-						<a href="{% url 'detail' stock.Symbol  %}" class="image"><img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" /></a>
+						<a href="{% url 'detail' stock.Symbol %}" class="image"><img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" /></a>
 						<div class="content">
 							<div class="inner">
 								<h2>${{ stock.Symbol | upper }} - ${{ stock.Bid }}</h2>
