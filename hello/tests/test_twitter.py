@@ -1,5 +1,10 @@
 from django.test import TestCase
-from hello.twitter_api import TwitterCli, get_twitter_comments, json_into_table
+from hello.twitter_api import (
+    TwitterCli,
+    get_twitter_comments,
+    json_into_table,
+    save_tweets
+)
 import io
 import json
 from urllib.error import HTTPError
@@ -54,3 +59,8 @@ class TwitterCase(TestCase):
         with self.assertRaises(ValueError):
             so_true = False
             json_into_table(SAMPLE_JSON, so_true)
+
+    def test_saving_tweetdict(self):
+        """Test if dict of tweets are saved."""
+        self.assertTrue(save_tweets(EXPECTED_TWITTER))
+        self.assertFalse(save_tweets(EXPECTED_TWITTER))
