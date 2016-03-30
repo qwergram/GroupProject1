@@ -1,10 +1,7 @@
 from django.test import TestCase
-from hello.twitter_api import TwitterCli, get_twitter_comments, json_into_table, save_tweets
-from hello.models import Message
-import datetime
+from hello.twitter_api import TwitterCli, get_twitter_comments, json_into_table
 import io
 import json
-from urllib.request import urlopen, Request
 from urllib.error import HTTPError
 
 with io.open("hello/tests/example_twit.json") as samplejson:
