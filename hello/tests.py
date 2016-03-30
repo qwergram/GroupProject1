@@ -221,7 +221,7 @@ class StockTwitsCase(TestCase):
         self.assertIn(message.content, document)
 
 
-class MovingStocksCase(TestCase):
+class StockInfoCase(TestCase):
     def yahoo_data(self):
         with open(os.path.join("hello", "testdata", "yahoo_data.htmlfragment"), 'r', encoding='utf-8') as f:
             return f.read()
@@ -256,7 +256,3 @@ class MovingStocksCase(TestCase):
         ])
         # make sure it is caching
         self.assertTrue(_yahoo_top_movers(data) is movers)
-
-
-class HistoricalCase(TestCase):
-    pass

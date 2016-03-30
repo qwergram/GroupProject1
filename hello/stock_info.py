@@ -5,6 +5,7 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import timedelta, datetime
 from bs4 import BeautifulSoup
 from collections import namedtuple
+from json.decoder import JSONDecodeError
 from pylru import lrucache
 import requests
 from requests import RequestException
@@ -16,8 +17,8 @@ _YAHOO_MOVERS_URL = "http://finance.yahoo.com/_remote/?m_id=MediaRemoteInstance&
 _GOOGLE_MOVERS_URL = "https://www.google.com/finance"
 _yahoo_cached = None
 _google_cached = None
+_quotes_cache = lrucache(256)
 CACHE_TIME = timedelta(minutes=5)
-
 
 
 class TopMover(namedtuple('TopMover', "ticker name price change pct_change volume")):
@@ -118,11 +119,14 @@ def _remember_day(ticker, day):
 
 def _yahoo_query(query):
     # print("QUERY", query)
-    return requests.get(_PUBLIC_API_URL, params={'q': query, 'format': 'json', 'env': _DATATABLES_URL}).json()
+    try:
+        return requests.get(_PUBLIC_API_URL, params={'q': query, 'format': 'json', 'env': _DATATABLES_URL}).json()
+    except (RequestException, JSONDecodeError):
+        return {}
 
 
 def _yahoo_historical_range(ticker):
-    query = "SELECT start, end FROM yahoo.finance.stocks WHERE symbol = '{}';".format(ticker)
+    query = "SELECT start, end FROM yahoo.finance.stocks WHERE symbol = '{0}';".format(ticker)
     response = _yahoo_query(query)
     results = response['query']['results']['stock']
     return datetime.strptime(results['start'], _DATE_FORMAT), datetime.strptime(results['end'], _DATE_FORMAT)
@@ -144,7 +148,7 @@ def _fetch_yahoo_historical(params):
     """Fetch historical data from the yahoo api"""
     ticker, start, end = params
     query = (
-        "SELECT * FROM yahoo.finance.historicaldata WHERE symbol = '{}' AND startDate = '{}' AND endDate = '{}'"
+        "SELECT * FROM yahoo.finance.historicaldata WHERE symbol = '{0}' AND startDate = '{1}' AND endDate = '{2}'"
         .format(
             ticker,
             start.strftime(_DATE_FORMAT),
@@ -216,3 +220,113 @@ def get_stock_history(ticker, start_date=None, end_date=None):
     return results
 
 
+def _fetch_current_quote(ticker):
+    """Fetch quote info from yahoo"""
+    try:
+        result = _yahoo_query("SELECT * FROM yahoo.finance.quotes WHERE symbol = '{0}'".format(ticker))
+        quote = result['query']['results']['quote']
+        return quote if quote['Name'] else {}  # nonexistent tickers return None for every value
+    except (KeyError, AttributeError):
+        return {}
+
+
+def get_current_quote(ticker):
+    """
+    Return current stock quote information for the given stock ticker or, if something goes wrong or the ticker does
+    not exist, an empty dict. Cached in memory.
+
+    The return value is a dictionary that most likely has the following exact keys:
+
+    AfterHoursChangeRealtime
+    AnnualizedGain
+    Ask
+    AskRealtime
+    AverageDailyVolume
+    Bid
+    BidRealtime
+    BookValue
+    Change
+    ChangeFromFiftydayMovingAverage
+    ChangeFromTwoHundreddayMovingAverage
+    ChangeFromYearHigh
+    ChangeFromYearLow
+    ChangePercentRealtime
+    ChangeRealtime
+    Change_PercentChange
+    ChangeinPercent
+    Commission
+    Currency
+    DaysHigh
+    DaysLow
+    DaysRange
+    DaysRangeRealtime
+    DaysValueChange
+    DaysValueChangeRealtime
+    DividendPayDate
+    DividendShare
+    DividendYield
+    EBITDA
+    EPSEstimateCurrentYear
+    EPSEstimateNextQuarter
+    EPSEstimateNextYear
+    EarningsShare
+    ErrorIndicationreturnedforsymbolchangedinvalid
+    ExDividendDate
+    FiftydayMovingAverage
+    HighLimit
+    HoldingsGain
+    HoldingsGainPercent
+    HoldingsGainPercentRealtime
+    HoldingsGainRealtime
+    HoldingsValue
+    HoldingsValueRealtime
+    LastTradeDate
+    LastTradePriceOnly
+    LastTradeRealtimeWithTime
+    LastTradeTime
+    LastTradeWithTime
+    LowLimit
+    MarketCapRealtime
+    MarketCapitalization
+    MoreInfo
+    Name
+    Notes
+    OneyrTargetPrice
+    Open
+    OrderBookRealtime
+    PEGRatio
+    PERatio
+    PERatioRealtime
+    PercebtChangeFromYearHigh
+    PercentChange
+    PercentChangeFromFiftydayMovingAverage
+    PercentChangeFromTwoHundreddayMovingAverage
+    PercentChangeFromYearLow
+    PreviousClose
+    PriceBook
+    PriceEPSEstimateCurrentYear
+    PriceEPSEstimateNextYear
+    PricePaid
+    PriceSales
+    SharesOwned
+    ShortRatio
+    StockExchange
+    Symbol
+    symbol
+    TickerTrend
+    TradeDate
+    TwoHundreddayMovingAverage
+    Volume
+    YearHigh
+    YearLow
+    YearRange
+    """
+    ticker = ticker.lower()
+    now = datetime.utcnow()
+    if ticker in _quotes_cache:
+        cached_time, data = _quotes_cache[ticker]
+        if cached_time + CACHE_TIME < now:
+            return data
+    data = _fetch_current_quote(ticker)
+    _quotes_cache[ticker] = now, data
+    return data
