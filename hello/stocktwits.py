@@ -49,13 +49,3 @@ def save_message(message):
         return True
     except IntegrityError:
         return False
-
-
-if __name__ == "__main__":
-    ticker = "MSFT"
-    messages = get_stock_comments(ticker)
-    for index, message in enumerate(messages):
-        message = format_into_table(message, ticker)
-        messages[index] = message
-        # save_message(message)
-    import pdb; pdb.set_trace()
