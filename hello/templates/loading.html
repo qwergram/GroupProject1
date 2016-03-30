@@ -37,4 +37,17 @@
   </div>
 </body>
 <script src="{% static "assets/js/loader.js" %}"></script>
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script>
+$.ajax({
+  type: "GET",
+  url: "{{load_link}}",
+  success: function(data, textStatus) {
+    if (textStatus == "success") {
+      window.location.href = "{{redirect}}"
+    }
+  }
+})
+</script>
 </html>
