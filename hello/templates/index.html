@@ -23,9 +23,8 @@
 		<!-- Marquee -->
 		<section id="ticker">
 			<marquee>
-				|
 				{% for news in streamer %}
-					{{news.source}}[${{news.focus}}]: {{news.content}} |
+					| {{news.source}}[${{news.focus}}]: {{news.content}}
 				{% endfor %}
 			</marquee>
 		</section>

@@ -1,3 +1,4 @@
+# coding=utf-8
 import random
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
@@ -17,7 +18,7 @@ def ajax_load(request):
     return render(request, 'loading.html')
 
 def index(request):
-    '''
+    """
     :: stock_movers ::
     ticker: stock ticker
     name: name of the company
@@ -25,7 +26,7 @@ def index(request):
     change: change in price since open
     pct_change: percent change since open
     volume: volume traded
-    '''
+    """
     # XXX messages should be a list of messages of the biggest movers
     messages = list(Message.objects.filter(focus="MSFT"))
     random.shuffle(messages)
@@ -34,16 +35,6 @@ def index(request):
 
 
 def detail(request, ticker="MSFT"):
-    '''
-    :: stock_data ::
-    date: datetime date of the day
-    open: opening price that day
-    high: high price that day
-    low: low price that day
-    close: closing price that day
-    volume: volume traded that day
-    adj_close: adjusted closing value that day
-    '''
 
     stock_detail = get_current_quote(ticker)
     company = Message.objects.filter(focus=ticker)

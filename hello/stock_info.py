@@ -240,10 +240,10 @@ def get_current_quote(ticker):
 
     AfterHoursChangeRealtime
     AnnualizedGain
-    Ask            [*]
+    Ask
     AskRealtime
     AverageDailyVolume
-    Bid
+    Bid            [*]
     BidRealtime
     BookValue
     Change         [*]

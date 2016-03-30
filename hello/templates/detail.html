@@ -22,9 +22,8 @@
 		<!-- Marquee -->
 		<section id="ticker">
 			<marquee>
-				|
 				{% for news in streamer %}
-					{{news.source}}[${{news.focus}}]: {{news.content}} |
+					| {{news.source}}[${{news.focus}}]: {{news.content}}
 				{% endfor %}
 			</marquee>
 		</section>
@@ -53,7 +52,7 @@
 						<img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" />
 						<div class="content">
 							<div class="inner">
-								<h2>${{ stock.Symbol | upper }} - ${{ stock.Ask }}</h2>
+								<h2>${{ stock.Symbol | upper }} - ${{ stock.Bid }}</h2>
 								<p>{{ stock.Name }}</p>
 								<ul class="actions">
                                     {% if stock.PercentChange == 0 %}
@@ -67,20 +66,6 @@
 							</div>
 						</div>
 					</section>
-				<!-- Sample for render compare -->
-					<!--<section>-->
-						<!--<a href="#" class="image"><img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" /></a>-->
-						<!--<div class="content">-->
-							<!--<div class="inner">-->
-								<!--<h2>$ACAD - $24.73</h2>-->
-								<!--<p>Sample Pharmaceuticals, Inc.</p>-->
-								<!--<ul class="actions">-->
-									<!--<li>UP $4.42 (21.76%)</li>-->
-								<!--</ul>-->
-							<!--</div>-->
-						<!--</div>-->
-					<!--</section>-->
-				<!-- END Sample for render compare -->
 				</section>
 			</div>
 
@@ -111,7 +96,7 @@
 			<script src="{% static "assets/js/util.js" %}"></script>
 			<!--[if lte IE 8]><script src="{% static "assets/js/ie/respond.min.js" %}"></script><![endif]-->
 			<script src="{% static "assets/js/main.js" %}"></script>
-			<script src="{% static "assets/js/search.js" %}"></script><script>
+			<script src="{% static "assets/js/search.js" %}"></script>
 
 	</body>
 </html>
