@@ -44,4 +44,7 @@ class TwitterCase(TestCase):
         """Test acess without proper auth."""
         with self.assertRaises(HTTPError):
             client = TwitterCli("merp", "1333322")
-            client.request()
+            resp = client.request("https://api.twitter.com/1.1/search/tweets.json?q=%23MSFT")
+            return resp
+
+    def 
