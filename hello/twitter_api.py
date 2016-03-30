@@ -5,11 +5,8 @@ import sys
 import datetime
 from hello.models import Message
 from django.db.utils import IntegrityError
-try:
-    from urllib.request import urlopen, Request
-    from urllib.error import HTTPError
-except ImportError:
-    from urllib2 import urlopen, Request, HTTPError
+from urllib.request import urlopen, Request
+from urllib.error import HTTPError
 
 
 API_ENDPOINT = 'https://api.twitter.com'
@@ -115,10 +112,11 @@ def save_tweets(message):
     except IntegrityError:
         return False
 
-if __name__ == "__main__":
-    ticker = "MSFT"
-    messages = get_twitter_comments(ticker)
-    for index, message in enumerate(messages):
-        message = json_into_table(message, ticker)
-        messages[index] = message
-    print(messages)
+# if __name__ == "__main__":
+#     ticker = "MSFT"
+#     messages = get_twitter_comments(ticker)
+#     print(json.dumps(messages, indent=2))
+#     for index, message in enumerate(messages):
+#         message = json_into_table(message, ticker)
+#         messages[index] = message
+#     print(json.dumps(messages, indent=2))
