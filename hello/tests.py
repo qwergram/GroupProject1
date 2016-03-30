@@ -1,5 +1,6 @@
 # coding=utf-8
 from django.test import TestCase, Client
+import hello.stock_info
 from .stocktwits import get_stock_comments, format_into_table, save_message
 # from .twitter_api import Client, ClientException, get_twitter_comments, json_into_table
 from .reddit import (
@@ -226,9 +227,9 @@ class MovingStocksCase(TestCase):
             return f.read()
 
     def test_yahoo_data(self):
-        from hello.moving_stocks import _yahoo_top_movers, TopMover
-        import hello.moving_stocks
-        hello.moving_stocks._yahoo_cached = None  # ensure cache is cleared
+        from hello.stock_info import _yahoo_top_movers, TopMover
+        import hello.stock_info
+        hello.stock_info._yahoo_cached = None  # ensure cache is cleared
         data = self.yahoo_data()
         movers = _yahoo_top_movers(data)
         self.assertEqual(movers, [

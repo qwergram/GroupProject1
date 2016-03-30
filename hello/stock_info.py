@@ -1,24 +1,79 @@
 # coding=utf-8
 from __future__ import unicode_literals, print_function
-
-from collections import namedtuple
 from concurrent.futures import ThreadPoolExecutor
-from datetime import datetime, timedelta
 
+from datetime import timedelta, datetime
+from bs4 import BeautifulSoup
+from collections import namedtuple
 from pylru import lrucache
 import requests
+from requests import RequestException
 from sortedcontainers import SortedDict
 
-
 _PUBLIC_API_URL = "https://query.yahooapis.com/v1/public/yql"
+_YAHOO_MOVERS_URL = "http://finance.yahoo.com/_remote/?m_id=MediaRemoteInstance&instance_id=85ac7b2b-640f-323f-a1c1" \
+                   "-00b2f4865d18&mode=xhr&ctab=tab1&nolz=1&count=20&start=0&category=mostactive&no_tabs=1"
+_GOOGLE_MOVERS_URL = "https://www.google.com/finance"
+_yahoo_cached = None
+_google_cached = None
+CACHE_TIME = timedelta(minutes=5)
+
+
+
+class TopMover(namedtuple('TopMover', "ticker name price change pct_change volume")):
+    pass
+
+
+def _yahoo_top_movers(data):
+    global _yahoo_cached
+    now = datetime.utcnow()
+    if _yahoo_cached and (_yahoo_cached[0] + CACHE_TIME <= now):
+        return _yahoo_cached[1]
+
+    results = []
+    soup = BeautifulSoup(data, 'html5lib')
+    for stock in soup.tbody.findAll('tr'):
+        results.append(TopMover(
+            ticker=stock.find('td', {'class': "symbol"}).a.text,
+            name=stock.find('td', {'class': "name"}).a.text,
+            price=float(stock.find('td', {'class': "price"}).span.text),
+            change=float(stock.find('td', {'class': "change"}).span.text),
+            pct_change=float(stock.find('td', {'class': "pct-change"}).span.text.rstrip("%")),
+            volume=int(stock.find('td', {'class': "volume"}).span.text.replace(",", "")),
+        ))
+    _yahoo_cached = now, results
+    # TODO: prefetch historical data for these stocks
+    return results
+
+
+def _google_top_movers():
+    raise NotImplemented  # TODO this
+
+
+def top_movers():
+    """
+    Return the top movers in the current stock market.
+
+    Each one has the following attributes:
+
+    ticker: stock ticker
+    name: name of the company
+    price: current price
+    change: change in price since open
+    pct_change: percent change since open
+    volume: volume traded
+    """
+    try:
+        return _yahoo_top_movers(requests.get(_YAHOO_MOVERS_URL).text)
+    except RequestException as ex:
+        print("Problem getting yahoo movers data:", ex)
+        return []
+
+
 _DATATABLES_URL = "store://datatables.org/alltableswithkeys"
 _DATE_FORMAT = "%Y-%m-%d"
 _MAX_FETCHED_DAYS = 365
-
-
 _remembered_historical = lrucache(256)
-
-
 _pool = ThreadPoolExecutor(max_workers=5)
 
 
@@ -159,3 +214,5 @@ def get_stock_history(ticker, start_date=None, end_date=None):
         for day in _remembered_historical[ticker].irange(start_date, end_date):
             results.append(day)
     return results
+
+
