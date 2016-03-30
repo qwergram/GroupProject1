@@ -76,7 +76,7 @@
 						<div class="content">
 							<div class="inner">
 								<h2>${{ item.ticker }} - ${{ item.price }}</h2>
-								<p><a href="{% url 'detail' item.ticker %}">{{ item.name }}</a></p>
+								<p><a href="{% url 'load' item.ticker %}">{{ item.name }}</a></p>
 								<ul class="actions">
                                     {% if item.pct_change == 0 %}
                                         <li>${{ item.change }} ({{ item.pct_change }}%)</li>
