@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import TransactionTestCase
 import datetime
 from hello.models import Message
 from hello.reddit import (
@@ -8,7 +8,8 @@ from hello.reddit import (
     save_reddit_articles
 )
 
-class RedditScraper(TestCase):
+
+class RedditScraper(TransactionTestCase):
 
     def test_json_loads(self):
         companies = get_companies()
@@ -64,3 +65,25 @@ class RedditScraper(TestCase):
         self.assertEqual(dbobj.content, expected['content'])
         self.assertEqual(dbobj.author, expected['author'])
         self.assertEqual(dbobj.focus, 'AAPL')
+
+    def test_invalid_ticker_type(self):
+        companies = get_companies()
+        with self.assertRaises(ValueError):
+            ticker_to_name(companies, ("ticker", ))
+
+    def test_duplicate_companies(self):
+        links = scrape_reddit("AAPL", ticker_to_name(get_companies(), "SUNE"))
+        save_reddit_articles(links)
+        instance1 = Message.objects.all()
+        save_reddit_articles(links)
+        instance2 = Message.objects.all()
+        self.assertEqual(instance1[0], instance2[0])
+        self.assertEqual(instance1[1], instance2[1])
+
+    def test_invalid_ticker_reddit_scrape(self):
+        with self.assertRaises(TypeError):
+            scrape_reddit(("ticker", ), "query")
+
+    def test_invalid_query_reddit_scrape(self):
+        with self.assertRaises(TypeError):
+            scrape_reddit("ticker", b"query")

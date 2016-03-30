@@ -1,5 +1,5 @@
 from django.test import TestCase
-import datetime
+import requests
 from hello.models import Message
 from hello.stocktwits import get_stock_comments, format_into_table, save_message
 
@@ -100,3 +100,13 @@ class StockTwitsCase(TestCase):
         message = Message.objects.get(social_id="51852548")
         document = requests.get(message.url).text
         self.assertIn(message.content, document)
+
+    def test_bad_ticker(self):
+        with self.assertRaises(ValueError):
+            format_into_table(EXAMPLE_RESPONSE, ("MSFT", ))
+
+    def test_bad_message(self):
+        BAD_EXAMPLE_RESPONSE = EXAMPLE_RESPONSE.copy()
+        del BAD_EXAMPLE_RESPONSE['id']
+        with self.assertRaises(ValueError):
+            format_into_table(BAD_EXAMPLE_RESPONSE, "MSFT")
