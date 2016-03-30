@@ -144,5 +144,4 @@ TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 NOSE_ARGS = [
     '--with-coverage',
     '--cover-package=hello',
-    '--exclude=hello.admin,hello.models'
 ]
