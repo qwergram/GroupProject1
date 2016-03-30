@@ -16,6 +16,15 @@ from .reddit import (
 
 def index(request):
     # XXX messages should be a list of messages of the biggest movers
+    '''
+    :: stock_movers ::
+    ticker: stock ticker
+    name: name of the company
+    price: current price
+    change: change in price since open
+    pct_change: percent change since open
+    volume: volume traded
+    '''
     messages = list(Message.objects.filter(focus="MSFT"))
     random.shuffle(messages)
     stock_movers = top_movers()
@@ -33,24 +42,16 @@ def detail(request, ticker="AAPL"):
     close: closing price that day
     volume: volume traded that day
     adj_close: adjusted closing value that day
-
-    :: stock_movers ::
-    ticker: stock ticker
-    name: name of the company
-    price: current price
-    change: change in price since open
-    pct_change: percent change since open
-    volume: volume traded
     '''
     stock_data = get_stock_history(ticker)
 
     company = {}
     company["message"] = "here is a message for the ticker" #Message.objects.filter(focus=ticker)
-    company["ticker"] = ticker
-    company["name"] = "Microsoft"
-    company["price"] = stock_movers
-    # company["change_dollars"] = stock_movers["change"]
-    # company["change_percent"] = stock_movers["pct_change"]
+    company["ticker"] = stock_data.ticker
+    company["name"] = stock_data.name
+    company["price"] = stock_data.price
+    company["change_dollars"] = stock_data.change
+    company["change_percent"] = stock_data.pct_change
 
     return render(request, 'detail.html', {"company": company})
 
