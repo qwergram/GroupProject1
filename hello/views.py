@@ -28,7 +28,7 @@ def detail(request, ticker="MSFT"):
     company["name"] = "Microsoft"
     company["price"] = 60.56
     company["change_dollars"] = 3.20
-    company["change_percent"] = 2.5
+    company["change_percent"] = 2.50
 
     return render(request, 'detail.html', {"company": company})
 
