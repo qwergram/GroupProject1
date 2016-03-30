@@ -1,3 +1,4 @@
+# coding=utf-8
 import hello.views
 
 from django.conf.urls import include, url
