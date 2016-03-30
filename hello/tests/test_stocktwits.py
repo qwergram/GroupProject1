@@ -100,3 +100,7 @@ class StockTwitsCase(TestCase):
         message = Message.objects.get(social_id="51852548")
         document = requests.get(message.url).text
         self.assertIn(message.content, document)
+
+    def test_bad_ticker(self):
+        with self.assertRaises(ValueError):
+            formatted = format_into_table(EXAMPLE_RESPONSE, ("MSFT", ))
