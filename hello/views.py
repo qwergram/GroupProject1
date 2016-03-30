@@ -13,6 +13,9 @@ from .reddit import (
 )
 
 
+def ajax_load(request):
+    return render(request, 'loading.html')
+
 def index(request):
     '''
     :: stock_movers ::
