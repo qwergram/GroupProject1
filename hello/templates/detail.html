@@ -53,13 +53,15 @@
 						<img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" />
 						<div class="content">
 							<div class="inner">
-								<h2>${{ company.ticker }} - ${{ company.price }}</h2>
-								<p>{{ company.name }}</p>
+								<h2>${{ stock.Symbol | upper }} - ${{ stock.Ask }}</h2>
+								<p>{{ stock.Name }}</p>
 								<ul class="actions">
-									{% if company.change_percent > 0 %}
-										<li>UP ${{ company.change_dollars }} ({{ company.change_percent }}%)</li>
+                                    {% if stock.PercentChange == 0 %}
+										<li>${{ stock.Change }} ({{ stock.PercentChange }})</li>
+									{% elif stock.PercentChange > 0 %}
+										<li>${{ stock.Change }} ({{ stock.PercentChange }}) &#8679; UP</li>
 									{% else %}
-										<li>DOWN ${{ company.change_dollars }} ({{ company.change_percent }}%)</li>
+										<li>${{ stock.Change }} ({{ stock.PercentChange }}) &#8681; DOWN</li>
 									{% endif %}
 								</ul>
 							</div>
