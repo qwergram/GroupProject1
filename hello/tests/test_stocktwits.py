@@ -104,3 +104,9 @@ class StockTwitsCase(TestCase):
     def test_bad_ticker(self):
         with self.assertRaises(ValueError):
             format_into_table(EXAMPLE_RESPONSE, ("MSFT", ))
+
+    def test_bad_message(self):
+        BAD_EXAMPLE_RESPONSE = EXAMPLE_RESPONSE.copy()
+        del BAD_EXAMPLE_RESPONSE['id']
+        with self.assertRaises(ValueError):
+            format_into_table(BAD_EXAMPLE_RESPONSE, "MSFT")
