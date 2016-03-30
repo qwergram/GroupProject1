@@ -17,6 +17,7 @@ from .reddit import (
 def ajax_load(request):
     return render(request, 'loading.html')
 
+
 def index(request):
     """
     :: stock_movers ::
@@ -35,10 +36,14 @@ def index(request):
 
 
 def detail(request, ticker="MSFT"):
-
     stock_detail = get_current_quote(ticker)
+    messages = Message.objects.filter(focus=ticker)
     company = Company.objects.filter(ticker=ticker)
-    return render(request, 'detail.html', {"company": company, "stock": stock_detail})
+    return render(request, 'detail.html', {"company": company, "stock": stock_detail, "streamer": messages})
+
+
+def load(request, ticker):
+    return render(request, 'loading.html', {"redirect": "/detail/{}/".format(ticker), "load_link": "/check/{}/".format(ticker)})
 
 
 def test(request, ticker):
