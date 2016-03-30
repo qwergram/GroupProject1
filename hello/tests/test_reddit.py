@@ -78,8 +78,12 @@ class RedditScraper(TransactionTestCase):
         save_reddit_articles(links)
         instance2 = Message.objects.all()
         self.assertEqual(instance1[0], instance2[0])
-        self.assertEqual(instance1[-1], instance2[-1])
+        self.assertEqual(instance1[1], instance2[1])
 
     def test_invalid_ticker_reddit_scrape(self):
         with self.assertRaises(TypeError):
             scrape_reddit(("ticker", ), "query")
+
+    def test_invalid_query_reddit_scrape(self):
+        with self.assertRaises(TypeError):
+            scrape_reddit("ticker", b"query")
