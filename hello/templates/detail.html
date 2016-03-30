@@ -56,7 +56,11 @@
 								<h2>${{ company.ticker }} - ${{ company.price }}</h2>
 								<p>{{ company.name }}</p>
 								<ul class="actions">
-									<li>UP ${{ company.change_dollars }} ({{ company.change_percent }}%)</li>
+									{% if company.change_percent > 0 %}
+										<li>UP ${{ company.change_dollars }} ({{ company.change_percent }}%)</li>
+									{% else %}
+										<li>DOWN ${{ company.change_dollars }} ({{ company.change_percent }}%)</li>
+									{% endif %}
 								</ul>
 							</div>
 						</div>
