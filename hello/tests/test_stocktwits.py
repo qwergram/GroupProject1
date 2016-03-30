@@ -1,5 +1,5 @@
 from django.test import TestCase
-import datetime
+import requests
 from hello.models import Message
 from hello.stocktwits import get_stock_comments, format_into_table, save_message
 

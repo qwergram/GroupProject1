@@ -8,6 +8,7 @@ from hello.reddit import (
     save_reddit_articles
 )
 
+
 class RedditScraper(TestCase):
 
     def test_json_loads(self):
