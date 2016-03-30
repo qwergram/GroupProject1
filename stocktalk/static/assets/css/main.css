@@ -47,6 +47,14 @@
 		-webkit-text-size-adjust: none;
 	}
 
+	#who_content {
+		padding: 3%;
+	}
+	#who_content h3 {
+		padding-left: 5%;
+		padding-bottom: 2%;
+	}
+
 /* Box Model */
 
 	*, *:before, *:after {
@@ -3823,7 +3831,7 @@
 				overflow: hidden;
 				padding: 0;
 				text-align: center;
-				top: 0;
+				top: 5%;
 				width: 100%;
 			}
 
