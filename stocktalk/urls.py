@@ -10,7 +10,7 @@ admin.autodiscover()
 # url(r'^blog/', include('blog.urls')),
 
 urlpatterns = [
-    url(r'^$', hello.views.ajax_load, name="load")
+    url(r'^$', hello.views.ajax_load, name="load"),
     url(r'^home/$', hello.views.index, name='index'),
     url(r'^detail/$', hello.views.detail, name='detail'),
     url(r'^detail/(?P<ticker>[a-zA-Z]+)/$', hello.views.detail, name='detail'),
