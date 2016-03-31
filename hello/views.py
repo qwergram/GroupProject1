@@ -1,7 +1,7 @@
 # coding=utf-8
 import random
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponseNotFound, JsonResponse
 from .models import Message, Company
 from .stock_info import get_current_quote, top_movers
 from .stocktwits import get_stock_comments, format_into_table, save_message
@@ -55,31 +55,44 @@ def detail(request, ticker="MSFT"):
     focus = list(Message.objects.filter(focus=ticker.upper()))
     random.shuffle(focus)
     company = Company.objects.filter(ticker=ticker)
-    return render(request, 'detail.html', {"company": company, "stock": stock_detail, "streamer": noise, "focus": focus})
+    return render(request, 'detail.html', {
+        "company": company,
+        "stock": stock_detail,
+        "streamer": noise,
+        "twitter_check": "/check/twitter/{}/".format(ticker),
+        "stocktwit_check": "/check/stocktwit/{}/".format(ticker),
+        "reddit_check": "/check/reddit/{}/".format(ticker),
+    })
 
 
 def load(request, ticker):
     return render(request, 'loading.html', {"redirect": "/detail/{}/".format(ticker), "load_link": "/check/{}/".format(ticker)})
 
 
-def test(request, ticker):
+def test(request, load_type, ticker):
     ticker = ticker.upper()
     messages = get_stock_comments(ticker)
-    for index, message in enumerate(messages):
-        message = format_into_table(message, ticker)
-        messages[index] = message
-        save_message(message)
-    try:
-        companies = get_companies()
-        query = ticker_to_name(companies, ticker)
-        reddit_messages = scrape_reddit(ticker, query)
-        save_reddit_articles(reddit_messages)
-    except KeyError:
-        reddit_messages = []
+    if load_type.lower() == "stocktwit":
+        for index, message in enumerate(messages):
+            message = format_into_table(message, ticker)
+            messages[index] = message
+            save_message(message)
+        return JsonResponse(messages, safe=False)
+    if load_type.lower() == "reddit":
+        try:
+            companies = get_companies()
+            query = ticker_to_name(companies, ticker)
+            reddit_messages = scrape_reddit(ticker, query)
+            save_reddit_articles(reddit_messages)
+        except KeyError:
+            reddit_messages = []
+        return JsonResponse(reddit_messages, safe=False)
+    if load_type.lower() == "twitter":
+        tweets = get_twitter_comments(ticker)
+        for index, message in enumerate(tweets):
+            message = json_into_table(message, ticker)
+            tweets[index] = message
 
-    tweets = get_twitter_comments(ticker)
-    for index, message in enumerate(tweets):
-        message = json_into_table(message, ticker)
-        tweets[index] = message
+        return JsonResponse(tweets, safe=False)
 
-    return JsonResponse(messages + reddit_messages + tweets, safe=False)
+    return HttpResponseNotFound()

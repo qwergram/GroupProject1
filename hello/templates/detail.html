@@ -12,7 +12,6 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="{% static "assets/js/ie/html5shiv.js" %}"></script><![endif]-->
 		<link rel="stylesheet" href="{% static "assets/css/main.css" %}"/>
-		<link rel="stylesheet" href="{% static "assets/css/jquery-ui.css" %}">
 		<link rel="stylesheet" href="{% static "assets/css/ticker.css" %}"/>
 		<!--[if lte IE 9]><link rel="stylesheet" href="{% static "assets/css/ie9.css" %}" /><![endif]-->
 		<!--[if lte IE 8]><link rel="stylesheet" href="{% static "assets/css/ie8.css" %}" /><![endif]-->
@@ -68,8 +67,8 @@
 					</section>
 				</section>
 
-				<section class="wrapper spotlights small" >
-					{% for message in focus %}
+				<section id="messages" class="wrapper spotlights small" >
+					<!-- {% for message in focus %}
 						<section>
 							<div class="content">
 								<div class="inner">
@@ -81,7 +80,7 @@
 								</div>
 							</div>
 						</section>
-					{% endfor %}
+					{% endfor %} -->
 				</section>
 			</div>
 
@@ -113,6 +112,68 @@
 			<!--[if lte IE 8]><script src="{% static "assets/js/ie/respond.min.js" %}"></script><![endif]-->
 			<script src="{% static "assets/js/main.js" %}"></script>
 			<script src="{% static "assets/js/search.js" %}"></script>
+			<script>
+			$.ajax({
+				type: "GET",
+				url: "{{twitter_check}}",
+				success: function(data, textStatus) {
+					if (textStatus == "success") {
+						for (x=0; x<data.length; x++) {
+							to_insert = '<section><div class="content">\
+							<div class="inner">\
+							<img src="'+ data[x].author_image + '" data-position="center center" style="height: 50px; width: 50px; margin-right: 25px; float: left"/>\
+							<a href="' + data[x].url + '"><h2>' + data[x].author + ' ['+ data[x].source + ']</h2></a>\
+							<p>' + data[x].content + '</p>\
+							</div>\
+							</div>\
+							</section>'
+							$('#messages').prepend(to_insert)
+							console.log(data[x])
 
+						}
+					}
+				}
+			})
+			$.ajax({
+				type: "GET",
+				url: "{{stocktwit_check}}",
+				success: function(data, textStatus) {
+					if (textStatus == "success") {
+						for (x=0; x<data.length; x++) {
+							to_insert = '<section><div class="content">\
+							<div class="inner">\
+							<img src="'+ data[x].author_image + '" data-position="center center" style="height: 50px; width: 50px; margin-right: 25px; float: left"/>\
+							<a href="' + data[x].url + '"><h2>' + data[x].author + ' ['+ data[x].source + ']</h2></a>\
+							<p>' + data[x].content + '</p>\
+							</div>\
+							</div>\
+							</section>'
+							$('#messages').prepend(to_insert)
+							console.log(data[x])
+						}
+					}
+				}
+			})
+			$.ajax({
+				type: "GET",
+				url: "{{reddit_check}}",
+				success: function(data, textStatus) {
+					if (textStatus == "success") {
+						for (x=0; x<data.length; x++) {
+							to_insert = '<section><div class="content">\
+							<div class="inner">\
+							<img src="'+ data[x].author_image + '" data-position="center center" style="height: 50px; width: 50px; margin-right: 25px; float: left"/>\
+							<a href="' + data[x].url + '"><h2>' + data[x].author + ' ['+ data[x].source + ']</h2></a>\
+							<p>' + data[x].content + '</p>\
+							</div>\
+							</div>\
+							</section>'
+							$('#messages').prepend(to_insert)
+							console.log(data[x])
+						}
+					}
+				}
+			})
+			</script>
 	</body>
 </html>
