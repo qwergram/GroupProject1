@@ -16,7 +16,7 @@ except ImportError:
 API_ENDPOINT = 'https://api.twitter.com'
 API_VERSION = '1.1'
 REQUEST_TOKEN_URL = '%s/oauth2/token' % API_ENDPOINT
-SEARCH_ENDPOINT = 'https://api.twitter.com/1.1/search/tweets.json?q=%23{}&count=1'
+SEARCH_ENDPOINT = 'https://api.twitter.com/1.1/search/tweets.json?q=%23{}'
 
 key = os.environ.get('CONSUMER_KEY')
 secret = os.environ.get('CONSUMER_SECRET')
