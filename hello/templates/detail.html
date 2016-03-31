@@ -54,12 +54,12 @@
 								<h2>${{ stock.Symbol | upper }} - ${{ stock.Bid }}</h2>
 								<p>{{ stock.Name }}</p>
 								<ul class="actions">
-                                    {% if stock.PercentChange == 0 %}
-										<li>${{ stock.Change }} ({{ stock.PercentChange }})</li>
-									{% elif stock.PercentChange > 0 %}
+                                    {% if "-" in stock.PercentChange %}
+										<li>${{ stock.Change }} ({{ stock.PercentChange }}) &#8681; DOWN</li>
+									{% elif "+" in stock.PercentChange %}
 										<li>${{ stock.Change }} ({{ stock.PercentChange }}) &#8679; UP</li>
 									{% else %}
-										<li>${{ stock.Change }} ({{ stock.PercentChange }}) &#8681; DOWN</li>
+										<li>${{ stock.Change }} ({{ stock.PercentChange }})</li>
 									{% endif %}
 								</ul>
 							</div>

@@ -20,13 +20,13 @@
 	</head>
 	<body>
 		<!-- Marquee -->
-		<section id="ticker">
-			<marquee>
-				{% for news in streamer %}
-					| {{news.source}}[${{news.focus}}]: {{news.content}}
-				{% endfor %}
-			</marquee>
-		</section>
+            <section id="ticker">
+                <marquee>
+                    {% for news in streamer %}
+                        | {{news.source}}[${{news.focus}}]: {{news.content}}
+                    {% endfor %}
+                </marquee>
+            </section>
 
 		<!-- Sidebar -->
 			<section id="sidebar">
@@ -85,12 +85,12 @@
 								<h2>${{ stock.Symbol | upper }} - ${{ stock.Bid }}</h2>
 								<p><a href="{% url 'detail' stock.Symbol %}">{{ stock.Name }}</a></p>
 								<ul class="actions">
-                                    {% if stock.PercentChange == 0 %}
-										<li>${{ stock.Change }} ({{ stock.PercentChange }})</li>
-									{% elif stock.PercentChange > 0 %}
+                                    {% if "-" in stock.PercentChange %}
+										<li>${{ stock.Change }} ({{ stock.PercentChange }}) &#8681; DOWN</li>
+									{% elif "+" in stock.PercentChange %}
 										<li>${{ stock.Change }} ({{ stock.PercentChange }}) &#8679; UP</li>
 									{% else %}
-										<li>${{ stock.Change }} ({{ stock.PercentChange }}) &#8681; DOWN</li>
+										<li>${{ stock.Change }} ({{ stock.PercentChange }})</li>
 									{% endif %}
 								</ul>
 							</div>
@@ -104,19 +104,22 @@
 					<div class="five rows">
 						<div class="content" id="who_content">
 							<h1><i>What we do...</i></h1>
-							<h3> Want to know more about your stocks, but tired of searching through myraids of social media sites to get the information you want?
-							</h3><h3>Stock-Talk aims to make your life easier:</h3>
-							<h4>Lets get social:<ul>
-								<li>Twitter</li>
-								<li>StockTweets</li>
-								<li>Reddit</li>
-								<li>Yahoo Finance</li>
-							</ul></h4>
-							<h4> By accessing the Twitter API, Stocktweet API, and Reddit for social media data and the Yahoo Finance data, we provide you with the most up-to-date social media posts and trends regarding your stocks.</h4>
+							<p>Want to know more about your stocks, but tired of searching through myraids of social media sites to get the information you want?</p>
+                            <p>Stock-Talk aims to make your life easier:</p>
+							<p>Lets get social:
+                                <ul>
+                                    <li>Twitter</li>
+                                    <li>StockTweets</li>
+                                    <li>Reddit</li>
+                                    <li>Yahoo Finance</li>
+                                </ul>
+                            </p>
+							<p>By accessing the Twitter API, Stocktweet API, and Reddit for social media data and the Yahoo Finance data, we provide you with the most up-to-date social media posts and trends regarding your stocks.</p>
 						</div>
 					</div>
-					<br/>
 				</section>
+                <br/>
+
 			</div>
 
 		<!-- Footer -->
@@ -146,7 +149,6 @@
 			<script src="{% static "assets/js/util.js" %}"></script>
 			<!--[if lte IE 8]><script src="{% static "assets/js/ie/respond.min.js" %}"></script><![endif]-->
 			<script src="{% static "assets/js/main.js" %}"></script>
-			<script src="{% static "assets/js/search.js" %}"></script><script>
-
+			<script src="{% static "assets/js/search.js" %}"></script>
 	</body>
 </html>
