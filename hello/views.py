@@ -65,7 +65,7 @@ def load(request, ticker):
 def test(request, load_type, ticker):
     ticker = ticker.upper()
     messages = get_stock_comments(ticker)
-    if load_type.lower() == "stocktwits":
+    if load_type.lower() == "stocktwit":
         for index, message in enumerate(messages):
             message = format_into_table(message, ticker)
             messages[index] = message
@@ -87,3 +87,5 @@ def test(request, load_type, ticker):
             tweets[index] = message
 
         return JsonResponse(tweets, safe=False)
+
+    return JsonResponse({"response": "error"}, safe=False)
