@@ -136,6 +136,7 @@ target/
 
 ### JetBrains template
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio
+/tox.ini
 
 *.iml
 
@@ -188,3 +189,4 @@ include/
 pyvenv.cfg
 lib64
 *.sqlite3
+secrets.sh
