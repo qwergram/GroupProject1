@@ -131,7 +131,7 @@ class StockInfoCase(TestCase):
     def test_fetch_yahoo_historical(self):
         from hello.stock_info import _fetch_yahoo_historical
         import hello.stock_info
-        params = ('asdf', datetime(1, 1, 1), datetime(1, 1, 1))
+        params = ('asdf', datetime(2000, 1, 1), datetime(2000, 1, 1))
         with mock.patch.object(requests, 'get') as get:
             get().json.return_value = json.loads(load_data("history4.json"))
             self.assertEqual(len(_fetch_yahoo_historical(params)[1]), 4)
@@ -215,6 +215,6 @@ class StockInfoCase(TestCase):
             self.assertEqual(len(fcq.call_args_list), 1)
             # change it to an expired version in the cache and ensure a refresh
             fcq.return_value = {2: 2}
-            _quotes_cache['asdf'] = datetime(1, 1, 1), gotten
+            _quotes_cache['asdf'] = datetime(2000, 1, 1), gotten
             self.assertTrue(get_current_quote('asdf') is fcq.return_value)
             self.assertEqual(len(fcq.call_args_list), 2)
