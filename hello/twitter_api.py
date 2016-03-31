@@ -16,7 +16,7 @@ except ImportError:
 API_ENDPOINT = 'https://api.twitter.com'
 API_VERSION = '1.1'
 REQUEST_TOKEN_URL = '%s/oauth2/token' % API_ENDPOINT
-SEARCH_ENDPOINT = 'https://api.twitter.com/1.1/search/tweets.json?q=%23{}'
+SEARCH_ENDPOINT = 'https://api.twitter.com/1.1/search/tweets.json?q=%23{}&count=1'
 
 key = os.environ.get('CONSUMER_KEY')
 secret = os.environ.get('CONSUMER_SECRET')
@@ -103,7 +103,9 @@ def json_into_table(message, ticker):
             "hashtags": [
                 hashtag['text']for hashtag in message['entities']['hashtags']
             ],
-            "urls": [url['url'] for url in message['entities']['urls']],
+            "urls": "https://twitter.com/{}/status/{}".format(
+                message['user']['screen_name'],
+                message['id'])
         }
         save_tweets(to_return)
         return to_return
@@ -118,11 +120,11 @@ def save_tweets(message):
     except IntegrityError:
         return False
 
-# if __name__ == "__main__":
-#     ticker = "MSFT"
-#     messages = get_twitter_comments(ticker)
-#     print(json.dumps(messages, indent=2))
-#     for index, message in enumerate(messages):
-#         message = json_into_table(message, ticker)
-#         messages[index] = message
-#     print(json.dumps(messages, indent=2))
+if __name__ == "__main__":
+    ticker = "MSFT"
+    messages = get_twitter_comments(ticker)
+    print(json.dumps(messages, indent=2))
+    for index, message in enumerate(messages):
+        message = json_into_table(message, ticker)
+        messages[index] = message
+    print(json.dumps(messages, indent=2))
