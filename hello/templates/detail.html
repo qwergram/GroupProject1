@@ -68,7 +68,7 @@
 					</section>
 				</section>
 
-				<section class="wrapper spotlights small" >
+				<section id="messages" class="wrapper spotlights small" >
 					<!-- {% for message in focus %}
 						<section>
 							<div class="content">
@@ -119,7 +119,19 @@
 				url: "{{twitter_check}}",
 				success: function(data, textStatus) {
 					if (textStatus == "success") {
-						alert("{{twitter_check}}")
+						for (x=0; x<data.length; x++) {
+							to_insert = '<section><div class="content">\
+							<div class="inner">\
+							<img src="'+ data[x].author_image + '" data-position="center center" style="height: 50px; width: 50px; margin-right: 25px; float: left"/>\
+							<a href="' + data[x].url + '"><h2>' + data[x].author + ' ['+ data[x].source + ']</h2></a>\
+							<p>' + data[x].content + '</p>\
+							</div>\
+							</div>\
+							</section>'
+							$('#messages').prepend(to_insert)
+							console.log(data[x])
+
+						}
 					}
 				}
 			})
@@ -128,7 +140,18 @@
 				url: "{{stocktwit_check}}",
 				success: function(data, textStatus) {
 					if (textStatus == "success") {
-						alert("{{stocktwit_check}}")
+						for (x=0; x<data.length; x++) {
+							to_insert = '<section><div class="content">\
+							<div class="inner">\
+							<img src="'+ data[x].author_image + '" data-position="center center" style="height: 50px; width: 50px; margin-right: 25px; float: left"/>\
+							<a href="' + data[x].url + '"><h2>' + data[x].author + ' ['+ data[x].source + ']</h2></a>\
+							<p>' + data[x].content + '</p>\
+							</div>\
+							</div>\
+							</section>'
+							$('#messages').prepend(to_insert)
+							console.log(data[x])
+						}
 					}
 				}
 			})
@@ -137,7 +160,18 @@
 				url: "{{reddit_check}}",
 				success: function(data, textStatus) {
 					if (textStatus == "success") {
-						alert("{{reddit_check}}")
+						for (x=0; x<data.length; x++) {
+							to_insert = '<section><div class="content">\
+							<div class="inner">\
+							<img src="'+ data[x].author_image + '" data-position="center center" style="height: 50px; width: 50px; margin-right: 25px; float: left"/>\
+							<a href="' + data[x].url + '"><h2>' + data[x].author + ' ['+ data[x].source + ']</h2></a>\
+							<p>' + data[x].content + '</p>\
+							</div>\
+							</div>\
+							</section>'
+							$('#messages').prepend(to_insert)
+							console.log(data[x])
+						}
 					}
 				}
 			})
