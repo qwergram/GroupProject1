@@ -65,12 +65,17 @@ EXPECTED = {
 
 def get_stock_comments(ticker):
     with mock.patch.object(requests, 'get') as resp:
-        with open("tesdata/msft0.json") as e:
-            resp().json.return_value = e.read()
+        resp = resp()
+        with open("hello/testdata/msft0.json") as e:
+            resp.json.return_value = e.read()
+            if ticker == "MSFT":
+                resp.status_code = 200
+            else:
+                resp.status_code = 404
     if resp.status_code != 200:
         raise ValueError("Stock not found")
-    json = resp.json()
-    return json.get('messages')
+    blob = json.loads(resp.json())
+    return blob.get('messages')
 
 response = get_stock_comments("MSFT")
 
