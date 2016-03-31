@@ -121,11 +121,3 @@ def save_tweets(message):
     except IntegrityError:
         return False
 
-if __name__ == "__main__":
-    ticker = "MSFT"
-    messages = get_twitter_comments(ticker)
-    print(json.dumps(messages, indent=2))
-    for index, message in enumerate(messages):
-        message = json_into_table(message, ticker)
-        messages[index] = message
-    print(json.dumps(messages, indent=2))
