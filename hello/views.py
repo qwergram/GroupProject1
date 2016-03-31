@@ -44,7 +44,7 @@ def index(request):
 
 def detail(request, ticker="MSFT"):
     stock_detail = get_current_quote(ticker)
-    messages = Message.objects.filter(focus=ticker)
+    messages = Message.objects.filter(focus=ticker.upper())
     company = Company.objects.filter(ticker=ticker)
     return render(request, 'detail.html', {"company": company, "stock": stock_detail, "streamer": messages})
 
