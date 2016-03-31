@@ -36,7 +36,6 @@ def index(request):
     messages += list(Message.objects.filter(source="stocktwits"))[:33]
     messages += list(Message.objects.filter(source="reddit"))[:33]
     random.shuffle(messages)
-    focus = Message.objects.filter()
 
     return render(
         request,
@@ -47,9 +46,15 @@ def index(request):
 
 def detail(request, ticker="MSFT"):
     stock_detail = get_current_quote(ticker)
-    messages = Message.objects.filter(focus=ticker.upper())
+
+    noise = list(Message.objects.filter(source="twitter"))[:33]
+    noise += list(Message.objects.filter(source="stocktwits"))[:33]
+    noise += list(Message.objects.filter(source="reddit"))[:33]
+    random.shuffle(noise)
+
+    focus = Message.objects.filter(focus=ticker.upper())
     company = Company.objects.filter(ticker=ticker)
-    return render(request, 'detail.html', {"company": company, "stock": stock_detail, "streamer": messages, "focus": })
+    return render(request, 'detail.html', {"company": company, "stock": stock_detail, "streamer": noise, "focus": focus})
 
 
 def load(request, ticker):
