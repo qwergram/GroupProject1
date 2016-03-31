@@ -7,7 +7,13 @@ from hello.twitter_api import (
 )
 import io
 import json
-from urllib.error import HTTPError
+
+try:
+    from urllib.request import urlopen, Request
+    from urllib.error import HTTPError
+except ImportError:
+    from urllib2 import urlopen, Request, HTTPError
+
 
 with io.open("hello/tests/example_twit.json") as samplejson:
     SAMPLE_JSON = json.loads(samplejson.read())
@@ -37,18 +43,6 @@ EXPECTED_TWITTER = {
 class TwitterCase(TestCase):
     """Test Twitter API."""
 
-    def test_dne_ticker(self):
-        """Test access without auth."""
-        wrong = get_twitter_comments("opwuirehe")
-        self.assertEqual(wrong, [])
-
-    def test_no_access(self):
-        """Test acess without proper auth."""
-        with self.assertRaises(HTTPError):
-            client = TwitterCli("merp", "1333322")
-            resp = client.request("https://api.twitter.com/1.1/search/tweets.json?q=%23MSFT")
-            return resp
-
     def test_json_to_table(self):
         """Test the corrected format from json to db."""
         jsonified = json_into_table(SAMPLE_JSON, "MSFT")
@@ -64,3 +58,15 @@ class TwitterCase(TestCase):
         """Test if dict of tweets are saved."""
         self.assertTrue(save_tweets(EXPECTED_TWITTER))
         self.assertFalse(save_tweets(EXPECTED_TWITTER))
+            
+    def test_dne_ticker(self):
+        """Test access without auth."""
+        with self.assertRaises(HTTPError):
+            get_twitter_comments("opwuirehe")
+
+    def test_no_access(self):
+        """Test acess without proper auth."""
+        with self.assertRaises(HTTPError):
+            client = TwitterCli("merp", "1333322")
+            resp = client.request("https://api.twitter.com/1.1/search/tweets.json?q=%23MSFT")
+            return resp
