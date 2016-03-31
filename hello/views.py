@@ -32,10 +32,11 @@ def index(request):
         stock_mover_quotes[stock.ticker] = get_current_quote(stock.ticker)
 
     # XXX messages should be a list of messages of the biggest movers
-    messages = list(Message.objects.all(source="twitter"))[:33]
-    messages += list(Message.objects.all(source="stocktwits"))[:33]
-    messages += list(Message.objects.all(source="reddit"))[:33]
+    messages = list(Message.objects.filter(source="twitter"))[:33]
+    messages += list(Message.objects.filter(source="stocktwits"))[:33]
+    messages += list(Message.objects.filter(source="reddit"))[:33]
     random.shuffle(messages)
+    focus = Message.objects.filter()
 
     return render(
         request,
@@ -48,7 +49,7 @@ def detail(request, ticker="MSFT"):
     stock_detail = get_current_quote(ticker)
     messages = Message.objects.filter(focus=ticker.upper())
     company = Company.objects.filter(ticker=ticker)
-    return render(request, 'detail.html', {"company": company, "stock": stock_detail, "streamer": messages})
+    return render(request, 'detail.html', {"company": company, "stock": stock_detail, "streamer": messages, "focus": })
 
 
 def load(request, ticker):
