@@ -35,7 +35,9 @@ def index(request):
             k: all_of_quote.get(k, None) for k in ('Symbol', 'Name', 'Bid', 'Change', 'PercentChange')}
 
     # XXX messages should be a list of messages of the biggest movers
-    messages = list(Message.objects.filter(focus=stock))
+    messages = list(Message.objects.filter(source="twitter"))[:33]
+    messages += list(Message.objects.filter(source="stocktwits"))[:33]
+    messages += list(Message.objects.filter(source="reddit"))[:33]
     random.shuffle(messages)
 
     return render(
@@ -47,33 +49,53 @@ def index(request):
 
 def detail(request, ticker="MSFT"):
     stock_detail = get_current_quote(ticker)
-    messages = Message.objects.filter(focus=ticker.upper())
+
+    noise = list(Message.objects.filter(source="twitter"))[:33]
+    noise += list(Message.objects.filter(source="stocktwits"))[:33]
+    noise += list(Message.objects.filter(source="reddit"))[:33]
+    random.shuffle(noise)
+
+    focus = list(Message.objects.filter(focus=ticker.upper()))
+    random.shuffle(focus)
     company = Company.objects.filter(ticker=ticker)
-    return render(request, 'detail.html', {"company": company, "stock": stock_detail, "streamer": messages})
+    return render(request, 'detail.html', {
+        "company": company,
+        "stock": stock_detail,
+        "streamer": noise,
+        "twitter_check": "/check/twitter/{}/".format(ticker),
+        "stocktwit_check": "/check/stocktwit/{}/".format(ticker),
+        "reddit_check": "/check/reddit/{}/".format(ticker),
+    })
 
 
 def load(request, ticker):
     return render(request, 'loading.html', {"redirect": "/detail/{}/".format(ticker), "load_link": "/check/{}/".format(ticker)})
 
 
-def test(request, ticker):
+def test(request, load_type, ticker):
     ticker = ticker.upper()
     messages = get_stock_comments(ticker)
-    for index, message in enumerate(messages):
-        message = format_into_table(message, ticker)
-        messages[index] = message
-        save_message(message)
-    try:
-        companies = get_companies()
-        query = ticker_to_name(companies, ticker)
-        reddit_messages = scrape_reddit(ticker, query)
-        save_reddit_articles(reddit_messages)
-    except KeyError:
-        reddit_messages = []
+    if load_type.lower() == "stocktwit":
+        for index, message in enumerate(messages):
+            message = format_into_table(message, ticker)
+            messages[index] = message
+            save_message(message)
+        return JsonResponse(messages, safe=False)
+    if load_type.lower() == "reddit":
+        try:
+            companies = get_companies()
+            query = ticker_to_name(companies, ticker)
+            reddit_messages = scrape_reddit(ticker, query)
+            save_reddit_articles(reddit_messages)
+        except KeyError:
+            reddit_messages = []
+        return JsonResponse(reddit_messages, safe=False)
+    if load_type.lower() == "twitter":
+        tweets = get_twitter_comments(ticker)
+        for index, message in enumerate(tweets):
+            message = json_into_table(message, ticker)
+            tweets[index] = message
 
-    tweets = get_twitter_comments(ticker)
-    for index, message in enumerate(tweets):
-        message = json_into_table(message, ticker)
-        tweets[index] = message
+        return JsonResponse(tweets, safe=False)
 
-    return JsonResponse(messages + reddit_messages + tweets, safe=False)
+    return JsonResponse({"response": "error"}, safe=False)

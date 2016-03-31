@@ -1,3 +1,4 @@
+# coding=utf-8
 from django.test import TestCase
 # Must call test hello.views.test because there is something in django that
 # uses the same name.
