@@ -55,7 +55,14 @@ def detail(request, ticker="MSFT"):
     focus = list(Message.objects.filter(focus=ticker.upper()))
     random.shuffle(focus)
     company = Company.objects.filter(ticker=ticker)
-    return render(request, 'detail.html', {"company": company, "stock": stock_detail, "streamer": noise, "focus": focus})
+    return render(request, 'detail.html', {
+        "company": company,
+        "stock": stock_detail,
+        "streamer": noise,
+        "twitter_check": "/check/twitter/{}/".format(ticker),
+        "stocktwit_check": "/check/stocktwit/{}/".format(ticker),
+        "reddit_check": "/check/reddit/{}/".format(ticker),
+    })
 
 
 def load(request, ticker):
