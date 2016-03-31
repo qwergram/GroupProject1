@@ -1,5 +1,5 @@
 # coding=utf-8
-from django.test import TestCase
+from django.test import TransactionTestCase
 # Must call test hello.views.test because there is something in django that
 # uses the same name.
 import hello.views
@@ -9,7 +9,7 @@ from hello.views import (
 )
 
 
-class TestViews(TestCase):
+class TestViews(TransactionTestCase):
     # XXX Because we're modifying the code as we speak, I left four basic tests
     # XXX to increase coverage %.
 
@@ -27,5 +27,17 @@ class TestViews(TestCase):
         self.assertTrue(response.status_code == 200)
 
     def test_check_view_response_code(self):
-        response = hello.views.test(None, "MSFT")
+        response = hello.views.test(None, "stocktwit", "MSFT")
         self.assertTrue(response.status_code == 200)
+
+    def test_twitter_response_code(self):
+        response = hello.views.test(None, "twitter", "MSFT")
+        self.assertTrue(response.status_code == 200)
+
+    def test_reddit_response_code(self):
+        response = hello.views.test(None, "reddit", "MSFT")
+        self.assertTrue(response.status_code == 200)
+
+    def test_nonexistent_response_code(self):
+        response = hello.views.test(None, "facebook", "MSFT")
+        self.assertTrue(response.status_code == 404)

@@ -12,7 +12,6 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="{% static "assets/js/ie/html5shiv.js" %}"></script><![endif]-->
 		<link rel="stylesheet" href="{% static "assets/css/main.css" %}"/>
-		<link rel="stylesheet" href="{% static "assets/css/jquery-ui.css" %}">
 		<link rel="stylesheet" href="{% static "assets/css/ticker.css" %}"/>
 		<!--[if lte IE 9]><link rel="stylesheet" href="{% static "assets/css/ie9.css" %}" /><![endif]-->
 		<!--[if lte IE 8]><link rel="stylesheet" href="{% static "assets/css/ie8.css" %}" /><![endif]-->
@@ -55,12 +54,12 @@
 								<h2>${{ stock.Symbol | upper }} - ${{ stock.Bid }}</h2>
 								<p>{{ stock.Name }}</p>
 								<ul class="actions">
-                                    {% if stock.PercentChange == 0 %}
-										<li>${{ stock.Change }} ({{ stock.PercentChange }})</li>
-									{% elif stock.PercentChange > 0 %}
+                                    {% if "-" in stock.PercentChange %}
+										<li>${{ stock.Change }} ({{ stock.PercentChange }}) &#8681; DOWN</li>
+									{% elif "+" in stock.PercentChange %}
 										<li>${{ stock.Change }} ({{ stock.PercentChange }}) &#8679; UP</li>
 									{% else %}
-										<li>${{ stock.Change }} ({{ stock.PercentChange }}) &#8681; DOWN</li>
+										<li>${{ stock.Change }} ({{ stock.PercentChange }})</li>
 									{% endif %}
 								</ul>
 							</div>
