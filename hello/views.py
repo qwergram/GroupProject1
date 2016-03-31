@@ -29,7 +29,10 @@ def index(request):
     # Get latest data
     stock_mover_quotes = {}
     for stock in stock_mover:
-        stock_mover_quotes[stock.ticker] = get_current_quote(stock.ticker)
+        all_of_quote = get_current_quote(stock.ticker)
+        # Get jUut the fields you need from the result
+        stock_mover_quotes[stock.ticker] = {
+            k: all_of_quote.get(k, None) for k in ('Symbol', 'Name', 'Bid', 'Change', 'PercentChange')}
 
     # XXX messages should be a list of messages of the biggest movers
     messages = list(Message.objects.filter(focus=stock))
