@@ -24,11 +24,11 @@ def index(request):
     for those movers for a given index.
     """
     # Get biggest movers
-    movers = top_movers()
+    stock_mover = top_movers()
 
     # Get latest data
     stock_mover_quotes = {}
-    for stock in movers:
+    for stock in stock_mover:
         stock_mover_quotes[stock.ticker] = get_current_quote(stock.ticker)
 
     # XXX messages should be a list of messages of the biggest movers
