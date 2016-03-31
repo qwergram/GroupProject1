@@ -26,5 +26,13 @@ class TestViews(TestCase):
         self.assertTrue(response.status_code == 200)
 
     def test_check_view_response_code(self):
-        response = hello.views.test(None, "MSFT")
+        response = hello.views.test(None, "stocktwit", "MSFT")
+        self.assertTrue(response.status_code == 200)
+
+    def test_twitter_response_code(self):
+        response = hello.views.test(None, "twitter", "MSFT")
+        self.assertTrue(response.status_code == 200)
+
+    def test_reddit_response_code(self):
+        response = hello.views.test(None, "reddit", "MSFT")
         self.assertTrue(response.status_code == 200)
