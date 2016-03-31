@@ -8755,7 +8755,7 @@ $(function() {
         "RPT-PD",
         "Ramco-Gershenson Properties Tru",
         "RQI",
-        "Cohen & Steers Quality Income Realty Fund, Inc.",
+        "Cohen & Steers Quality Income Realty Fund, Inc.",
         "RRC",
         "Range Resources Corporation",
         "RRMS",
@@ -11339,7 +11339,7 @@ $(function() {
         "ARGL",
         "Argyle Security, Inc.",
         "ARGNF",
-        "arGEN-X N.V",
+        "arGEN-X N.V",
         "ARGYF",
         "Avanti Energy Inc.",
         "ARHVF",
@@ -14355,7 +14355,7 @@ $(function() {
         "GRPBF",
         "Grupo Lala, S.A.B. de C.V.",
         "GRPOF",
-        "GrowPros Cannabis Ventures Inc.",
+        "GrowPros Cannabis Ventures Inc.",
         "GRRMF",
         "Gerresheimer AG",
         "GRWTF",
@@ -22099,6 +22099,3 @@ $(function() {
     });
     console.log("search.js loaded");
 });
-
-
-
