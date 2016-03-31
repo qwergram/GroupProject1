@@ -100,10 +100,11 @@ def json_into_table(message, ticker):
                 ).strftime("%Y-%m-%dT%H:%M:%SZ")
             ),
             "symbols": [],
-            "hashtags": [
-                hashtag['text']for hashtag in message['entities']['hashtags']
-            ],
-            "urls": [url['url'] for url in message['entities']['urls']],
+            "hashtags": [hashtag['text']
+                         for hashtag in message['entities']['hashtags']],
+            "urls": "https://www.twitter.com/{}/status/{}".format(
+                message['user']['screen_name'],
+                message['id']),
         }
         save_tweets(to_return)
         return to_return
