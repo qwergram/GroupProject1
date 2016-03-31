@@ -32,7 +32,9 @@ def index(request):
         stock_mover_quotes[stock.ticker] = get_current_quote(stock.ticker)
 
     # XXX messages should be a list of messages of the biggest movers
-    messages = list(Message.objects.filter(focus=stock))
+    messages = list(Message.objects.all(source="twitter"))[:33]
+    messages += list(Message.objects.all(source="stocktwits"))[:33]
+    messages += list(Message.objects.all(source="reddit"))[:33]
     random.shuffle(messages)
 
     return render(
