@@ -22094,11 +22094,8 @@ $(function() {
 
     $("#tags").keyup(function (e) {
         if (e.keyCode == 13) {
-            window.location.href = "/detail/" + this.value
+            window.location.href = "/load/" + this.value
         }
     });
     console.log("search.js loaded");
 });
-
-
-
