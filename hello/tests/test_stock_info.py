@@ -13,11 +13,12 @@ from hello.tests import load_data
 class StockInfoCase(TestCase):
     def test_yahoo_query(self):
         from hello.stock_info import _yahoo_query
-        with mock.patch.object(requests, 'get', mock.MagicMock()) as get:
+        with mock.patch.object(requests, 'get') as get:
             get().json.return_value = {1: 1}
             self.assertEqual(_yahoo_query('asdf'), {1: 1})
             self.assertEqual(len(get().json.call_args_list), 1)
-        with mock.patch.object(requests, 'get', mock.MagicMock(side_effect=RequestException)):
+        with mock.patch.object(requests, 'get') as get:
+            get.side_effect = RequestException
             self.assertEqual(_yahoo_query('asdf'), {})
 
     def test_yahoo_historical_range(self):
@@ -122,6 +123,10 @@ class StockInfoCase(TestCase):
                 (start + timedelta(days=_MAX_FETCHED_DAYS), date)
             ]
         )
+        self.assertEqual(
+            list(_break_up_fetch_range(date, date - timedelta(days=1))),
+            []
+        )
 
     def test_fetch_yahoo_historical(self):
         from hello.stock_info import _fetch_yahoo_historical
@@ -140,3 +145,77 @@ class StockInfoCase(TestCase):
             self.assertEqual(len(_fetch_yahoo_historical(params)[1]), 0)
             get.side_effect = RequestException
             self.assertEqual(len(_fetch_yahoo_historical(params)[1]), 0)
+
+    def test_fetch_stock_history(self):
+        from hello.stock_info import fetch_stock_history, Day, _remembered_historical
+        import hello.stock_info
+        with mock.patch.object(hello.stock_info, '_yahoo_historical_range') as yhr:
+            yhr.return_value = datetime(2010, 1, 1), datetime(2015, 1, 1)
+            with mock.patch.object(hello.stock_info, '_break_up_fetch_range') as bfr:
+                bfr.return_value = [(1, 2), (3, 4)]
+                with mock.patch.object(hello.stock_info, '_fetch_yahoo_historical') as fyh:
+                    day1 = Day(datetime(2010, 1, 1), 1, 1, 1, 1, 1, 1)
+                    day2 = Day(datetime(2010, 1, 2), 1, 1, 1, 1, 1, 1)
+                    # side_effect will yield from an iterable to return
+                    fyh.side_effect = [
+                        ('asdf', [day1, day2, None]),
+                        ('asdf', [])
+                    ]
+                    _remembered_historical.clear()
+                    fetch_stock_history('asdf')
+                    self.assertEqual(
+                        set(_remembered_historical['asdf'].items()),
+                        {
+                            (day1.date, day1),
+                            (day2.date, day2)
+                        }
+                    )
+            yhr.side_effect = RequestException
+            fetch_stock_history('asdf')
+
+    def test_get_stock_history(self):
+        from hello.stock_info import get_stock_history, Day, _remembered_historical, _remember_day
+        import hello.stock_info
+        day1 = Day(datetime(2010, 1, 1), 1, 1, 1, 1, 1, 1)
+        day2 = Day(datetime(2010, 1, 2), 1, 1, 1, 1, 1, 1)
+        _remembered_historical.clear()
+        _remember_day('~~test~~', day1)
+        _remember_day('~~test~~', day2)
+        self.assertEqual(get_stock_history('~~not test~~'), [])
+        self.assertEqual(get_stock_history('~~test~~'), [day1, day2])
+        self.assertEqual(get_stock_history('~~test~~', datetime(2011, 1, 1), datetime(2012, 1, 1)), [])
+        self.assertEqual(get_stock_history('~~test~~', datetime(2000, 1, 1), datetime(2000, 2, 1)), [])
+        self.assertEqual(get_stock_history('~~test~~', datetime(2000, 1, 1), datetime(3000, 1, 1)), [day1, day2])
+
+    def test_fetch_current_quote(self):
+        from hello.stock_info import _fetch_current_quote
+        import hello.stock_info
+        with mock.patch.object(hello.stock_info, '_yahoo_query') as yq:
+            yq.return_value = {'query': {'results': {'quote': {'Name': 'asdf', 'info': 5}}}}
+            self.assertEqual(_fetch_current_quote('asdf'), {'Name': 'asdf', 'info': 5})
+            yq.return_value = {'query': {'results': {'quote': {'Name': None, 'info': 5}}}}
+            self.assertEqual(_fetch_current_quote('asdf'), {})
+            yq.return_value = {}
+            self.assertEqual(_fetch_current_quote('asdf'), {})
+            yq.return_value = None
+            self.assertEqual(_fetch_current_quote('asdf'), {})
+
+    def test_get_current_quote(self):
+        from hello.stock_info import get_current_quote, _quotes_cache
+        import hello.stock_info
+        with mock.patch.object(hello.stock_info, '_fetch_current_quote') as fcq:
+            fcq.return_value = {1: 1}
+            _quotes_cache.clear()
+            gotten = get_current_quote('asdf')
+            self.assertEqual(gotten, {1: 1})
+            self.assertEqual(_quotes_cache['asdf'][1], {1: 1})
+            self.assertEqual(type(_quotes_cache['asdf'][0]), datetime)
+            self.assertTrue(get_current_quote('asdf') is gotten)
+            # should have been called only once because caching
+            self.assertEqual(len(fcq.call_args_list), 1)
+            # change it to an expired version in the cache and ensure a refresh
+            fcq.return_value = {2: 2}
+            _quotes_cache['asdf'] = datetime(1, 1, 1), gotten
+            self.assertTrue(get_current_quote('asdf') is fcq.return_value)
+            self.assertEqual(len(fcq.call_args_list), 2)
+

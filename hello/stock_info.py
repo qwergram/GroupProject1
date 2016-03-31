@@ -54,8 +54,8 @@ def _yahoo_top_movers(data):
     return results
 
 
-def _google_top_movers():
-    raise NotImplemented  # TODO this
+# def _google_top_movers():
+#     raise NotImplemented  # TODO this
 
 
 def top_movers():
@@ -184,7 +184,7 @@ def fetch_stock_history(ticker, most_days=365):  # todo: nonexistent ticker case
     """
     try:
         start, end = _yahoo_historical_range(ticker)
-    except (RequestException, JSONDecodeError):
+    except (RequestException, JSONDecodeError, ValueError):
         return
     start = max(start, end - timedelta(days=most_days - 1))
     most_recent_stored_date = _latest_remembered_entry(ticker)
@@ -225,8 +225,8 @@ def get_stock_history(ticker, start_date=None, end_date=None):
         start_date = end_date - timedelta(days=364)
 
     if ticker in _remembered_historical:
-        for day in _remembered_historical[ticker].irange(start_date, end_date):
-            results.append(day)
+        for day_date in _remembered_historical[ticker].irange(start_date, end_date):
+            results.append(_remembered_historical[ticker][day_date])
     return results
 
 
@@ -236,7 +236,7 @@ def _fetch_current_quote(ticker):
         result = _yahoo_query("SELECT * FROM yahoo.finance.quotes WHERE symbol = '{0}'".format(ticker))
         quote = result['query']['results']['quote']
         return quote if quote['Name'] else {}  # nonexistent tickers return None for every value
-    except (KeyError, AttributeError):
+    except (KeyError, TypeError):
         return {}
 
 
@@ -335,7 +335,7 @@ def get_current_quote(ticker):
     now = datetime.utcnow()
     if ticker in _quotes_cache:
         cached_time, data = _quotes_cache[ticker]
-        if cached_time + CACHE_TIME < now:
+        if cached_time + CACHE_TIME >= now:
             return data
     data = _fetch_current_quote(ticker)
     _quotes_cache[ticker] = now, data
