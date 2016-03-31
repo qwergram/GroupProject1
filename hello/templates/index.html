@@ -69,21 +69,20 @@
 
 			<!-- One -->
 				<section id="one" class="wrapper style2 spotlights">
-					<!--TODO: Complete this section with actual biggest mover field names -->
-					{% for item in stock_list %}
+					{% for stock in stock_list %}
 					<section>
-						<a href="{% url 'detail' item.ticker %}" class="image"><img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" /></a>
+						<a href="{% url 'load' stock.Symbol %}" class="image"><img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" /></a>
 						<div class="content">
 							<div class="inner">
-								<h2>${{ item.ticker }} - ${{ item.price }}</h2>
-								<p><a href="{% url 'detail' item.ticker %}">{{ item.name }}</a></p>
+								<h2>${{ stock.Symbol | upper }} - ${{ stock.Bid }}</h2>
+								<p><a href="{% url 'load' stock.Symbol %}">{{ stock.Name }}</a></p>
 								<ul class="actions">
-                                    {% if item.pct_change == 0 %}
-                                        <li>${{ item.change }} ({{ item.pct_change }}%)</li>
-                                    {% elif item.pct_change > 0 %}
-										<li>${{ item.change }} ({{ item.pct_change }}%) &#8679; UP</li>
+                                    {% if stock.PercentChange == 0 %}
+										<li>${{ stock.Change }} ({{ stock.PercentChange }})</li>
+									{% elif stock.PercentChange > 0 %}
+										<li>${{ stock.Change }} ({{ stock.PercentChange }}) &#8679; UP</li>
 									{% else %}
-										<li>${{ item.change }} ({{ item.pct_change }}%) &#8681; DOWN</li>
+										<li>${{ stock.Change }} ({{ stock.PercentChange }}) &#8681; DOWN</li>
 									{% endif %}
 								</ul>
 							</div>

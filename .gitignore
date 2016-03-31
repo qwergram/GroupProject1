@@ -188,3 +188,4 @@ include/
 pyvenv.cfg
 lib64
 *.sqlite3
+secrets.sh

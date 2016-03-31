@@ -14,28 +14,43 @@ from .reddit import (
 )
 
 
+def ajax_load(request):
+    return render(request, 'loading.html')
+
+
 def index(request):
     """
-    :: stock_movers ::
-    ticker: stock ticker
-    name: name of the company
-    price: current price
-    change: change in price since open
-    pct_change: percent change since open
-    volume: volume traded
+    Requests the biggest movers then looks up the current data
+    for those movers for a given index.
     """
+    # Get biggest movers
+    movers = top_movers()
+
+    # Get latest data
+    stock_mover_quotes = {}
+    for stock in movers:
+        stock_mover_quotes[stock.ticker] = get_current_quote(stock.ticker)
+
     # XXX messages should be a list of messages of the biggest movers
-    messages = list(Message.objects.filter(focus="MSFT"))
+    messages = list(Message.objects.filter(focus=stock))
     random.shuffle(messages)
-    stock_movers = top_movers()
-    return render(request, 'index.html', {"streamer": messages, "stock_list": stock_movers})
+
+    return render(
+        request,
+        'index.html',
+        {"streamer": messages, "stock_list": stock_mover_quotes.values()}
+    )
 
 
 def detail(request, ticker="MSFT"):
-
     stock_detail = get_current_quote(ticker)
-    company = Message.objects.filter(focus=ticker)
-    return render(request, 'detail.html', {"company": company, "stock": stock_detail})
+    messages = Message.objects.filter(focus=ticker.upper())
+    company = Company.objects.filter(ticker=ticker)
+    return render(request, 'detail.html', {"company": company, "stock": stock_detail, "streamer": messages})
+
+
+def load(request, ticker):
+    return render(request, 'loading.html', {"redirect": "/detail/{}/".format(ticker), "load_link": "/check/{}/".format(ticker)})
 
 
 def test(request, ticker):

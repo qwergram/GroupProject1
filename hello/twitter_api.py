@@ -6,8 +6,11 @@ import sys
 import datetime
 from hello.models import Message
 from django.db.utils import IntegrityError
-from urllib.request import urlopen, Request
-from urllib.error import HTTPError
+try:
+    from urllib.request import urlopen, Request
+    from urllib.error import HTTPError
+except ImportError:
+    from urllib2 import urlopen, Request, HTTPError
 
 
 API_ENDPOINT = 'https://api.twitter.com'
@@ -89,19 +92,18 @@ def json_into_table(message, ticker):
             "popularity": message['favorite_count'],
             "author": message['user']['name'],
             "author_image": message['user']['profile_image_url'],
+            "content": message['text'],
             "created_time": (
                 datetime.datetime.strptime(
                     message['user']['created_at'],
-                    "%a %b %d %H:%M:%S %z %Y"
+                    "%a %b %d %H:%M:%S +0000 %Y"
                 ).strftime("%Y-%m-%dT%H:%M:%SZ")
             ),
-            "content": message['text'],
             "symbols": [],
-            "hashtags": [hashtag['text']
-                         for hashtag in message['entities']['hashtags']],
-            "urls": "https://www.twitter.com/{}/status/{}".format(
-                message['user']['screen_name'],
-                message['id']),
+            "hashtags": [
+                hashtag['text']for hashtag in message['entities']['hashtags']
+            ],
+            "urls": [url['url'] for url in message['entities']['urls']],
         }
         save_tweets(to_return)
         return to_return
