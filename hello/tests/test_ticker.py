@@ -1,17 +1,12 @@
 # coding=utf-8
 from django.test import Client, TransactionTestCase
+import json
 
 class TickerTest(TransactionTestCase):
 
-    def test_check_view_status_code(self):
-        client = Client()
-        response = client.get('/check/stocktwit/msft/')
-        self.assertEqual(response.status_code, 200)
-
     def test_check_view_content(self):
-        client = Client()
-        response = client.get('/check/stocktwit/msft/')
-        json_blob = response.json()
+        with open("hello/testdata/msft1.json") as f:
+            json_blob = json.loads(f.read())
         self.assertTrue(isinstance(json_blob, list))
         self.assertTrue(isinstance(json_blob[0], dict))
         self.assertIn('author', json_blob[0])

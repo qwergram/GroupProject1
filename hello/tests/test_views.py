@@ -8,17 +8,16 @@ from hello.views import (
     detail
 )
 
+response = index(None)
 
 class TestViews(TransactionTestCase):
     # XXX Because we're modifying the code as we speak, I left four basic tests
     # XXX to increase coverage %.
 
     def test_default_view_response_code(self):
-        response = index(None)
         self.assertTrue(response.status_code == 200)
 
     def test_default_view_ticker_exists(self):
-        response = index(None)
         self.assertIn("<marquee>", response.content.decode())
         self.assertIn("</marquee>", response.content.decode())
 
