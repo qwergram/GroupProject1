@@ -44,6 +44,14 @@ def save_reddit_articles(messages):
 
 
 def scrape_reddit(ticker, query):
+    try:
+        ticker = str(ticker.decode())
+    except AttributeError:
+        pass
+    try:
+        query = str(query.decode())
+    except AttributeError:
+        pass
     if not isinstance(ticker, str):
         raise TypeError("Ticker Invalid!")
     if not isinstance(query, str):
