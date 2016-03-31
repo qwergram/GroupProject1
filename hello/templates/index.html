@@ -71,11 +71,11 @@
 				<section id="one" class="wrapper style2 spotlights">
 					{% for stock in stock_list %}
 					<section>
-						<a href="{% url 'load' stock.Symbol %}" class="image"><img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" /></a>
+						<a href="{% url 'detail' stock.Symbol %}" class="image"><img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" /></a>
 						<div class="content">
 							<div class="inner">
 								<h2>${{ stock.Symbol | upper }} - ${{ stock.Bid }}</h2>
-								<p><a href="{% url 'load' stock.Symbol %}">{{ stock.Name }}</a></p>
+								<p><a href="{% url 'detail' stock.Symbol %}">{{ stock.Name }}</a></p>
 								<ul class="actions">
                                     {% if stock.PercentChange == 0 %}
 										<li>${{ stock.Change }} ({{ stock.PercentChange }})</li>
