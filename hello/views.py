@@ -52,7 +52,8 @@ def detail(request, ticker="MSFT"):
     noise += list(Message.objects.filter(source="reddit"))[:33]
     random.shuffle(noise)
 
-    focus = Message.objects.filter(focus=ticker.upper())
+    focus = list(Message.objects.filter(focus=ticker.upper()))
+    random.shuffle(focus)
     company = Company.objects.filter(ticker=ticker)
     return render(request, 'detail.html', {"company": company, "stock": stock_detail, "streamer": noise, "focus": focus})
 
