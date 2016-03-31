@@ -69,7 +69,7 @@
 				</section>
 
 				<section class="wrapper spotlights small" >
-					{% for message in focus %}
+					<!-- {% for message in focus %}
 						<section>
 							<div class="content">
 								<div class="inner">
@@ -81,7 +81,7 @@
 								</div>
 							</div>
 						</section>
-					{% endfor %}
+					{% endfor %} -->
 				</section>
 			</div>
 
@@ -113,6 +113,34 @@
 			<!--[if lte IE 8]><script src="{% static "assets/js/ie/respond.min.js" %}"></script><![endif]-->
 			<script src="{% static "assets/js/main.js" %}"></script>
 			<script src="{% static "assets/js/search.js" %}"></script>
-
+			<script>
+			$.ajax({
+				type: "GET",
+				url: "{{twitter_check}}",
+				success: function(data, textStatus) {
+					if (textStatus == "success") {
+						alert("{{twitter_check}}")
+					}
+				}
+			})
+			$.ajax({
+				type: "GET",
+				url: "{{stocktwit_check}}",
+				success: function(data, textStatus) {
+					if (textStatus == "success") {
+						alert("{{stocktwit_check}}")
+					}
+				}
+			})
+			$.ajax({
+				type: "GET",
+				url: "{{reddit_check}}",
+				success: function(data, textStatus) {
+					if (textStatus == "success") {
+						alert("{{reddit_check}}")
+					}
+				}
+			})
+			</script>
 	</body>
 </html>
