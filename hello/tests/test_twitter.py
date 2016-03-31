@@ -54,14 +54,25 @@ class TwitterCase(TestCase):
             so_bad = {'potato': 'fries'}
             json_into_table(SAMPLE_JSON, so_bad)
 
-    def test_saving_tweetdict(self):
-        """Test if dict of tweets are saved."""
-        self.assertTrue(save_tweets(EXPECTED_TWITTER))
+    def test_retrieved_info(self):
+        """Test tweet json content."""
+        resp = get_twitter_comments("MSFT")
+        for item in resp:
+            self.assertNotEqual(item.get('text'), None)
+            self.assertNotEqual(item.get('user'), None)
+            self.assertNotEqual(item.get('created_at'), None)
+            self.assertNotEqual(item.get('entities'), None)
+            self.assertNotEqual(item.get('id'), None)
 
     def test_dne_ticker(self):
         """Test invalid ticker return."""
         wrong = get_twitter_comments("opwuirehe")
         self.assertEqual(wrong, [])
+
+    def test_saving_tweetdict(self):
+        """Test if dict of tweets are saved."""
+        self.assertTrue(save_tweets(EXPECTED_TWITTER))
+        self.assertFalse(save_tweets(EXPECTED_TWITTER))
 
     def test_get_access(self):
         """Test access to Twitter with correct auth."""
