@@ -1,7 +1,14 @@
+# coding=utf-8
 import requests
 from hello.models import Message
 from django.db.utils import IntegrityError
-from html import unescape
+try:
+    from html import unescape
+except ImportError:  # I hate python2
+    from HTMLParser import HTMLParser
+
+    def unescape(*args, **kwargs):
+        return HTMLParser().unescape(*args, **kwargs)
 
 API_ENDPOINT = "https://api.stocktwits.com/api/2/streams/symbol/{}.json"
 
@@ -49,13 +56,3 @@ def save_message(message):
         return True
     except IntegrityError:
         return False
-
-
-if __name__ == "__main__":
-    ticker = "MSFT"
-    messages = get_stock_comments(ticker)
-    for index, message in enumerate(messages):
-        message = format_into_table(message, ticker)
-        messages[index] = message
-        # save_message(message)
-    import pdb; pdb.set_trace()

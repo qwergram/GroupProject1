@@ -45,6 +45,7 @@ nosetests.xml
 coverage.xml
 *,cover
 .hypothesis/
+/man/
 
 # Translations
 *.mo
@@ -187,3 +188,4 @@ include/
 pyvenv.cfg
 lib64
 *.sqlite3
+secrets.sh

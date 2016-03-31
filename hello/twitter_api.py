@@ -1,3 +1,4 @@
+# coding=utf-8
 import os
 import base64
 import json
@@ -91,15 +92,17 @@ def json_into_table(message, ticker):
             "popularity": message['favorite_count'],
             "author": message['user']['name'],
             "author_image": message['user']['profile_image_url'],
+            "content": message['text'],
             "created_time": (
                 datetime.datetime.strptime(
                     message['user']['created_at'],
-                    "%a %b %d %H:%M:%S %z %Y"
+                    "%a %b %d %H:%M:%S +0000 %Y"
                 ).strftime("%Y-%m-%dT%H:%M:%SZ")
             ),
-            "content": message['text'],
             "symbols": [],
-            "hashtags": [hashtag['text'] for hashtag in message['entities']['hashtags']],
+            "hashtags": [
+                hashtag['text']for hashtag in message['entities']['hashtags']
+            ],
             "urls": [url['url'] for url in message['entities']['urls']],
         }
         save_tweets(to_return)
@@ -115,10 +118,11 @@ def save_tweets(message):
     except IntegrityError:
         return False
 
-if __name__ == "__main__":
-    ticker = "MSFT"
-    messages = get_twitter_comments(ticker)
-    for index, message in enumerate(messages):
-        message = json_into_table(message, ticker)
-        messages[index] = message
-    print(messages)
+# if __name__ == "__main__":
+#     ticker = "MSFT"
+#     messages = get_twitter_comments(ticker)
+#     print(json.dumps(messages, indent=2))
+#     for index, message in enumerate(messages):
+#         message = json_into_table(message, ticker)
+#         messages[index] = message
+#     print(json.dumps(messages, indent=2))

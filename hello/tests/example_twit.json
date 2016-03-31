@@ -1,0 +1,136 @@
+{
+    "favorited": false,
+    "truncated": false,
+    "is_quote_status": false,
+    "in_reply_to_status_id": null,
+    "in_reply_to_user_id": null,
+    "in_reply_to_user_id_str": null,
+    "place": null,
+    "user": {
+      "followers_count": 182,
+      "default_profile_image": false,
+      "location": "Kansas City",
+      "statuses_count": 1738,
+      "entities": {
+        "url": {
+          "urls": [
+            {
+              "url": "http://t.co/3vvA5euNhS",
+              "indices": [
+                0,
+                22
+              ],
+              "expanded_url": "http://about.me/duanenewman",
+              "display_url": "about.me/duanenewman"
+            }
+          ]
+        },
+        "description": {
+          "urls": []
+        }
+      },
+      "profile_background_color": "1A1B1F",
+      "friends_count": 138,
+      "url": "http://t.co/3vvA5euNhS",
+      "verified": false,
+      "protected": false,
+      "id": 19734130,
+      "time_zone": "Central Time (US & Canada)",
+      "listed_count": 43,
+      "is_translator": false,
+      "profile_sidebar_fill_color": "252429",
+      "profile_background_image_url": "http://abs.twimg.com/images/themes/theme9/bg.gif",
+      "is_translation_enabled": false,
+      "favourites_count": 110,
+      "default_profile": false,
+      "utc_offset": -18000,
+      "profile_image_url": "http://pbs.twimg.com/profile_images/558825363619344386/gUN09sSf_normal.jpeg",
+      "follow_request_sent": null,
+      "following": null,
+      "profile_text_color": "666666",
+      "description": "Entrepreneur, Developer, Speaker, Photographer, Christian, Husband, and Windows Phone User.",
+      "name": "Duane Newman",
+      "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme9/bg.gif",
+      "has_extended_profile": false,
+      "profile_use_background_image": false,
+      "profile_sidebar_border_color": "FFFFFF",
+      "screen_name": "duanenewman",
+      "profile_link_color": "854807",
+      "profile_image_url_https": "https://pbs.twimg.com/profile_images/558825363619344386/gUN09sSf_normal.jpeg",
+      "id_str": "19734130",
+      "contributors_enabled": false,
+      "geo_enabled": true,
+      "notifications": null,
+      "profile_background_tile": false,
+      "created_at": "Thu Jan 29 21:01:24 +0000 2009",
+      "lang": "en",
+      "profile_banner_url": "https://pbs.twimg.com/profile_banners/19734130/1402693864"
+    },
+    "geo": null,
+    "coordinates": null,
+    "id": 715241582597812224,
+    "in_reply_to_status_id_str": null,
+    "metadata": {
+      "iso_language_code": "en",
+      "result_type": "recent"
+    },
+    "text": "Hey #MSFT, I thought #Build2016 was a developer conference. Where's the #mountaindew? #bldwin #BeverageFail #HadToDrinkPepsi",
+    "retweet_count": 0,
+    "favorite_count": 0,
+    "retweeted": false,
+    "contributors": null,
+    "in_reply_to_screen_name": null,
+    "source": "<a href=\"http://www.twitter.com\" rel=\"nofollow\">Twitter for Windows</a>",
+    "id_str": "715241582597812224",
+    "entities": {
+      "symbols": [],
+      "hashtags": [
+        {
+          "indices": [
+            4,
+            9
+          ],
+          "text": "MSFT"
+        },
+        {
+          "indices": [
+            21,
+            31
+          ],
+          "text": "Build2016"
+        },
+        {
+          "indices": [
+            72,
+            84
+          ],
+          "text": "mountaindew"
+        },
+        {
+          "indices": [
+            86,
+            93
+          ],
+          "text": "bldwin"
+        },
+        {
+          "indices": [
+            94,
+            107
+          ],
+          "text": "BeverageFail"
+        },
+        {
+          "indices": [
+            108,
+            124
+          ],
+          "text": "HadToDrinkPepsi"
+        }
+      ],
+      "urls": [],
+      "user_mentions": []
+    },
+    "created_at": "Wed Mar 30 18:17:36 +0000 2016",
+    "lang": "en"
+}

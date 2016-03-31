@@ -1,3 +1,4 @@
+# coding=utf-8
 import hello.views
 
 from django.conf.urls import include, url
@@ -14,5 +15,6 @@ urlpatterns = [
     url(r'^detail/$', hello.views.detail, name='detail'),
     url(r'^detail/(?P<ticker>[a-zA-Z]+)/$', hello.views.detail, name='detail'),
     url(r'^check/(?P<ticker>[a-zA-Z]+)/$', hello.views.test),
+    url(r'^load/(?P<ticker>[a-zA-Z]+)/$', hello.views.load, name="load"),
     url(r'^admin/', include(admin.site.urls)),
 ]

@@ -23,9 +23,8 @@
 		<!-- Marquee -->
 		<section id="ticker">
 			<marquee>
-				|
 				{% for news in streamer %}
-					{{news.source}}[${{news.focus}}]: {{news.content}} |
+					| {{news.source}}[${{news.focus}}]: {{news.content}}
 				{% endfor %}
 			</marquee>
 		</section>
@@ -70,58 +69,26 @@
 
 			<!-- One -->
 				<section id="one" class="wrapper style2 spotlights">
+					{% for stock in stock_list %}
 					<section>
-						<a href="#" class="image"><img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" /></a>
+						<a href="{% url 'load' stock.Symbol %}" class="image"><img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" /></a>
 						<div class="content">
 							<div class="inner">
-								<h2>$ACAD - $24.73</h2>
-								<p>ACADIA Pharmaceuticals, Inc.</p>
+								<h2>${{ stock.Symbol | upper }} - ${{ stock.Bid }}</h2>
+								<p><a href="{% url 'load' stock.Symbol %}">{{ stock.Name }}</a></p>
 								<ul class="actions">
-									<li><a href="#" class="button">UP $4.42 (21.76%)</a></li>
+                                    {% if stock.PercentChange == 0 %}
+										<li>${{ stock.Change }} ({{ stock.PercentChange }})</li>
+									{% elif stock.PercentChange > 0 %}
+										<li>${{ stock.Change }} ({{ stock.PercentChange }}) &#8679; UP</li>
+									{% else %}
+										<li>${{ stock.Change }} ({{ stock.PercentChange }}) &#8681; DOWN</li>
+									{% endif %}
 								</ul>
 							</div>
 						</div>
 					</section>
-					<!--TODO: Complete this section with actual biggest mover field names -->
-					<!--{% for ticker in stock_list %}-->
-					<!--<section>-->
-						<!--<a href="{% url 'detail' ticker %}" class="image"><img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" /></a>-->
-						<!--<div class="content">-->
-							<!--<div class="inner">-->
-								<!--<h2>${{ ticker }} - ${{ price }}</h2>-->
-								<!--<p>{{ name }}</p>-->
-								<!--<ul class="actions">-->
-									<!--<li><a href="{% url 'detail' ticker %}" class="button">UP ${{ change_in_dollars }} ({{ change_in_percent }}%)</a></li>-->
-								<!--</ul>-->
-							<!--</div>-->
-						<!--</div>-->
-					<!--</section>-->
-					<!-- {% endfor %} -->
-					<section>
-						<a href="#" class="image"><img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" /></a>
-						<div class="content">
-							<div class="inner">
-								<h2>$ABC - $64.78</h2>
-								<p>A company, Inc.</p>
-								<ul class="actions">
-									<li><a href="#" class="button">UP $12.42 (99.99%)</a></li>
-								</ul>
-							</div>
-						</div>
-					</section>
-					<section>
-						<a href="#" class="image"><img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" /></a>
-						<div class="content">
-							<div class="inner">
-								<h2>$DEF - $64.78</h2>
-								<p>A company, Inc.</p>
-								<ul class="actions">
-									<li><a href="#" class="button">UP $12.42 (99.99%)</a></li>
-								</ul>
-							</div>
-						</div>
-					</section>
-				</section>
+					{% endfor %}
 			<!-- Two -->
 				<br/>
 				<section id="two" class="wrapper style2 spotlights">
