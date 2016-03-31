@@ -1,3 +1,4 @@
+# coding=utf-8
 from django.test import TransactionTestCase
 # Must call test hello.views.test because there is something in django that
 # uses the same name.
