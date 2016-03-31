@@ -124,4 +124,3 @@ def save_tweets(message):
         return True
     except IntegrityError:
         return False
-
