@@ -1,7 +1,12 @@
 import requests
 from bs4 import BeautifulSoup
+try:
+    from urllib.parse import urlparse
+except ImportError:
+    from urllib2 import urlparse
 
 YAHOO_ENDPOINT = "http://finance.yahoo.com/q/pr?s={}"
+CLEARBIT_ENDPOINT = "https://logo.clearbit.com/{}?format=png&size=512"
 
 def get_endpoint(ticker):
     return YAHOO_ENDPOINT.format(ticker).lower()
@@ -24,8 +29,22 @@ def handle_response(response):
             if "yahoo" not in link:
                 pool.append(link)
 
-if __name__ == "__main__":
+
+def get_domain(url):
+    return urlparse(url).netloc
+
+
+def get_logo(domain):
+    return CLEARBIT_ENDPOINT.format(domain)
+
+
+def main(ticker):
     target = get_endpoint("MSFT")
     response = get_response(target)
-    soup = handle_response(response)
-    import pdb; pdb.set_trace()
+    url = handle_response(response)
+    domain = get_domain(url)
+    return get_logo(domain)
+
+
+if __name__ == "__main__":
+    main("MSFT")
