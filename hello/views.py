@@ -1,5 +1,6 @@
 # coding=utf-8
 import random
+import json
 from django.shortcuts import render
 from django.http import HttpResponseNotFound, JsonResponse
 from .models import Message, Company
@@ -12,6 +13,10 @@ from .reddit import (
     save_reddit_articles,
     scrape_reddit
 )
+
+
+with open("hello/raw_data/company_to_ticker.json", 'r', encoding='utf-8') as f:
+    stock_ticker_lookup = json.load(f)
 
 
 def ajax_load(request):
@@ -48,6 +53,9 @@ def index(request):
 
 
 def detail(request, ticker="MSFT"):
+    if ticker.lower() in stock_ticker_lookup:
+        ticker = stock_ticker_lookup[ticker.lower()]
+
     stock_detail = get_current_quote(ticker)
 
     noise = list(Message.objects.filter(source="twitter"))[:33]
