@@ -218,4 +218,3 @@ class StockInfoCase(TestCase):
             _quotes_cache['asdf'] = datetime(1, 1, 1), gotten
             self.assertTrue(get_current_quote('asdf') is fcq.return_value)
             self.assertEqual(len(fcq.call_args_list), 2)
-
