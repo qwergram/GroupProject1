@@ -3027,6 +3027,10 @@
 		min-height: 22.5em;
 	}
 
+	.spotlights.small > section{
+		min-height: 0em;
+	}
+
 		body.is-ie .spotlights > section {
 			min-height: 0;
 		}

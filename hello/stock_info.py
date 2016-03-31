@@ -246,16 +246,17 @@ def get_current_quote(ticker):
     not exist, an empty dict. Cached in memory.
 
     The return value is a dictionary that most likely has the following exact keys:
+    [*] = using this value in detail
 
     AfterHoursChangeRealtime
     AnnualizedGain
     Ask
     AskRealtime
     AverageDailyVolume
-    Bid
+    Bid            [*]
     BidRealtime
     BookValue
-    Change
+    Change         [*]
     ChangeFromFiftydayMovingAverage
     ChangeFromTwoHundreddayMovingAverage
     ChangeFromYearHigh
@@ -299,7 +300,7 @@ def get_current_quote(ticker):
     MarketCapRealtime
     MarketCapitalization
     MoreInfo
-    Name
+    Name            [*]
     Notes
     OneyrTargetPrice
     Open
@@ -308,7 +309,7 @@ def get_current_quote(ticker):
     PERatio
     PERatioRealtime
     PercebtChangeFromYearHigh
-    PercentChange
+    PercentChange  [*]
     PercentChangeFromFiftydayMovingAverage
     PercentChangeFromTwoHundreddayMovingAverage
     PercentChangeFromYearLow
@@ -321,7 +322,7 @@ def get_current_quote(ticker):
     SharesOwned
     ShortRatio
     StockExchange
-    Symbol
+    Symbol        [*]
     symbol
     TickerTrend
     TradeDate

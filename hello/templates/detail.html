@@ -22,9 +22,8 @@
 		<!-- Marquee -->
 		<section id="ticker">
 			<marquee>
-				|
 				{% for news in streamer %}
-					{{news.source}}[${{news.focus}}]: {{news.content}} |
+					| {{news.source}}[${{news.focus}}]: {{news.content}}
 				{% endfor %}
 			</marquee>
 		</section>
@@ -53,32 +52,36 @@
 						<img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" />
 						<div class="content">
 							<div class="inner">
-								<h2>${{ company.ticker }} - ${{ company.price }}</h2>
-								<p>{{ company.name }}</p>
+								<h2>${{ stock.Symbol | upper }} - ${{ stock.Bid }}</h2>
+								<p>{{ stock.Name }}</p>
 								<ul class="actions">
-									{% if company.change_percent > 0 %}
-										<li>UP ${{ company.change_dollars }} ({{ company.change_percent }}%)</li>
+                                    {% if stock.PercentChange == 0 %}
+										<li>${{ stock.Change }} ({{ stock.PercentChange }})</li>
+									{% elif stock.PercentChange > 0 %}
+										<li>${{ stock.Change }} ({{ stock.PercentChange }}) &#8679; UP</li>
 									{% else %}
-										<li>DOWN ${{ company.change_dollars }} ({{ company.change_percent }}%)</li>
+										<li>${{ stock.Change }} ({{ stock.PercentChange }}) &#8681; DOWN</li>
 									{% endif %}
 								</ul>
 							</div>
 						</div>
 					</section>
-				<!-- Sample for render compare -->
-					<!--<section>-->
-						<!--<a href="#" class="image"><img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" /></a>-->
-						<!--<div class="content">-->
-							<!--<div class="inner">-->
-								<!--<h2>$ACAD - $24.73</h2>-->
-								<!--<p>Sample Pharmaceuticals, Inc.</p>-->
-								<!--<ul class="actions">-->
-									<!--<li>UP $4.42 (21.76%)</li>-->
-								<!--</ul>-->
-							<!--</div>-->
-						<!--</div>-->
-					<!--</section>-->
-				<!-- END Sample for render compare -->
+				</section>
+
+				<section id="messages" class="wrapper spotlights small" >
+					<!-- {% for message in focus %}
+						<section>
+							<div class="content">
+								<div class="inner">
+									<img src="{{message.author_image}}" data-position="center center" style="height: 50px; width: 50px; margin-right: 25px; float: left"/>
+									<a href="{{message.url}}"><h2>{{ message.author }} [{{message.source}}]</h2></a>
+									<p>
+										{{message.content}}
+									</p>
+								</div>
+							</div>
+						</section>
+					{% endfor %} -->
 				</section>
 			</div>
 
@@ -101,7 +104,7 @@
 		<!-- Scripts -->
 			<!--<script src="{% static "assets/js/jquery.min.js" %}"></script>-->
 			<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
-  			<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+			<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
 			<script src="{% static "assets/js/jquery.scrollex.min.js" %}"></script>
 			<script src="{% static "assets/js/jquery.scrolly.min.js" %}"></script>
@@ -109,7 +112,69 @@
 			<script src="{% static "assets/js/util.js" %}"></script>
 			<!--[if lte IE 8]><script src="{% static "assets/js/ie/respond.min.js" %}"></script><![endif]-->
 			<script src="{% static "assets/js/main.js" %}"></script>
-			<script src="{% static "assets/js/search.js" %}"></script><script>
+			<script src="{% static "assets/js/search.js" %}"></script>
+			<script>
+			$.ajax({
+				type: "GET",
+				url: "{{twitter_check}}",
+				success: function(data, textStatus) {
+					if (textStatus == "success") {
+						for (x=0; x<data.length; x++) {
+							to_insert = '<section><div class="content">\
+							<div class="inner">\
+							<img src="'+ data[x].author_image + '" data-position="center center" style="height: 50px; width: 50px; margin-right: 25px; float: left"/>\
+							<a href="' + data[x].url + '"><h2>' + data[x].author + ' ['+ data[x].source + ']</h2></a>\
+							<p>' + data[x].content + '</p>\
+							</div>\
+							</div>\
+							</section>'
+							$('#messages').prepend(to_insert)
+							console.log(data[x])
 
+						}
+					}
+				}
+			})
+			$.ajax({
+				type: "GET",
+				url: "{{stocktwit_check}}",
+				success: function(data, textStatus) {
+					if (textStatus == "success") {
+						for (x=0; x<data.length; x++) {
+							to_insert = '<section><div class="content">\
+							<div class="inner">\
+							<img src="'+ data[x].author_image + '" data-position="center center" style="height: 50px; width: 50px; margin-right: 25px; float: left"/>\
+							<a href="' + data[x].url + '"><h2>' + data[x].author + ' ['+ data[x].source + ']</h2></a>\
+							<p>' + data[x].content + '</p>\
+							</div>\
+							</div>\
+							</section>'
+							$('#messages').prepend(to_insert)
+							console.log(data[x])
+						}
+					}
+				}
+			})
+			$.ajax({
+				type: "GET",
+				url: "{{reddit_check}}",
+				success: function(data, textStatus) {
+					if (textStatus == "success") {
+						for (x=0; x<data.length; x++) {
+							to_insert = '<section><div class="content">\
+							<div class="inner">\
+							<img src="'+ data[x].author_image + '" data-position="center center" style="height: 50px; width: 50px; margin-right: 25px; float: left"/>\
+							<a href="' + data[x].url + '"><h2>' + data[x].author + ' ['+ data[x].source + ']</h2></a>\
+							<p>' + data[x].content + '</p>\
+							</div>\
+							</div>\
+							</section>'
+							$('#messages').prepend(to_insert)
+							console.log(data[x])
+						}
+					}
+				}
+			})
+			</script>
 	</body>
 </html>
