@@ -1,7 +1,7 @@
 # coding=utf-8
 import random
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponseNotFound, JsonResponse
 from .models import Message, Company
 from .stock_info import get_current_quote, top_movers
 from .stocktwits import get_stock_comments, format_into_table, save_message
@@ -98,4 +98,4 @@ def test(request, load_type, ticker):
 
         return JsonResponse(tweets, safe=False)
 
-    return JsonResponse({"response": "error"}, safe=False)
+    return HttpResponseNotFound()
