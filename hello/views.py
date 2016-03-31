@@ -1,5 +1,6 @@
 # coding=utf-8
 import random
+import json
 from django.shortcuts import render
 from django.http import HttpResponseNotFound, JsonResponse
 from .models import Message, Company
@@ -14,6 +15,10 @@ from .reddit import (
 )
 
 
+with open("hello/raw_data/company_to_ticker.json", 'r', encoding='utf-8') as f:
+    stock_ticker_lookup = json.load(f)
+
+
 def ajax_load(request):
     return render(request, 'loading.html')
 
@@ -24,12 +29,15 @@ def index(request):
     for those movers for a given index.
     """
     # Get biggest movers
-    movers = top_movers()
+    stock_mover = top_movers()
 
     # Get latest data
     stock_mover_quotes = {}
-    for stock in movers:
-        stock_mover_quotes[stock.ticker] = get_current_quote(stock.ticker)
+    for stock in stock_mover:
+        all_of_quote = get_current_quote(stock.ticker)
+        # Get jUut the fields you need from the result
+        stock_mover_quotes[stock.ticker] = {
+            k: all_of_quote.get(k, None) for k in ('Symbol', 'Name', 'Bid', 'Change', 'PercentChange')}
 
     # XXX messages should be a list of messages of the biggest movers
     messages = list(Message.objects.filter(source="twitter"))[:33]
@@ -45,6 +53,9 @@ def index(request):
 
 
 def detail(request, ticker="MSFT"):
+    if ticker.lower() in stock_ticker_lookup:
+        ticker = stock_ticker_lookup[ticker.lower()]
+
     stock_detail = get_current_quote(ticker)
 
     noise = list(Message.objects.filter(source="twitter"))[:33]
