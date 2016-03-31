@@ -5,12 +5,20 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import timedelta, datetime
 from bs4 import BeautifulSoup
 from collections import namedtuple
-from json.decoder import JSONDecodeError
+try:
+    from json import JSONDecodeError
+except ImportError:
+    JSONDecodeError = ValueError
 from pylru import lrucache
 import requests
 from requests import RequestException
 from sortedcontainers import SortedDict
 
+
+CACHE_TIME = timedelta(minutes=5)
+_pool = ThreadPoolExecutor(max_workers=5)
+
+# web scraping
 _PUBLIC_API_URL = "https://query.yahooapis.com/v1/public/yql"
 _YAHOO_MOVERS_URL = "http://finance.yahoo.com/_remote/?m_id=MediaRemoteInstance&instance_id=85ac7b2b-640f-323f-a1c1" \
                    "-00b2f4865d18&mode=xhr&ctab=tab1&nolz=1&count=20&start=0&category=mostactive&no_tabs=1"
@@ -18,7 +26,12 @@ _GOOGLE_MOVERS_URL = "https://www.google.com/finance"
 _yahoo_cached = None
 _google_cached = None
 _quotes_cache = lrucache(256)
-CACHE_TIME = timedelta(minutes=5)
+
+# yahoo api and historical caching
+_DATATABLES_URL = "store://datatables.org/alltableswithkeys"
+_DATE_FORMAT = "%Y-%m-%d"
+_MAX_FETCHED_DAYS = 365
+_remembered_historical = lrucache(256)
 
 
 class TopMover(namedtuple('TopMover', "ticker name price change pct_change volume")):
@@ -26,11 +39,6 @@ class TopMover(namedtuple('TopMover', "ticker name price change pct_change volum
 
 
 def _yahoo_top_movers(data):
-    global _yahoo_cached
-    now = datetime.utcnow()
-    if _yahoo_cached and (_yahoo_cached[0] + CACHE_TIME <= now):
-        return _yahoo_cached[1]
-
     results = []
     soup = BeautifulSoup(data, 'html5lib')
     for stock in soup.tbody.findAll('tr'):
@@ -42,13 +50,12 @@ def _yahoo_top_movers(data):
             pct_change=float(stock.find('td', {'class': "pct-change"}).span.text.rstrip("%")),
             volume=int(stock.find('td', {'class': "volume"}).span.text.replace(",", "")),
         ))
-    _yahoo_cached = now, results
     # TODO: prefetch historical data for these stocks
     return results
 
 
-def _google_top_movers():
-    raise NotImplemented  # TODO this
+# def _google_top_movers():
+#     raise NotImplemented  # TODO this
 
 
 def top_movers():
@@ -64,18 +71,18 @@ def top_movers():
     pct_change: percent change since open
     volume: volume traded
     """
+    global _yahoo_cached
+    now = datetime.utcnow()
+    if _yahoo_cached and (_yahoo_cached[0] + CACHE_TIME >= now):
+        return _yahoo_cached[1]
+
     try:
-        return _yahoo_top_movers(requests.get(_YAHOO_MOVERS_URL).text)
+        results = _yahoo_top_movers(requests.get(_YAHOO_MOVERS_URL).text)
+        _yahoo_cached = now, results
+        return results
     except RequestException as ex:
         print("Problem getting yahoo movers data:", ex)
         return []
-
-
-_DATATABLES_URL = "store://datatables.org/alltableswithkeys"
-_DATE_FORMAT = "%Y-%m-%d"
-_MAX_FETCHED_DAYS = 365
-_remembered_historical = lrucache(256)
-_pool = ThreadPoolExecutor(max_workers=5)
 
 
 class Day(namedtuple("Day", "date open high low close volume adj_close")):
@@ -163,8 +170,8 @@ def _fetch_yahoo_historical(params):
             # single responses aren't wrapped in a list ¯\_(ツ)_/¯
             return ticker, [Day.from_json(response['query']['results']['quote'])]
         else:
-            return ticker, map(Day.from_json, response['query']['results']['quote'])
-    except (KeyError, AttributeError) as ex:
+            return ticker, list(map(Day.from_json, response['query']['results']['quote']))
+    except (KeyError, TypeError) as ex:
         print("Problem getting historical data from Yahoo -", ex)
         return ticker, []
 
@@ -175,7 +182,10 @@ def fetch_stock_history(ticker, most_days=365):  # todo: nonexistent ticker case
 
     If more than a certain number of stock histories are requested, the least recently used will be forgotten.
     """
-    start, end = _yahoo_historical_range(ticker)
+    try:
+        start, end = _yahoo_historical_range(ticker)
+    except (RequestException, JSONDecodeError, ValueError):
+        return
     start = max(start, end - timedelta(days=most_days - 1))
     most_recent_stored_date = _latest_remembered_entry(ticker)
     fetch_start = most_recent_stored_date + timedelta(days=1) if most_recent_stored_date else start
@@ -215,8 +225,8 @@ def get_stock_history(ticker, start_date=None, end_date=None):
         start_date = end_date - timedelta(days=364)
 
     if ticker in _remembered_historical:
-        for day in _remembered_historical[ticker].irange(start_date, end_date):
-            results.append(day)
+        for day_date in _remembered_historical[ticker].irange(start_date, end_date):
+            results.append(_remembered_historical[ticker][day_date])
     return results
 
 
@@ -226,7 +236,7 @@ def _fetch_current_quote(ticker):
         result = _yahoo_query("SELECT * FROM yahoo.finance.quotes WHERE symbol = '{0}'".format(ticker))
         quote = result['query']['results']['quote']
         return quote if quote['Name'] else {}  # nonexistent tickers return None for every value
-    except (KeyError, AttributeError):
+    except (KeyError, TypeError):
         return {}
 
 
@@ -326,7 +336,7 @@ def get_current_quote(ticker):
     now = datetime.utcnow()
     if ticker in _quotes_cache:
         cached_time, data = _quotes_cache[ticker]
-        if cached_time + CACHE_TIME < now:
+        if cached_time + CACHE_TIME >= now:
             return data
     data = _fetch_current_quote(ticker)
     _quotes_cache[ticker] = now, data
