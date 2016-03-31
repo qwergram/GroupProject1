@@ -82,6 +82,10 @@ def get_twitter_comments(ticker):
 
 
 def json_into_table(message, ticker):
+    try:
+        ticker = str(ticker.decode())
+    except AttributeError:
+        pass
     if not isinstance(ticker, str):
         raise ValueError("Invalid ticker :(")
     try:
