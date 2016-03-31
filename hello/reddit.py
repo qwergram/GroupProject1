@@ -21,6 +21,10 @@ def get_companies():
 
 
 def ticker_to_name(data, ticker):
+    try:
+        ticker = str(ticker.decode())
+    except AttributeError:
+        pass
     if not isinstance(data, dict):
         raise ValueError("Invalid company data")
     if not isinstance(ticker, str):
