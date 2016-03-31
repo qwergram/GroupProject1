@@ -22,6 +22,10 @@ def get_stock_comments(ticker):
 
 
 def format_into_table(message, ticker):
+    try:
+        ticker = str(ticker.decode())
+    except AttributeError:
+        pass
     if not isinstance(ticker, str):
         raise ValueError("Invalid ticker!")
     try:

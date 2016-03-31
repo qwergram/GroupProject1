@@ -27,17 +27,17 @@ class TestViews(TransactionTestCase):
         self.assertTrue(response.status_code == 200)
 
     def test_check_view_response_code(self):
-        response = hello.views.test(None, "stocktwit", "MSFT")
+        response = hello.views.test(None, u"stocktwit", u"MSFT")
         self.assertTrue(response.status_code == 200)
 
     def test_twitter_response_code(self):
-        response = hello.views.test(None, "twitter", "MSFT")
+        response = hello.views.test(None, u"twitter", u"MSFT")
         self.assertTrue(response.status_code == 200)
 
     def test_reddit_response_code(self):
-        response = hello.views.test(None, "reddit", "MSFT")
+        response = hello.views.test(None, u"reddit", u"MSFT")
         self.assertTrue(response.status_code == 200)
 
     def test_nonexistent_response_code(self):
-        response = hello.views.test(None, "facebook", "MSFT")
+        response = hello.views.test(None, u"facebook", u"MSFT")
         self.assertTrue(response.status_code == 404)
