@@ -75,7 +75,7 @@
 						<div class="content">
 							<div class="inner">
 								<h2>${{ stock.Symbol | upper }} - ${{ stock.Bid }}</h2>
-								<p>{{ stock.Name }}</p>
+								<p><a href="{% url 'detail' stock.Symbol %}">{{ stock.Name }}</a></p>
 								<ul class="actions">
                                     {% if stock.PercentChange == 0 %}
 										<li>${{ stock.Change }} ({{ stock.PercentChange }})</li>
