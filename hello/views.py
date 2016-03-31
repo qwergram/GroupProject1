@@ -9,6 +9,7 @@ from .models import Message, Company
 from .stock_info import get_current_quote, top_movers
 from .stocktwits import get_stock_comments, format_into_table, save_message
 from .twitter_api import get_twitter_comments, json_into_table
+from .logo_grab import main as logo_grab_main
 from .reddit import (
     get_companies,
     ticker_to_name,
@@ -19,6 +20,11 @@ from .reddit import (
 
 with open("hello/raw_data/company_to_ticker.json", 'r', encoding='utf-8') as f:
     stock_ticker_lookup = json.load(f)
+
+
+def logo_api(request, ticker):
+    url = logo_grab_main(ticker)
+    return JsonResponse({"url": url})
 
 
 def ajax_load(request):
