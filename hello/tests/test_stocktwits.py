@@ -1,8 +1,10 @@
+# coding=utf-8
 from django.test import TestCase
 import requests
 from hello.models import Message
-from hello.stocktwits import get_stock_comments, format_into_table, save_message
-
+from hello.stocktwits import format_into_table, save_message
+import mock
+import json
 
 EXAMPLE_RESPONSE = {
     'body': 'What This &#39;Esteemed&#39; Venture Capitalist Learned From Mark Zuckerberg $FB $MSFT $YHOO http://stkw.it/d2Ub',
@@ -61,6 +63,22 @@ EXPECTED = {
 }
 
 
+def get_stock_comments(ticker):
+    with mock.patch.object(requests, 'get') as resp:
+        resp = resp()
+        with open("hello/testdata/msft0.json") as e:
+            resp.json.return_value = e.read()
+            if ticker == "MSFT":
+                resp.status_code = 200
+            else:
+                resp.status_code = 404
+    if resp.status_code != 200:
+        raise ValueError("Stock not found")
+    blob = json.loads(resp.json())
+    return blob.get('messages')
+
+response = get_stock_comments("MSFT")
+
 class StockTwitsCase(TestCase):
 
     def test_error_is_raised(self):
@@ -68,16 +86,13 @@ class StockTwitsCase(TestCase):
             get_stock_comments("not a real company")
 
     def test_response_length(self):
-        response = get_stock_comments("MSFT")
         self.assertEqual(len(response), 30)
 
     def test_response_contains_id(self):
-        response = get_stock_comments("MSFT")
         for r in response:
             self.assertNotEqual(r.get('id'), None)
 
     def test_response_contains_body(self):
-        response = get_stock_comments("MSFT")
         for r in response:
             self.assertNotEqual(r.get('body'), None)
 

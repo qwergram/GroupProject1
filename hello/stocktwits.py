@@ -1,7 +1,14 @@
+# coding=utf-8
 import requests
 from hello.models import Message
 from django.db.utils import IntegrityError
-from html import unescape
+try:
+    from html import unescape
+except ImportError:  # I hate python2
+    from HTMLParser import HTMLParser
+
+    def unescape(*args, **kwargs):
+        return HTMLParser().unescape(*args, **kwargs)
 
 API_ENDPOINT = "https://api.stocktwits.com/api/2/streams/symbol/{}.json"
 
@@ -15,6 +22,10 @@ def get_stock_comments(ticker):
 
 
 def format_into_table(message, ticker):
+    try:
+        ticker = str(ticker.decode())
+    except AttributeError:
+        pass
     if not isinstance(ticker, str):
         raise ValueError("Invalid ticker!")
     try:

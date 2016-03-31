@@ -1,3 +1,4 @@
+# coding=utf-8
 import os
 import base64
 import json
@@ -5,8 +6,11 @@ import sys
 import datetime
 from hello.models import Message
 from django.db.utils import IntegrityError
-from urllib.request import urlopen, Request
-from urllib.error import HTTPError
+try:
+    from urllib.request import urlopen, Request
+    from urllib.error import HTTPError
+except ImportError:
+    from urllib2 import urlopen, Request, HTTPError
 
 
 API_ENDPOINT = 'https://api.twitter.com'
@@ -78,6 +82,10 @@ def get_twitter_comments(ticker):
 
 
 def json_into_table(message, ticker):
+    try:
+        ticker = str(ticker.decode())
+    except AttributeError:
+        pass
     if not isinstance(ticker, str):
         raise ValueError("Invalid ticker :(")
     try:
@@ -88,16 +96,21 @@ def json_into_table(message, ticker):
             "popularity": message['favorite_count'],
             "author": message['user']['name'],
             "author_image": message['user']['profile_image_url'],
+            "content": message['text'],
             "created_time": (
                 datetime.datetime.strptime(
                     message['user']['created_at'],
-                    "%a %b %d %H:%M:%S %z %Y"
+                    "%a %b %d %H:%M:%S +0000 %Y"
                 ).strftime("%Y-%m-%dT%H:%M:%SZ")
             ),
-            "content": message['text'],
             "symbols": [],
-            "hashtags": [hashtag['text'] for hashtag in message['entities']['hashtags']],
+            "hashtags": [hashtag['text']
+                         for hashtag in message['entities']['hashtags']],
+            "url": "https://www.twitter.com/{}/status/{}".format(
+                message['user']['screen_name'],
+                message['id']),
             "urls": [url['url'] for url in message['entities']['urls']],
+
         }
         save_tweets(to_return)
         return to_return
@@ -111,12 +124,3 @@ def save_tweets(message):
         return True
     except IntegrityError:
         return False
-
-# if __name__ == "__main__":
-#     ticker = "MSFT"
-#     messages = get_twitter_comments(ticker)
-#     print(json.dumps(messages, indent=2))
-#     for index, message in enumerate(messages):
-#         message = json_into_table(message, ticker)
-#         messages[index] = message
-#     print(json.dumps(messages, indent=2))

@@ -1,3 +1,4 @@
+# coding=utf-8
 """
 Django settings for stocktalk project, on Heroku. Fore more info, see:
 https://github.com/heroku/heroku-django-template
