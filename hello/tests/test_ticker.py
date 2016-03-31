@@ -4,12 +4,12 @@ class TickerTest(TransactionTestCase):
 
     def test_check_view_status_code(self):
         client = Client()
-        response = client.get('/check/msft/')
+        response = client.get('/check/stocktwit/msft/')
         self.assertEqual(response.status_code, 200)
 
     def test_check_view_content(self):
         client = Client()
-        response = client.get('/check/msft/')
+        response = client.get('/check/stocktwit/msft/')
         json_blob = response.json()
         self.assertTrue(isinstance(json_blob, list))
         self.assertTrue(isinstance(json_blob[0], dict))
