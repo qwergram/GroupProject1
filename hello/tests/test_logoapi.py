@@ -38,5 +38,8 @@ class TickerTest(TransactionTestCase):
         with self.assertRaises(ConnectionError):
             handle_response(bad_response)
 
-    def test_get_domain(self):
+    def test_get_domain_msft(self):
         self.assertEqual(get_domain("http://www.microsoft.com"), "www.microsoft.com")
+
+    def test_get_domain_aapl(self):
+        self.assertEqual(get_domain("http://www.apple.com"), "www.apple.com")
