@@ -4,7 +4,7 @@ from builtins import open
 import random
 import json
 from django.shortcuts import render
-from django.http import HttpResponseNotFound, JsonResponse
+from django.http import HttpResponseNotFound, JsonResponse, HttpResponse
 from .models import Message, Company
 from .stock_info import get_current_quote, top_movers
 from .stocktwits import get_stock_comments, format_into_table, save_message
@@ -22,12 +22,17 @@ with open("hello/raw_data/company_to_ticker.json", 'r', encoding='utf-8') as f:
     stock_ticker_lookup = json.load(f)
 
 
+def error500(request):
+    return HttpResponse("<script>location.reload()</script>")
+
+
 def logo_api(request, ticker):
     try:
         url = logo_grab_main(ticker)
         return JsonResponse({"logo": url})
     except ValueError:
         return HttpResponseNotFound()
+
 
 def ajax_load(request):
     return render(request, 'loading.html')
