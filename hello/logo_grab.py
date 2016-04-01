@@ -4,6 +4,7 @@ try:
     from urllib.parse import urlparse
 except ImportError:
     from urllib2 import urlparse
+    urlparse = urlparse.urlparse
 
 try:
     ConnectionError
