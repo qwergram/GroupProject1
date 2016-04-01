@@ -39,7 +39,7 @@ def get_logo(domain):
 
 
 def main(ticker):
-    target = get_endpoint("MSFT")
+    target = get_endpoint(ticker)
     response = get_response(target)
     url = handle_response(response)
     domain = get_domain(url)
