@@ -47,6 +47,27 @@
 		-webkit-text-size-adjust: none;
 	}
 
+	#search_bar {
+		font-family: "Courier New", monospace
+	}
+
+	#tags {
+		width: 300px;
+  		height: 50px;
+  		background: rgba(255,255,255, 0);
+		border: none;
+		font-size: 14pt;
+		float: left;
+		color: rgba(255, 255, 255, 0.55);
+		border-style: solid;
+		border-width: 1px;
+		border-color: rgba(255, 255, 255, 0.15);
+		padding-left: 10px;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
+	}
+
 	#who_content {
 		padding: 3%;
 	}
@@ -3025,6 +3046,10 @@
 		-ms-flex-direction: row;
 		flex-direction: row;
 		min-height: 22.5em;
+	}
+
+	.spotlights.small > section{
+		min-height: 0em;
 	}
 
 		body.is-ie .spotlights > section {

@@ -12,7 +12,6 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="{% static "assets/js/ie/html5shiv.js" %}"></script><![endif]-->
 		<link rel="stylesheet" href="{% static "assets/css/main.css" %}"/>
-		<!-- <link rel="stylesheet" href="{% static "assets/css/jquery-ui.css" %}"> -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css"/>
 		<link rel="stylesheet" href="{% static "assets/css/ticker.css" %}"/>
 		<!--[if lte IE 9]><link rel="stylesheet" href="{% static "assets/css/ie9.css" %}" /><![endif]-->
@@ -21,13 +20,13 @@
 	</head>
 	<body>
 		<!-- Marquee -->
-		<section id="ticker">
-			<marquee>
-				{% for news in streamer %}
-					| {{news.source}}[${{news.focus}}]: {{news.content}}
-				{% endfor %}
-			</marquee>
-		</section>
+            <section id="ticker">
+                <marquee>
+                    {% for news in streamer %}
+                        | {{news.source}}[${{news.focus}}]: {{news.content}}
+                    {% endfor %}
+                </marquee>
+            </section>
 
 		<!-- Sidebar -->
 			<section id="sidebar">
@@ -38,6 +37,9 @@
 							<li><a href="#intro">Welcome</a></li>
 							<li><a href="#one">Big Movers</a></li>
 							<li><a href="#two">What we do</a></li>
+							<li>
+
+							</li>
 							<!-- <li><a href="#three">Get in touch</a></li> -->
 						</ul>
 					</nav>
@@ -50,19 +52,25 @@
 			<!-- Intro -->
 				<section id="intro" class="wrapper style1 fullscreen fade-up">
 
-					<div class="inner">
+					<!-- <div class="inner">
 						<div class="ui-widget">
 								<label for="tags">Search:</label>
 								<input id="tags">
 						</div>
-					</div>
+					</div> -->
 
 					<div class="inner">
-						<h1>$tockTalk</h1>
+						<img src="{% static "images/Stocklogo.png" %}">
 						<p>What is your world up to?</p>
 						<ul class="actions">
 							<li><a href="#one" class="button scrolly">Let's see</a></li>
 						</ul>
+						<div class="inner" id="search_bar">
+							<div class="ui-widget">
+								<label for="tags">Search:</label>
+								<input id="tags">
+							</div>
+						</div>
 					</div>
 
 				</section>
@@ -71,18 +79,18 @@
 				<section id="one" class="wrapper style2 spotlights">
 					{% for stock in stock_list %}
 					<section>
-						<a href="{% url 'load' stock.Symbol %}" class="image"><img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" /></a>
+						<a href="{% url 'detail' stock.Symbol %}" class="image logo" id="{{ stock.Symbol }}"><!--<img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center"/>--></a>
 						<div class="content">
 							<div class="inner">
 								<h2>${{ stock.Symbol | upper }} - ${{ stock.Bid }}</h2>
-								<p><a href="{% url 'load' stock.Symbol %}">{{ stock.Name }}</a></p>
+								<p><a href="{% url 'detail' stock.Symbol %}">{{ stock.Name }}</a></p>
 								<ul class="actions">
-                                    {% if stock.PercentChange == 0 %}
-										<li>${{ stock.Change }} ({{ stock.PercentChange }})</li>
-									{% elif stock.PercentChange > 0 %}
+                                    {% if "-" in stock.PercentChange %}
+										<li>${{ stock.Change }} ({{ stock.PercentChange }}) &#8681; DOWN</li>
+									{% elif "+" in stock.PercentChange %}
 										<li>${{ stock.Change }} ({{ stock.PercentChange }}) &#8679; UP</li>
 									{% else %}
-										<li>${{ stock.Change }} ({{ stock.PercentChange }}) &#8681; DOWN</li>
+										<li>${{ stock.Change }} ({{ stock.PercentChange }})</li>
 									{% endif %}
 								</ul>
 							</div>
@@ -91,36 +99,40 @@
 					{% endfor %}
 			<!-- Two -->
 				<br/>
+				<br/>
 				<section id="two" class="wrapper style2 spotlights">
 					<div class="five rows">
 						<div class="content" id="who_content">
 							<h1><i>What we do...</i></h1>
-							<h3> Want to know more about your stocks, but tired of searching through myraids of social media sites to get the information you want?
-							</h3><h3>Stock-Talk aims to make your life easier:</h3>
-							<h4>Lets get social:<ul>
-								<li>Twitter</li>
-								<li>StockTweets</li>
-								<li>Reddit</li>
-								<li>Yahoo Finance</li>
-							</ul></h4>
-							<h4> By accessing the Twitter API, Stocktweet API, and Reddit for social media data and the Yahoo Finance data, we provide you with the most up-to-date social media posts and trends regarding your stocks.</h4>
+							<p>Want to know more about your stocks, but tired of searching through myraids of social media sites to get the information you want?</p>
+                            <p>Stock-Talk aims to make your life easier:</p>
+							<p>Lets get social:
+                                <ul>
+                                    <li>Twitter</li>
+                                    <li>StockTweets</li>
+                                    <li>Reddit</li>
+                                    <li>Yahoo Finance</li>
+                                </ul>
+                            </p>
+							<p>By accessing the Twitter API, Stocktweet API, and Reddit for social media data and the Yahoo Finance data, we provide you with the most up-to-date social media posts and trends regarding your stocks.</p>
 						</div>
 					</div>
-					<br/>
 				</section>
+                <br/>
+
 			</div>
 
 		<!-- Footer -->
 			<footer id="footer" class="wrapper style1-alt">
 				<div class="inner">
 					<ul class="menu">
-						<!-- <li>&copy; Untitled. All rights reserved.</li> -->
+						<li>&copy; Stock-Talk. All rights reserved 2016.</li>
 						<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
 						<li>Created by:
 							<a href="http://resume.nortonpengra.me/">Norton Pengra</a>,
 							<a href="http://www.jeremytedwards.com">Jeremy Edwards</a>,
-							<a href="#">Rick {lastname}</a>,
-							<a href="#">Kent {lastname}</a>
+							<a href="https://www.linkedin.com/in/richardtesmond">Rick Tesmond</a>,
+							<a href="http://mad.cash">Kent Ross</a>
 						</li>
 					</ul>
 				</div>
@@ -137,7 +149,26 @@
 			<script src="{% static "assets/js/util.js" %}"></script>
 			<!--[if lte IE 8]><script src="{% static "assets/js/ie/respond.min.js" %}"></script><![endif]-->
 			<script src="{% static "assets/js/main.js" %}"></script>
-			<script src="{% static "assets/js/search.js" %}"></script><script>
+			<script src="{% static "assets/js/search.js" %}"></script>
+			<script>
+			$(document).ready(function(){
+				$("a.logo").each(function(idx, tag) {
+					function setLogoImage(thistag) {
+						$.ajax({
+							method:"GET",
+							url: "logo/" + thistag.id + "/",
+							success: function(data, textStatus) {
+								if (textStatus == "success") {
+									$(thistag).css("background-image", 'url("' + data.logo + '")');
+								}
+							}
+						});
+					}
+					setLogoImage(tag);
+				});
+			});
 
+
+			</script>
 	</body>
 </html>

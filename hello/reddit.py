@@ -6,7 +6,7 @@ from hello.models import Message
 from django.db.utils import IntegrityError
 import datetime
 
-REDDIT_API_ENDPOINT = "https://api.reddit.com/search?q={}&type=link"
+REDDIT_API_ENDPOINT = "https://api.reddit.com/r/investing/search?q={}&type=link&restrict_sr=on"
 
 
 def get_companies():
@@ -21,6 +21,10 @@ def get_companies():
 
 
 def ticker_to_name(data, ticker):
+    try:
+        ticker = str(ticker.decode())
+    except AttributeError:
+        pass
     if not isinstance(data, dict):
         raise ValueError("Invalid company data")
     if not isinstance(ticker, str):
@@ -40,6 +44,14 @@ def save_reddit_articles(messages):
 
 
 def scrape_reddit(ticker, query):
+    try:
+        ticker = str(ticker.decode())
+    except AttributeError:
+        pass
+    try:
+        query = str(query.decode())
+    except AttributeError:
+        pass
     if not isinstance(ticker, str):
         raise TypeError("Ticker Invalid!")
     if not isinstance(query, str):

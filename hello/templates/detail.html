@@ -12,7 +12,6 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="{% static "assets/js/ie/html5shiv.js" %}"></script><![endif]-->
 		<link rel="stylesheet" href="{% static "assets/css/main.css" %}"/>
-		<link rel="stylesheet" href="{% static "assets/css/jquery-ui.css" %}">
 		<link rel="stylesheet" href="{% static "assets/css/ticker.css" %}"/>
 		<!--[if lte IE 9]><link rel="stylesheet" href="{% static "assets/css/ie9.css" %}" /><![endif]-->
 		<!--[if lte IE 8]><link rel="stylesheet" href="{% static "assets/css/ie8.css" %}" /><![endif]-->
@@ -49,23 +48,50 @@
 				<!-- Detail -->
 				<section id="detail" class="wrapper style2 spotlights">
 					<section>
-						<img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" />
+						<img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" id="current"/>
 						<div class="content">
 							<div class="inner">
-								<h2>${{ stock.Symbol | upper }} - ${{ stock.Bid }}</h2>
+								<h2>${{ stock.Symbol | upper }}
+                                    {% if stock.Bid  %}
+                                       - ${{ stock.Bid }}
+                                    {% else %}
+                                        - (no value today)
+                                    {% endif %}
+                                </h2>
 								<p>{{ stock.Name }}</p>
 								<ul class="actions">
-                                    {% if stock.PercentChange == 0 %}
-										<li>${{ stock.Change }} ({{ stock.PercentChange }})</li>
-									{% elif stock.PercentChange > 0 %}
-										<li>${{ stock.Change }} ({{ stock.PercentChange }}) &#8679; UP</li>
-									{% else %}
-										<li>${{ stock.Change }} ({{ stock.PercentChange }}) &#8681; DOWN</li>
-									{% endif %}
+                                    {% if stock.Bid %}
+                                        {% if stock.PercentChange == 0 %}
+                                            <li>${{ stock.Change }} ({{ stock.PercentChange }})</li>
+                                        {% elif stock.PercentChange > 0 %}
+                                            <li>${{ stock.Change }} ({{ stock.PercentChange }}) &#8679; UP</li>
+                                        {% else %}
+                                            <li>${{ stock.Change }} ({{ stock.PercentChange }}) &#8681; DOWN</li>
+                                        {% endif %}
+                                    {% endif %}
 								</ul>
+                                {% if stock.Bid %}
+                                    <img src="http://chart.finance.yahoo.com/t?s={{ stock.Symbol | upper }}&lang=en-US&region=US&width=420&height=180"/>
+                                {% endif %}
 							</div>
 						</div>
 					</section>
+				</section>
+
+				<section id="messages" class="wrapper spotlights small" >
+					<!-- {% for message in focus %}
+						<section>
+							<div class="content">
+								<div class="inner">
+									<img src="{{message.author_image}}" data-position="center center" style="height: 50px; width: 50px; margin-right: 25px; float: left"/>
+									<a href="{{message.url}}"><h2>{{ message.author }} [{{message.source}}]</h2></a>
+									<p>
+										{{message.content}}
+									</p>
+								</div>
+							</div>
+						</section>
+					{% endfor %} -->
 				</section>
 			</div>
 
@@ -97,6 +123,77 @@
 			<!--[if lte IE 8]><script src="{% static "assets/js/ie/respond.min.js" %}"></script><![endif]-->
 			<script src="{% static "assets/js/main.js" %}"></script>
 			<script src="{% static "assets/js/search.js" %}"></script>
+			<script>
+			console.log("/logo/{{stock.Symbol}}/")
+			$.ajax({
+				type: "GET",
+				url: "/logo/{{stock.Symbol}}/",
+				success: function(data, textStatus) {
+					console.log(data)
+					$("#current").attr("src", data.logo);
+				}
+			})
+			$.ajax({
+				type: "GET",
+				url: "{{twitter_check}}",
+				success: function(data, textStatus) {
+					if (textStatus == "success") {
+						for (x=0; x<data.length; x++) {
+							to_insert = '<section><div class="content">\
+							<div class="inner">\
+							<img src="'+ data[x].author_image + '" data-position="center center" style="height: 50px; width: 50px; margin-right: 25px; float: left"/>\
+							<a href="' + data[x].url + '"><h2>' + data[x].author + ' ['+ data[x].source + ']</h2></a>\
+							<p>' + data[x].content + '</p>\
+							</div>\
+							</div>\
+							</section>'
+							$('#messages').append(to_insert)
+							// console.log(data[x])
 
+						}
+					}
+				}
+			})
+			$.ajax({
+				type: "GET",
+				url: "{{stocktwit_check}}",
+				success: function(data, textStatus) {
+					if (textStatus == "success") {
+						for (x=0; x<data.length; x++) {
+							to_insert = '<section><div class="content">\
+							<div class="inner">\
+							<img src="'+ data[x].author_image + '" data-position="center center" style="height: 50px; width: 50px; margin-right: 25px; float: left"/>\
+							<a href="' + data[x].url + '"><h2>' + data[x].author + ' ['+ data[x].source + ']</h2></a>\
+							<p>' + data[x].content + '</p>\
+							</div>\
+							</div>\
+							</section>'
+							$('#messages').append(to_insert)
+							// console.log(data[x])
+						}
+					}
+				}
+			})
+			$.ajax({
+				type: "GET",
+				url: "{{reddit_check}}",
+				success: function(data, textStatus) {
+					if (textStatus == "success") {
+						for (x=0; x<data.length; x++) {
+							to_insert = '<section><div class="content">\
+							<div class="inner">\
+							<img src="'+ data[x].author_image + '" data-position="center center" style="height: 50px; width: 50px; margin-right: 25px; float: left"/>\
+							<a href="' + data[x].url + '"><h2>' + data[x].author + ' ['+ data[x].source + ']</h2></a>\
+							<p>' + data[x].content + '</p>\
+							</div>\
+							</div>\
+							</section>'
+							$('#messages').append(to_insert)
+							// console.log(data[x])
+						}
+					}
+				}
+			})
+			</script>
 	</body>
 </html>
