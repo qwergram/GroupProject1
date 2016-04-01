@@ -135,8 +135,11 @@ def _yahoo_query(query):
 def _yahoo_historical_range(ticker):
     query = "SELECT start, end FROM yahoo.finance.stocks WHERE symbol = '{0}';".format(ticker)
     response = _yahoo_query(query)
-    results = response['query']['results']['stock']
-    return datetime.strptime(results['start'], _DATE_FORMAT), datetime.strptime(results['end'], _DATE_FORMAT)
+    try:
+        results = response['query']['results']['stock']
+        return datetime.strptime(results['start'], _DATE_FORMAT), datetime.strptime(results['end'], _DATE_FORMAT)
+    except (KeyError, TypeError):
+        return None
 
 
 def _break_up_fetch_range(start, end):
@@ -184,7 +187,7 @@ def fetch_stock_history(ticker, most_days=365):  # todo: nonexistent ticker case
     """
     try:
         start, end = _yahoo_historical_range(ticker)
-    except (RequestException, JSONDecodeError, ValueError):
+    except (RequestException, JSONDecodeError, ValueError, TypeError):
         return
     start = max(start, end - timedelta(days=most_days - 1))
     most_recent_stored_date = _latest_remembered_entry(ticker)
