@@ -51,17 +51,28 @@
 						<img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" />
 						<div class="content">
 							<div class="inner">
-								<h2>${{ stock.Symbol | upper }} - ${{ stock.Bid }}</h2>
+								<h2>${{ stock.Symbol | upper }}
+                                    {% if stock.Bid  %}
+                                       - ${{ stock.Bid }}
+                                    {% else %}
+                                        - (no value today)
+                                    {% endif %}
+                                </h2>
 								<p>{{ stock.Name }}</p>
 								<ul class="actions">
-                                    {% if "-" in stock.PercentChange %}
-										<li>${{ stock.Change }} ({{ stock.PercentChange }}) &#8681; DOWN</li>
-									{% elif "+" in stock.PercentChange %}
-										<li>${{ stock.Change }} ({{ stock.PercentChange }}) &#8679; UP</li>
-									{% else %}
-										<li>${{ stock.Change }} ({{ stock.PercentChange }})</li>
-									{% endif %}
+                                    {% if stock.Bid %}
+                                        {% if stock.PercentChange == 0 %}
+                                            <li>${{ stock.Change }} ({{ stock.PercentChange }})</li>
+                                        {% elif stock.PercentChange > 0 %}
+                                            <li>${{ stock.Change }} ({{ stock.PercentChange }}) &#8679; UP</li>
+                                        {% else %}
+                                            <li>${{ stock.Change }} ({{ stock.PercentChange }}) &#8681; DOWN</li>
+                                        {% endif %}
+                                    {% endif %}
 								</ul>
+                                {% if stock.Bid %}
+                                    <img src="http://chart.finance.yahoo.com/t?s={{ stock.Symbol | upper }}&lang=en-US&region=US&width=420&height=180"/>
+                                {% endif %}
 							</div>
 						</div>
 					</section>
