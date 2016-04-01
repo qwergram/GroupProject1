@@ -31,6 +31,18 @@ class StockInfoCase(TestCase):
                 'end': "2010-12-31",
             }}}}
             self.assertEqual(_yahoo_historical_range('asdf'), (datetime(2010, 1, 1), datetime(2010, 12, 31)))
+            yq.return_value = {}
+            self.assertEqual(_yahoo_historical_range('asdf'), None)
+            yq.return_value = {'query': {'results': {'stock': {
+                'start': "2010-01-01",
+                'end': "this isn't a date",
+            }}}}
+            self.assertEqual(_yahoo_historical_range('asdf'), None)
+            yq.return_value = {'query': {'results': {'stock': {
+                'start': "2010-01-01",
+                'end': 5,
+            }}}}
+            self.assertEqual(_yahoo_historical_range('asdf'), None)
 
     def test_yahoo_data(self):
         from hello.stock_info import _yahoo_top_movers, TopMover
@@ -67,9 +79,11 @@ class StockInfoCase(TestCase):
         with mock.patch.object(requests, 'get') as get:
             with mock.patch.object(hello.stock_info, '_yahoo_top_movers') as ytm:
                 ytm.return_value = [1, 2, 3]
+                hello.stock_info._yahoo_cached = None
                 self.assertEqual(top_movers(), [1, 2, 3])
                 # assert that calling it again immediately does not hit requests again because it caches
-                top_movers()
+                self.assertEqual(top_movers(), [1, 2, 3])
+                self.assertEqual(hello.stock_info._yahoo_cached[1], [1, 2, 3])
                 self.assertEqual(len(get.call_args_list), 1)
                 # test what happens when requests fails
                 hello.stock_info._yahoo_cached = None
