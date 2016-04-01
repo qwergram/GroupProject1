@@ -138,7 +138,7 @@ def _yahoo_historical_range(ticker):
     try:
         results = response['query']['results']['stock']
         return datetime.strptime(results['start'], _DATE_FORMAT), datetime.strptime(results['end'], _DATE_FORMAT)
-    except (KeyError, TypeError):
+    except (KeyError, TypeError, ValueError):
         return None
 
 
