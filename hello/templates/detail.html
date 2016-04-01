@@ -48,7 +48,7 @@
 				<!-- Detail -->
 				<section id="detail" class="wrapper style2 spotlights">
 					<section>
-						<img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" />
+						<img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" id="current"/>
 						<div class="content">
 							<div class="inner">
 								<h2>${{ stock.Symbol | upper }}
@@ -124,6 +124,15 @@
 			<script src="{% static "assets/js/main.js" %}"></script>
 			<script src="{% static "assets/js/search.js" %}"></script>
 			<script>
+			console.log("/logo/{{stock.Symbol}}/")
+			$.ajax({
+				type: "GET",
+				url: "/logo/{{stock.Symbol}}/",
+				success: function(data, textStatus) {
+					console.log(data)
+					$("#current").attr("src", data.logo);
+				}
+			})
 			$.ajax({
 				type: "GET",
 				url: "{{twitter_check}}",
@@ -139,7 +148,7 @@
 							</div>\
 							</section>'
 							$('#messages').append(to_insert)
-							console.log(data[x])
+							// console.log(data[x])
 
 						}
 					}
@@ -160,7 +169,7 @@
 							</div>\
 							</section>'
 							$('#messages').append(to_insert)
-							console.log(data[x])
+							// console.log(data[x])
 						}
 					}
 				}
@@ -180,7 +189,7 @@
 							</div>\
 							</section>'
 							$('#messages').append(to_insert)
-							console.log(data[x])
+							// console.log(data[x])
 						}
 					}
 				}
