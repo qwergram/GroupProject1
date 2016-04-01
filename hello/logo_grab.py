@@ -5,6 +5,11 @@ try:
 except ImportError:
     from urllib2 import urlparse
 
+try:
+    ConnectionError
+except NameError:
+    ConnectionError = ValueError
+
 YAHOO_ENDPOINT = "http://finance.yahoo.com/q/pr?s={}"
 CLEARBIT_ENDPOINT = "https://logo.clearbit.com/{}?format=png&size=438"
 
