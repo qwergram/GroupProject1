@@ -10,6 +10,8 @@ admin.autodiscover()
 # url(r'^$', 'stocktalk.views.home', name='home'),
 # url(r'^blog/', include('blog.urls')),
 
+handler500 = 'hello.views.error500'
+
 urlpatterns = [
     url(r'^$', hello.views.index, name='index'),
     url(r'^detail/$', hello.views.detail, name='detail'),
