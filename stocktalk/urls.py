@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^$', hello.views.index, name='index'),
     url(r'^detail/$', hello.views.detail, name='detail'),
     url(r'^detail/(?P<ticker>.+)/$', hello.views.detail, name='detail'),
+    url(r'^logo/(?P<ticker>[a-zA-Z]+)', hello.views.logo_api, name="logo"),
     url(r'^check/(?P<load_type>[a-zA-Z]+)/(?P<ticker>[a-zA-Z]+)/$', hello.views.test, name="load"),
     url(r'^admin/', include(admin.site.urls)),
 ]
