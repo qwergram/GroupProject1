@@ -6,7 +6,7 @@ from hello.models import Message
 from django.db.utils import IntegrityError
 import datetime
 
-REDDIT_API_ENDPOINT = "https://api.reddit.com/search?q={}&type=link"
+REDDIT_API_ENDPOINT = "https://api.reddit.com/r/investing/search?q={}&type=link&restrict_sr=on"
 
 
 def get_companies():

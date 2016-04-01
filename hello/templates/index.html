@@ -79,7 +79,7 @@
 				<section id="one" class="wrapper style2 spotlights">
 					{% for stock in stock_list %}
 					<section>
-						<a href="{% url 'detail' stock.Symbol %}" class="image"><img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center" /></a>
+						<a href="{% url 'detail' stock.Symbol %}" class="image logo" id="{{ stock.Symbol }}"><!--<img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center"/>--></a>
 						<div class="content">
 							<div class="inner">
 								<h2>${{ stock.Symbol | upper }} - ${{ stock.Bid }}</h2>
@@ -150,5 +150,25 @@
 			<!--[if lte IE 8]><script src="{% static "assets/js/ie/respond.min.js" %}"></script><![endif]-->
 			<script src="{% static "assets/js/main.js" %}"></script>
 			<script src="{% static "assets/js/search.js" %}"></script>
+			<script>
+			$(document).ready(function(){
+				$("a.logo").each(function(idx, tag) {
+					function setLogoImage(thistag) {
+						$.ajax({
+							method:"GET",
+							url: "logo/" + thistag.id + "/",
+							success: function(data, textStatus) {
+								if (textStatus == "success") {
+									$(thistag).css("background-image", 'url("' + data.logo + '")');
+								}
+							}
+						});
+					}
+					setLogoImage(tag);
+				});
+			});
+
+
+			</script>
 	</body>
 </html>
