@@ -34,7 +34,7 @@ def handle_response(response):
                 return link
             if "yahoo" not in link:
                 pool.append(link)
-
+    raise ValueError("Invalid Ticker")
 
 def get_domain(url):
     return urlparse(url).netloc

@@ -23,9 +23,11 @@ with open("hello/raw_data/company_to_ticker.json", 'r', encoding='utf-8') as f:
 
 
 def logo_api(request, ticker):
-    url = logo_grab_main(ticker)
-    return JsonResponse({"logo": url})
-
+    try:
+        url = logo_grab_main(ticker)
+        return JsonResponse({"logo": url})
+    except ValueError:
+        return HttpResponseNotFound()
 
 def ajax_load(request):
     return render(request, 'loading.html')
