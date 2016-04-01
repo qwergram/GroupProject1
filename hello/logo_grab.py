@@ -4,6 +4,12 @@ try:
     from urllib.parse import urlparse
 except ImportError:
     from urllib2 import urlparse
+    urlparse = urlparse.urlparse
+
+try:
+    ConnectionError
+except NameError:
+    ConnectionError = ValueError
 
 YAHOO_ENDPOINT = "http://finance.yahoo.com/q/pr?s={}"
 CLEARBIT_ENDPOINT = "https://logo.clearbit.com/{}?format=png&size=438"
@@ -39,14 +45,8 @@ def get_logo(domain):
 
 
 def main(ticker):
-    # import pdb; pdb.set_trace()
-
     target = get_endpoint(ticker)
     response = get_response(target)
     url = handle_response(response)
     domain = get_domain(url)
     return get_logo(domain)
-
-
-if __name__ == "__main__":
-    main("MSFT")
