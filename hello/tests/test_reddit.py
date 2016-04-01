@@ -42,7 +42,7 @@ class RedditScraper(TransactionTestCase):
 
     def test_reddit_scraper(self):
         links = scrape_reddit("MSFT", "Microsoft Corporation")
-        expected = 'https://www.reddit.com/r/linux/comments/mgtht/given_the_recent_protests_shouldnt_we_point_out/'
+        expected = 'https://www.reddit.com/r/investing/comments/47e1x2/you_can_buy_uber_airbnb_pinterest_right_now/'
         self.assertIn(expected, str(links))
 
     def test_reddit_save(self):
