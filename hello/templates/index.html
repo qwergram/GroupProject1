@@ -1,0 +1,174 @@
+{% load staticfiles %}
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>$tockTalk</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="{% static "assets/js/ie/html5shiv.js" %}"></script><![endif]-->
+		<link rel="stylesheet" href="{% static "assets/css/main.css" %}"/>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css"/>
+		<link rel="stylesheet" href="{% static "assets/css/ticker.css" %}"/>
+		<!--[if lte IE 9]><link rel="stylesheet" href="{% static "assets/css/ie9.css" %}" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="{% static "assets/css/ie8.css" %}" /><![endif]-->
+
+	</head>
+	<body>
+		<!-- Marquee -->
+            <section id="ticker">
+                <marquee>
+                    {% for news in streamer %}
+                        | {{news.source}}[${{news.focus}}]: {{news.content}}
+                    {% endfor %}
+                </marquee>
+            </section>
+
+		<!-- Sidebar -->
+			<section id="sidebar">
+
+				<div class="inner">
+					<nav>
+						<ul>
+							<li><a href="#intro">Welcome</a></li>
+							<li><a href="#one">Big Movers</a></li>
+							<li><a href="#two">What we do</a></li>
+							<li>
+
+							</li>
+							<!-- <li><a href="#three">Get in touch</a></li> -->
+						</ul>
+					</nav>
+				</div>
+			</section>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+			<!-- Intro -->
+				<section id="intro" class="wrapper style1 fullscreen fade-up">
+
+					<!-- <div class="inner">
+						<div class="ui-widget">
+								<label for="tags">Search:</label>
+								<input id="tags">
+						</div>
+					</div> -->
+
+					<div class="inner">
+						<img src="{% static "images/Stocklogo.png" %}">
+						<p>What is your world up to?</p>
+						<ul class="actions">
+							<li><a href="#one" class="button scrolly">Let's see</a></li>
+						</ul>
+						<div class="inner" id="search_bar">
+							<div class="ui-widget">
+								<label for="tags">Search:</label>
+								<input id="tags">
+							</div>
+						</div>
+					</div>
+
+				</section>
+
+			<!-- One -->
+				<section id="one" class="wrapper style2 spotlights">
+					{% for stock in stock_list %}
+					<section>
+						<a href="{% url 'detail' stock.Symbol %}" class="image logo" id="{{ stock.Symbol }}"><!--<img src="{% static "images/pic01.jpg" %}" alt="" data-position="center center"/>--></a>
+						<div class="content">
+							<div class="inner">
+								<h2>${{ stock.Symbol | upper }} - ${{ stock.Bid }}</h2>
+								<p><a href="{% url 'detail' stock.Symbol %}">{{ stock.Name }}</a></p>
+								<ul class="actions">
+                                    {% if "-" in stock.PercentChange %}
+										<li>${{ stock.Change }} ({{ stock.PercentChange }}) &#8681; DOWN</li>
+									{% elif "+" in stock.PercentChange %}
+										<li>${{ stock.Change }} ({{ stock.PercentChange }}) &#8679; UP</li>
+									{% else %}
+										<li>${{ stock.Change }} ({{ stock.PercentChange }})</li>
+									{% endif %}
+								</ul>
+							</div>
+						</div>
+					</section>
+					{% endfor %}
+			<!-- Two -->
+				<br/>
+				<br/>
+				<section id="two" class="wrapper style2 spotlights">
+					<div class="five rows">
+						<div class="content" id="who_content">
+							<h1><i>What we do...</i></h1>
+							<p>Want to know more about your stocks, but tired of searching through myraids of social media sites to get the information you want?</p>
+                            <p>Stock-Talk aims to make your life easier:</p>
+							<p>Lets get social:
+                                <ul>
+                                    <li>Twitter</li>
+                                    <li>StockTweets</li>
+                                    <li>Reddit</li>
+                                    <li>Yahoo Finance</li>
+                                </ul>
+                            </p>
+							<p>By accessing the Twitter API, Stocktweet API, and Reddit for social media data and the Yahoo Finance data, we provide you with the most up-to-date social media posts and trends regarding your stocks.</p>
+						</div>
+					</div>
+				</section>
+                <br/>
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper style1-alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Stock-Talk. All rights reserved 2016.</li>
+						<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+						<li>Created by:
+							<a href="http://resume.nortonpengra.me/">Norton Pengra</a>,
+							<a href="http://www.jeremytedwards.com">Jeremy Edwards</a>,
+							<a href="https://www.linkedin.com/in/richardtesmond">Rick Tesmond</a>,
+							<a href="http://mad.cash">Kent Ross</a>
+						</li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<!--<script src="{% static "assets/js/jquery.min.js" %}"></script>-->
+			<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+  			<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+			<script src="{% static "assets/js/jquery.scrollex.min.js" %}"></script>
+			<script src="{% static "assets/js/jquery.scrolly.min.js" %}"></script>
+			<script src="{% static "assets/js/skel.min.js" %}"></script>
+			<script src="{% static "assets/js/util.js" %}"></script>
+			<!--[if lte IE 8]><script src="{% static "assets/js/ie/respond.min.js" %}"></script><![endif]-->
+			<script src="{% static "assets/js/main.js" %}"></script>
+			<script src="{% static "assets/js/search.js" %}"></script>
+			<script>
+			$(document).ready(function(){
+				$("a.logo").each(function(idx, tag) {
+					function setLogoImage(thistag) {
+						$.ajax({
+							method:"GET",
+							url: "logo/" + thistag.id + "/",
+							success: function(data, textStatus) {
+								if (textStatus == "success") {
+									$(thistag).css("background-image", 'url("' + data.logo + '")');
+								}
+							}
+						});
+					}
+					setLogoImage(tag);
+				});
+			});
+
+
+			</script>
+	</body>
+</html>
