@@ -37,3 +37,6 @@ class TickerTest(TransactionTestCase):
     def test_handle_bad_response(self):
         with self.assertRaises(ConnectionError):
             handle_response(bad_response)
+
+    def test_get_domain(self):
+        self.assertEqual(get_domain("http://www.microsoft.com"), "www.microsoft.com")
