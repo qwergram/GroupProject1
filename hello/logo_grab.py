@@ -6,7 +6,7 @@ except ImportError:
     from urllib2 import urlparse
 
 YAHOO_ENDPOINT = "http://finance.yahoo.com/q/pr?s={}"
-CLEARBIT_ENDPOINT = "https://logo.clearbit.com/{}?format=png&size=512"
+CLEARBIT_ENDPOINT = "https://logo.clearbit.com/{}?format=png&size=438"
 
 def get_endpoint(ticker):
     return YAHOO_ENDPOINT.format(ticker).lower()
