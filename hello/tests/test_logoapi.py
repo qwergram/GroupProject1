@@ -43,3 +43,9 @@ class TickerTest(TransactionTestCase):
 
     def test_get_domain_aapl(self):
         self.assertEqual(get_domain("http://www.apple.com"), "www.apple.com")
+
+    def test_get_logo_msft(self):
+        self.assertEqual(get_logo("www.microsoft.com"), "https://logo.clearbit.com/www.microsoft.com?format=png&size=438")
+
+    def test_get_logo_aapl(self):
+        self.assertEqual(get_logo("www.apple.com"), "https://logo.clearbit.com/www.apple.com?format=png&size=438")
