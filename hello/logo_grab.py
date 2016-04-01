@@ -39,14 +39,8 @@ def get_logo(domain):
 
 
 def main(ticker):
-    # import pdb; pdb.set_trace()
-
     target = get_endpoint(ticker)
     response = get_response(target)
     url = handle_response(response)
     domain = get_domain(url)
     return get_logo(domain)
-
-
-if __name__ == "__main__":
-    main("MSFT")
